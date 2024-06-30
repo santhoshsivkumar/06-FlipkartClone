@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const DeleteProduct = () => {
@@ -7,8 +6,8 @@ const DeleteProduct = () => {
   const navigate = useNavigate();
   const handleDelete = () => {
     axios
-      .delete(`http://localhost:5555/products/delete/${id}`)
-      .then((response) => {
+      .delete(`https://mern-app-xi-five.vercel.app/products/delete/${id}`)
+      .then(() => {
         console.log("deleted successfully");
         navigate("/");
       })

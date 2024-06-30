@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 interface Product {
   productName: string;
@@ -17,7 +17,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:5555/products/details/${id}`)
+      .get(`https://mern-app-xi-five.vercel.app/products/details/${id}`)
       .then((res) => {
         setProduct(res.data);
         console.log(res);

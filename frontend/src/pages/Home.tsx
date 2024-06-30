@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 const Home = () => {
@@ -8,7 +8,7 @@ const Home = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5555/products")
+      .get("https://mern-app-xi-five.vercel.app/products")
       .then((response) => {
         setProducts(response.data.data);
         setLoading(false);

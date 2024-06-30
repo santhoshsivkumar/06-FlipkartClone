@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const EditProduct = () => {
@@ -12,7 +12,7 @@ const EditProduct = () => {
   });
   useEffect(() => {
     axios
-      .get(`http://localhost:5555/products/details/${id}`)
+      .get(`https://mern-app-xi-five.vercel.app/products/details/${id}`)
       .then((response) =>
         setProductData({
           productName: response.data.productName,
