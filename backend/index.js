@@ -19,7 +19,7 @@ app.use(
   })
 );
 app.get("/", (request, response) => {
-  return response.status(234).json("Welcome");
+  response.json("Welcome");
 });
 
 app.use("/products", productsRoute);
