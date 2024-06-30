@@ -1,35 +1,24 @@
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { domainURL } from "../static";
-const DeleteProduct = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const handleDelete = () => {
-    axios
-      .delete(`${domainURL}/products/delete/${id}`)
-      .then(() => {
-        console.log("deleted successfully");
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
-  };
+const DeleteProduct = ({ isOpen, onClose, onDelete }: any) => {
+  if (!isOpen) return null;
+
   return (
-    <div className="flex flex-col justify-center items-center my-6">
-      <h1 className="text-2xl ">Are you sure?</h1>
-      <div className="gap-4 flex p-4">
-        <button
-          onClick={handleDelete}
-          className="text-white bg-red-500 rounded-md py-2 px-4 "
-        >
-          {" "}
-          Yes
-        </button>
-        <Link
-          to={`/`}
-          className="text-white bg-green-500 rounded-md py-2 px-4 "
-        >
-          No
-        </Link>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-4 text-center">Are you sure?</h1>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={onDelete}
+            className="text-white bg-red-500 rounded-md py-2 px-4 hover:bg-red-600 transition duration-300"
+          >
+            Yes
+          </button>
+          <button
+            onClick={onClose}
+            className="text-white bg-green-500 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300"
+          >
+            No
+          </button>
+        </div>
       </div>
     </div>
   );

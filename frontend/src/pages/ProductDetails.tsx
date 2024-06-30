@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { domainURL } from "../static";
+import BackButton from "./BackButton";
 interface Product {
   productName: string;
   productPrice: number;
@@ -30,7 +31,10 @@ const ProductDetails = () => {
   }, [id]);
   return (
     <div className=" flex flex-col justify-center items-center mt-6 p-4 gap-2">
-      <div className="text-2xl">ProductDetails</div>
+      <h1 className="text-4xl font-bold text-purple-700 p-4">
+        Product Details
+      </h1>
+      <BackButton />
       {loading && <p>Loading...</p>}
       {!loading && (
         <div className=" shadow-md border-2 border-purple-600 rounded-md w-2/5 p-4">

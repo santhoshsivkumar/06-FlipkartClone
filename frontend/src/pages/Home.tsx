@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { domainURL } from "../static";
+import ProductCard from "./ProductCard.tsx";
+import ProductTable from "./ProductTable.tsx";
+import DeleteProduct from "./DeleteProduct";
+
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteProductId, setDeleteProductId] = useState(null);
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -19,73 +27,82 @@ const Home = () => {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsLargeScreen(window.innerWidth > 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleDeleteClick = (id: any) => {
+    setDeleteProductId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteProduct = () => {
+    axios
+      .delete(`${domainURL}/products/delete/${deleteProductId}`)
+      .then(() => {
+        console.log("Deleted successfully");
+        setProducts(
+          products.filter((product: any) => product._id !== deleteProductId)
+        );
+        setIsDeleteModalOpen(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
-      <div className="flex flex-col justify-center items-center my-6">
-        <h1 className="font-bold p-2">Products</h1>
+      <div className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
+        <h1 className="text-4xl font-bold text-purple-700 p-4">Products</h1>
         <Link
           to={`/products/create`}
-          className="py-2 px-4 bg-purple-600 text-white rounded-md"
+          className="py-2 px-4 bg-green-500 text-white rounded-md mb-4 hover:bg-green-600 transition duration-300"
         >
-          Create product
+          <i className="fas fa-plus-circle mr-2"></i>
+          Create Product
         </Link>
-        <div className="m-4">
-          <table className=" table table-auto ">
-            <thead className="border border-red-600">
-              <tr className="p-4">
-                <th className="p-2">Product ID</th>
-                <th className="p-2">Product Name</th>
-                <th className="p-2">Product Description</th>
-                <th className="p-2">Product Price</th>
-                <th className="p-2">Operations</th>
-              </tr>
-            </thead>
-            {products?.length > 0 && (
-              <tbody className="border border-red-600">
-                {products.map((product: any) => (
-                  <tr key={product._id} className="p-2">
-                    <td className="p-2">{product?._id}</td>
-                    <td className="p-2">{product.productName}</td>
-                    <td className="p-2">{product.productDescription}</td>
-                    <td className="p-2">{product.productPrice}</td>
-                    <td className="p-2 space-x-2">
-                      <Link
-                        to={`/products/${product._id}`}
-                        className="text-blue-600 underline"
-                      >
-                        {" "}
-                        View
-                      </Link>
-                      <Link
-                        to={`/products/edit/${product._id}`}
-                        className="text-blue-600 underline"
-                      >
-                        {" "}
-                        Edit
-                      </Link>
-                      <Link
-                        to={`/products/delete/${product._id}`}
-                        className="text-blue-600 underline"
-                      >
-                        {" "}
-                        Delete
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            )}
-          </table>
-          {!products?.length && !loading && (
-            <p className="text-2xl text-red-400 p-4 text-center">
-              No data found
-            </p>
-          )}
-          {loading && (
-            <p className="text-2xl text-red-400 p-4 text-center">Loading</p>
+        <div className="m-4 w-full max-w-5xl">
+          {isLargeScreen ? (
+            <ProductTable
+              products={products}
+              onDeleteClick={handleDeleteClick}
+            />
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {products.length > 0
+                ? products.map((product: any) => (
+                    <ProductCard
+                      key={product._id}
+                      product={product}
+                      onDeleteClick={handleDeleteClick}
+                    />
+                  ))
+                : !loading && (
+                    <p className="text-2xl text-red-400 p-4 text-center">
+                      No data found
+                    </p>
+                  )}
+              {loading && (
+                <p className="text-2xl text-red-400 p-4 text-center">
+                  Loading...
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
+
+      <DeleteProduct
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDeleteProduct}
+      />
     </>
   );
 };
