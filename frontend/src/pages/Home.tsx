@@ -87,12 +87,10 @@ const Home = () => {
                       No data found
                     </p>
                   )}
-              {loading && (
-                <p className="text-2xl text-red-400 p-4 text-center">
-                  Loading...
-                </p>
-              )}
             </div>
+          )}
+          {loading && (
+            <p className="text-2xl text-red-400 p-4 text-center">Loading...</p>
           )}
         </div>
       </div>

@@ -30,14 +30,14 @@ const ProductDetails = () => {
       });
   }, [id]);
   return (
-    <div className=" flex flex-col justify-center items-center mt-6 p-4 gap-2">
+    <div className=" flex flex-col justify-center items-center mt-6 py-4 gap-2">
       <h1 className="text-4xl font-bold text-purple-700 p-4">
         Product Details
       </h1>
       <BackButton />
       {loading && <p>Loading...</p>}
       {!loading && (
-        <div className=" shadow-md border-2 border-purple-600 rounded-md w-2/5 p-4">
+        <div className=" shadow-md border-2 border-purple-600 rounded-md p-4">
           <div className="text-2xl"> Product Name: {product.productName}</div>
           <div className="text-md"> Price: {product.productPrice}</div>
           <div className="text-sm text-gray-700">
