@@ -1,5 +1,5 @@
 export const PORT = 5555;
-export const AccessURL = "https://sansiv-ecommerce.vercel.app/";
+export const AccessURL = "https://sansiv-ecommerce.vercel.app";
 //export const AccessURL = "http://localhost:5173";
 
 export const mongoDBURL =
