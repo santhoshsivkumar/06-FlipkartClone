@@ -1,9 +1,8 @@
 import express from "express";
-import { PORT, mongoDBURL, AccessURL } from "./config.js";
+import { AccessURL, PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import productsRoute from "./routes/productsRoute.js";
 import cors from "cors";
-import { ProductModel } from "./models/productModel.js";
 const app = express();
 
 // Middleware for parsing request body
@@ -19,10 +18,8 @@ app.use(
     allowedHeaders: ["Content-Type"],
   })
 );
-app.get("/", async (request, response) => {
-  const products = await ProductModel.find({});
-  console.log(products);
-  return response.status(234).json(products);
+app.get("/", (request, response) => {
+  return response.status(234).json("Welcome");
 });
 
 app.use("/products", productsRoute);
