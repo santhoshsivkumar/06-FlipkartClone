@@ -1,8 +1,9 @@
 import express from "express";
-import { PORT, mongoDBURL } from "./config.js";
+import { PORT, mongoDBURL, AccessURL } from "./config.js";
 import mongoose from "mongoose";
 import productsRoute from "./routes/productsRoute.js";
 import cors from "cors";
+import { ProductModel } from "./models/productModel.js";
 const app = express();
 
 // Middleware for parsing request body
@@ -13,14 +14,15 @@ app.use(express.json());
 // allow specific origins
 app.use(
   cors({
-    origin: "https://mern-app-ekf3.vercel.app",
+    origin: AccessURL,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
 );
-app.get("/", (request, response) => {
-  console.log(request);
-  return response.status(234).send("Welcome");
+app.get("/", async (request, response) => {
+  const products = await ProductModel.find({});
+  console.log(products);
+  return response.status(234).json(products);
 });
 
 app.use("/products", productsRoute);

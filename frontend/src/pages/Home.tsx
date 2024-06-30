@@ -40,7 +40,7 @@ const Home = () => {
                 <th className="p-2">Operations</th>
               </tr>
             </thead>
-            {products.length > 0 && (
+            {products?.length > 0 && (
               <tbody className="border border-red-600">
                 {products.map((product: any) => (
                   <tr key={product._id} className="p-2">
@@ -76,7 +76,7 @@ const Home = () => {
               </tbody>
             )}
           </table>
-          {!products.length && !loading && (
+          {!products?.length && !loading && (
             <p className="text-2xl text-red-400 p-4 text-center">
               No data found
             </p>
