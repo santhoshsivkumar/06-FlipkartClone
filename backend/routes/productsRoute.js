@@ -26,7 +26,7 @@ router.post("/create", async (request, response) => {
 });
 
 // Route to get all Products - READ ALL
-router.get("/", async (request, response) => {
+router.get("/", async (request, response, next) => {
   try {
     const products = await ProductModel.find({});
     return response.status(200).json({
@@ -34,6 +34,7 @@ router.get("/", async (request, response) => {
       data: products,
     });
   } catch (error) {
+    next(error);
     console.log(error.message);
     return response.status(500).send({
       message: error.message,
