@@ -56,7 +56,7 @@ const ProductForm = ({ mode }: any) => {
   };
 
   return (
-    <div className="flex  pt-6 items-center flex-col bg-gray-100 min-h-screen py-6">
+    <div className="flex  pt-6 items-center flex-col bg-gray-300 min-h-screen py-6">
       <h1 className="text-4xl font-bold text-purple-700">
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>

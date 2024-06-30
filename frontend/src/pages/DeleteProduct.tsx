@@ -2,7 +2,7 @@ const DeleteProduct = ({ isOpen, onClose, onDelete }: any) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-300 bg-opacity-50 z-50">
       <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <h1 className="text-2xl font-bold mb-4 text-center">Are you sure?</h1>
         <div className="flex justify-center gap-4">

@@ -57,7 +57,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
+      <div className="flex flex-col items-center p-4 bg-gray-300 min-h-screen">
         <h1 className="text-4xl font-bold text-purple-700 p-4">Products</h1>
         <Link
           to={`/products/create`}
