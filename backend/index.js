@@ -19,8 +19,7 @@ app.use(
   })
 );
 app.get("/", (request, response) => {
-  console.log(request);
-  return response.status(234).send("Welcome");
+  return response.status(234).json("Welcome");
 });
 
 app.use("/products", productsRoute);
