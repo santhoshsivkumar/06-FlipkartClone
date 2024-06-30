@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const ProductCard = ({ product, onDeleteClick = null }: any) => {
+const ProductCard = ({ product, onDeleteClick }: any) => {
   return (
     <div className="bg-white shadow-md border border-gray-200 rounded-lg p-4 mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
       <div className="text-xl font-bold text-purple-700 mb-2">

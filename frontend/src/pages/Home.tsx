@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { domainURL } from "../static";
 import ProductCard from "./ProductCard.tsx";
 import ProductTable from "./ProductTable.tsx";
@@ -12,7 +12,6 @@ const Home = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
