@@ -13,7 +13,7 @@ app.use(express.json());
 // allow specific origins
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://mern-app-ekf3.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type"],
   })
