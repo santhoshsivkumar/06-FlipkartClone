@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { domainURL } from "../static";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -12,7 +13,7 @@ const EditProduct = () => {
   });
   useEffect(() => {
     axios
-      .get(`https://mern-app-xi-five.vercel.app/products/details/${id}`)
+      .get(`${domainURL}/products/details/${id}`)
       .then((response) =>
         setProductData({
           productName: response.data.productName,

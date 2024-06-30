@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { domainURL } from "../static";
 interface Product {
   productName: string;
   productPrice: number;
@@ -17,7 +18,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`https://mern-app-xi-five.vercel.app/products/details/${id}`)
+      .get(`${domainURL}/products/details/${id}`)
       .then((res) => {
         setProduct(res.data);
         console.log(res);

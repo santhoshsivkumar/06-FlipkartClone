@@ -1,12 +1,12 @@
 import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
+import { domainURL } from "../static";
 const DeleteProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const handleDelete = () => {
     axios
-      .delete(`https://mern-app-xi-five.vercel.app/products/delete/${id}`)
+      .delete(`${domainURL}/products/delete/${id}`)
       .then(() => {
         console.log("deleted successfully");
         navigate("/");

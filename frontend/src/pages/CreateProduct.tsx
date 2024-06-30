@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { domainURL } from "../static";
 const CreateProduct = () => {
   const [product, setProduct] = useState({
     productName: "",
@@ -20,7 +21,7 @@ const CreateProduct = () => {
   const handleCreateProduct = (e: any) => {
     e.preventDefault();
     axios
-      .post("https://mern-app-xi-five.vercel.app/products/create", product)
+      .post(`${domainURL}/products/create`, product)
       .then((res) => {
         navigate("/");
         console.log(res);
