@@ -9,13 +9,15 @@ const app = express();
 app.use(express.json());
 // Middleware for handling CORS POLICY
 // this will allow all origins
-app.use(cors());
+//app.use(cors());
 // allow specific origins
-// app.use(
-//   cors({
-//     origin: "https://mern-app-ekf3.vercel.app",
-//   })
-// );
+app.use(
+  cors({
+    origin: "https://mern-app-ekf3.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.get("/", (request, response) => {
   console.log(request);
   return response.status(234).send("Welcome");
