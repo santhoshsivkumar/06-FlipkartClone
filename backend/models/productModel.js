@@ -14,6 +14,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    productImage: {
+      type: String, // Assuming you store the file path or URL in the database
+      required: true,
+    },
   },
   { timestamps: true }
 );

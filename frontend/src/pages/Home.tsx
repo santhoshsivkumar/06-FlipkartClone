@@ -66,7 +66,7 @@ const Home = () => {
           <i className="fas fa-plus-circle mr-2"></i>
           Create Product
         </Link>
-        <div className="m-4 w-full max-w-5xl">
+        <div className="m-4 w-full max-w-7xl">
           {isLargeScreen ? (
             <ProductTable
               products={products}
