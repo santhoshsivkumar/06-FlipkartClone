@@ -5,7 +5,7 @@ const productSlice = createSlice({
   initialState: {
     products: [],
     loading: false,
-    darkMode: false,
+    darkMode: true,
   },
   reducers: {
     setProducts: (state, action) => {
