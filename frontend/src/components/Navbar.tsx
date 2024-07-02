@@ -8,7 +8,7 @@ const Navbar = ({ handleShowLogin }: any) => {
   const { darkMode } = useSelector((state: any) => state.products);
   return (
     <>
-      <nav className="h-16 flex fixed top-0 left-0 w-full p-2 items-center text-white bg-red-600 font-semibold ">
+      <nav className="h-16 flex fixed top-0 left-0 w-full p-2 items-center text-white bg-red-600 font-semibold scale-[1.019] z-60">
         <a href="/" className="w-3/12 text-right text-lg cursor-pointer ">
           ECommerce
         </a>
