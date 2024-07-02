@@ -6,26 +6,13 @@ import ProductCard from "./ProductCard.tsx";
 import ProductTable from "./ProductTable.tsx";
 import DeleteProduct from "./DeleteProduct";
 
-const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
+import Loading from "../components/Loading.tsx";
+import { useSelector } from "react-redux";
+const AdminHome = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
-
-  useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`${domainURL}/products`)
-      .then((response) => {
-        setProducts(response.data.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
-  }, []);
+  const { products, loading } = useSelector((state: any) => state.products);
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,10 +33,7 @@ const Home = () => {
     axios
       .delete(`${domainURL}/products/delete/${deleteProductId}`)
       .then(() => {
-        console.log("Deleted successfully");
-        setProducts(
-          products.filter((product: any) => product._id !== deleteProductId)
-        );
+        products.filter((product: any) => product._id !== deleteProductId);
         setIsDeleteModalOpen(false);
       })
       .catch((err) => console.log(err));
@@ -57,7 +41,7 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-4 bg-gray-300 min-h-screen">
+      <div className="flex mt-16  flex-col items-center p-4 bg-gray-200 min-h-screen">
         <h1 className="text-4xl font-bold text-purple-700 p-4">Products</h1>
         <Link
           to={`/products/create`}
@@ -66,32 +50,29 @@ const Home = () => {
           <i className="fas fa-plus-circle mr-2"></i>
           Create Product
         </Link>
-        <div className="m-4 w-full max-w-7xl">
+        <div className="m-4 w-full max-w-7xl scroll-m-0">
           {isLargeScreen ? (
             <ProductTable
               products={products}
               onDeleteClick={handleDeleteClick}
             />
+          ) : products.length > 0 ? (
+            products.map((product: any) => (
+              <ProductCard
+                key={product._id}
+                showOptions={true}
+                product={product}
+                onDeleteClick={handleDeleteClick}
+              />
+            ))
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {products.length > 0
-                ? products.map((product: any) => (
-                    <ProductCard
-                      key={product._id}
-                      product={product}
-                      onDeleteClick={handleDeleteClick}
-                    />
-                  ))
-                : !loading && (
-                    <p className="text-2xl text-red-400 p-4 text-center">
-                      No data found
-                    </p>
-                  )}
-            </div>
+            !loading && (
+              <p className="text-2xl text-red-400 p-4 text-center">
+                No data found
+              </p>
+            )
           )}
-          {loading && (
-            <p className="text-2xl text-red-400 p-4 text-center">Loading...</p>
-          )}
+          {loading && <Loading />}
         </div>
       </div>
 
@@ -104,4 +85,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AdminHome;

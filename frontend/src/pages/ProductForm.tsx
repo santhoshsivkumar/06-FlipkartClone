@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { domainURL } from "../static";
-import BackButton from "./BackButton";
+import BackButton from "../components/BackButton";
 import { GetImageURL } from "../GetImageURL";
 
 const ProductForm = ({ mode }: any) => {
@@ -122,7 +122,7 @@ const ProductForm = ({ mode }: any) => {
   };
 
   return (
-    <div className="flex pt-6 items-center flex-col bg-gray-300 min-h-screen py-6">
+    <div className="flex pt-6 mt-16 items-center flex-col bg-gray-300 py-6">
       <h1 className="text-4xl font-bold text-purple-700">
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>

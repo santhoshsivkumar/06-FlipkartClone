@@ -81,7 +81,7 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
   };
 
   return (
-    <table className="table-auto w-full bg-gray-300 shadow-md rounded-lg overflow-hidden">
+    <table className="table-auto w-full bg-gray-300 shadow-md rounded-md overflow-hidden">
       <thead className="bg-purple-600 text-white">
         <tr>
           <th className="p-4">Product ID</th>

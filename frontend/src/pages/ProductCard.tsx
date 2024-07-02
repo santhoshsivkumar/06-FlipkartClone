@@ -1,37 +1,51 @@
 import { Link } from "react-router-dom";
-
-const ProductCard = ({ product, onDeleteClick }: any) => {
+import { GetImageURL } from "../GetImageURL";
+import Default_Img from "../../public/Default_Img.jpg";
+import { useSelector } from "react-redux";
+const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
+  const { darkMode } = useSelector((state: any) => state.products);
   return (
-    <div className="bg-gray-300 shadow-md border border-gray-200 rounded-lg p-4 mb-4 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-      <div className="text-xl font-bold text-purple-700 mb-2">
+    <div
+      className={`${
+        darkMode ? "bg-[#2d2d2d]" : "bg-[white]"
+      } border-[1px] hover:scale-[1.018] hover:border-red-600 flex flex-col justify-center shadow-sm items-center cursor-pointer  border-gray-200 rounded-sm p-4`}
+    >
+      <img
+        src={
+          product.productImage ? GetImageURL(product.productImage) : Default_Img
+        }
+        alt="Product Preview"
+        className="rounded-sm p-4 "
+        style={{ width: "200px", height: "225px" }}
+      />
+      <div className="text-md font-bold text-red-500 pt-2">
         {product.productName}
       </div>
-      <div className="text-lg text-gray-800 mb-2">
+      <div className={`${!darkMode ? "text-[#2d2d2d]" : "text-[white]"}`}>
         <strong>Price:</strong> ${product.productPrice.toFixed(2)}
       </div>
-      <div className="text-md text-gray-600 mb-4">
-        <strong>Description:</strong> {product.productDescription}
-      </div>
-      <div className="flex justify-between">
-        <Link
-          to={`/products/${product._id}`}
-          className="text-blue-600 hover:underline"
-        >
-          <i className="fas fa-eye mr-1"></i> View
-        </Link>
-        <Link
-          to={`/products/edit/${product._id}`}
-          className="text-yellow-600 hover:underline"
-        >
-          <i className="fas fa-edit mr-1"></i> Edit
-        </Link>
-        <button
-          onClick={() => onDeleteClick(product._id)}
-          className="text-red-600 hover:underline"
-        >
-          <i className="fas fa-trash-alt mr-1"></i> Delete
-        </button>
-      </div>
+      {showOptions && (
+        <div className="flex justify-between">
+          <Link
+            to={`/products/${product._id}`}
+            className="text-blue-600 hover:underline"
+          >
+            <i className="fas fa-eye mr-1"></i> View
+          </Link>
+          <Link
+            to={`/products/edit/${product._id}`}
+            className="text-yellow-600 hover:underline"
+          >
+            <i className="fas fa-edit mr-1"></i> Edit
+          </Link>
+          <button
+            onClick={() => onDeleteClick(product._id)}
+            className="text-red-600 hover:underline"
+          >
+            <i className="fas fa-trash-alt mr-1"></i> Delete
+          </button>
+        </div>
+      )}
     </div>
   );
 };
