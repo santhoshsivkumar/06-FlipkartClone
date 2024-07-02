@@ -9,7 +9,7 @@ import { useState } from "react";
 import "./App.css";
 const App = () => {
   const [showLogin, setShowLogin] = useState(false);
-  const handleShowLogin = (value: boolean) => {
+  const handleShowLogin = () => {
     setShowLogin(!showLogin);
   };
   return (
