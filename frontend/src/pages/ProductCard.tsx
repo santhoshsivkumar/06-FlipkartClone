@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
 import { GetImageURL } from "../GetImageURL";
 import Default_Img from "../../public/Default_Img.jpg";
-import { useSelector } from "react-redux";
+import "../styles/styles.css";
 const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
-  const { darkMode } = useSelector((state: any) => state.products);
   return (
     <div
-      className={`${
-        darkMode ? "bg-[#2d2d2d]" : "bg-[white]"
-      } border-[1px] hover:scale-[1.018] hover:border-red-600 flex flex-col justify-center shadow-sm items-center cursor-pointer  border-gray-200 rounded-sm p-4`}
+      className={`theme_container theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
     >
       <img
         src={
@@ -16,13 +13,13 @@ const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
         }
         alt="Product Preview"
         className="rounded-sm p-4 "
-        style={{ width: "200px", height: "225px" }}
+        style={{ width: "200px", height: "200px" }}
       />
-      <div className="text-md font-bold text-red-500 pt-2">
-        {product.productName}
+      <div className="theme_color text-md font-bold pt-2">
+        {product.productName.substring(0, 15)}
       </div>
-      <div className={`${!darkMode ? "text-[#2d2d2d]" : "text-[white]"}`}>
-        <strong>Price:</strong> ${product.productPrice.toFixed(2)}
+      <div className="theme_text">
+        <strong>Price:</strong> ₹{product.productPrice.toFixed(2)}
       </div>
       {showOptions && (
         <div className="flex justify-between">

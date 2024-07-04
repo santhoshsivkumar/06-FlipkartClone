@@ -1,0 +1,48 @@
+/* Nav bar */
+.nav {
+  color: var(--header-color);
+  background-color: var(--header-color);
+}
+
+.nav_btn {
+  background-color: var(--container-color);
+}
+
+.nav_btn:hover {
+  background-color: var(--btn-hover-color);
+}
+
+.nav_search {
+  background-color: var(--container-color);
+}
+/* Common */
+
+.theme {
+  background-color: var(--body-color);
+}
+.theme_text {
+  color: var(--text-color);
+}
+.theme_container {
+  background-color: var(--container-color);
+}
+
+.theme_color {
+  color: var(--header-color);
+}
+.theme_bg {
+  background-color: var(--header-color);
+}
+.product_card:hover {
+  border-color: var(--header-color);
+}
+.theme_btn {
+  background-color: var(--btn-bg);
+}
+.theme_btn:hover {
+  background-color: var(--btn-bg-hover);
+}
+/* product details */
+.theme_border {
+  border-color: var(--border-color);
+}

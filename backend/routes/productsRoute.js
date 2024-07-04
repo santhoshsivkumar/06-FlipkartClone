@@ -1,5 +1,5 @@
 import express from "express";
-import { ProductModel } from "../models/productModel.js";
+import { Product } from "../models/Product.js";
 import multer from "multer";
 
 const router = express.Router();
@@ -44,7 +44,7 @@ router.post(
         productImage,
       };
 
-      const product = await ProductModel.create(newProduct);
+      const product = await Product.create(newProduct);
       return response.status(201).send(product);
     } catch (error) {
       console.log(error.message);
@@ -56,7 +56,7 @@ router.post(
 // Route to get all Products - READ ALL
 router.get("/", async (request, response) => {
   try {
-    const products = await ProductModel.find({});
+    const products = await Product.find({});
     return response.status(200).json({
       count: products.length,
       data: products,
@@ -73,7 +73,7 @@ router.get("/", async (request, response) => {
 router.get("/details/:id", async (request, response) => {
   try {
     const { id } = request.params;
-    const product = await ProductModel.findById(id);
+    const product = await Product.findById(id);
     return response.status(200).json(product);
   } catch (error) {
     console.log(error.message);
@@ -106,7 +106,7 @@ router.put(
         productImage,
       };
 
-      const result = await ProductModel.findByIdAndUpdate(id, updatedProduct, {
+      const result = await Product.findByIdAndUpdate(id, updatedProduct, {
         new: true,
       });
 
@@ -132,7 +132,7 @@ router.put(
 router.delete("/delete/:id", async (request, response) => {
   try {
     const { id } = request.params;
-    const result = await ProductModel.findByIdAndDelete(id);
+    const result = await Product.findByIdAndDelete(id);
 
     if (!result) {
       return response.status(404).send({

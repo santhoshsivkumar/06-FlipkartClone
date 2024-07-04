@@ -2,6 +2,7 @@ import express from "express";
 import { AccessURL, PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import productsRoute from "./routes/productsRoute.js";
+import usersRoute from "./routes/usersRoute.js";
 import cors from "cors";
 import path from "path"; // Import path module for handling file paths
 import { fileURLToPath } from "url"; // Import fileURLToPath function
@@ -30,6 +31,7 @@ app.get("/", (request, response) => {
 });
 
 app.use("/products", productsRoute);
+app.use("/user", usersRoute);
 
 mongoose
   .connect(mongoDBURL)

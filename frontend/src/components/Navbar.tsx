@@ -1,15 +1,28 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { setDarkMode } from "../slices/productSlice";
+import { useEffect, useState } from "react";
+import "../styles/styles.css";
 
-const Navbar = ({ handleShowLogin }: any) => {
+const Navbar = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { darkMode } = useSelector((state: any) => state.products);
+  const [theme, setTheme] = useState(
+    () => localStorage.getItem("theme") || "light"
+  );
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleOnChange = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+  };
   return (
     <>
-      <nav className="h-16 flex fixed top-0 left-0 w-full p-2 items-center text-white bg-red-600 font-semibold scale-[1.019] z-60">
-        <a href="/" className="w-3/12 text-right text-lg cursor-pointer ">
+      <nav className="nav h-[3.5rem] z-20 shadow-sm flex fixed gap-4 top-0 left-0 w-full p-2 items-center font-semibold ">
+        <a
+          href="/"
+          className="w-3/12 text-right text-lg cursor-pointer text-white "
+        >
           ECommerce
         </a>
         <div className="flex gap-4 pl-4 w-6/12 justify-between items-center ">
@@ -17,60 +30,43 @@ const Navbar = ({ handleShowLogin }: any) => {
             type="text"
             name="search"
             placeholder="Search"
-            className={`${
-              darkMode
-                ? "bg-[#000] hover:bg-[#212121]"
-                : "bg-[white] hover:bg-gray-300"
-            } w-[100%] py-2 px-4 text-red-600 outline-none rounded-sm`}
+            className={`nav_search w-[100%] py-2 px-4 outline-none rounded-sm`}
           />
           <button
             onClick={() => {
-              navigate("/");
-              handleShowLogin(true);
+              navigate("/login");
             }}
-            className={`${
-              darkMode
-                ? "bg-[#2d2d2d] hover:bg-[#212121]"
-                : "bg-[white] hover:bg-gray-300"
-            } text-red-600 h-9 py-1 px-4 rounded-sm`}
+            className={`nav_btn py-1 h-9 px-4 rounded-sm`}
           >
             Login
           </button>
         </div>
-        <div className="w-3/12 text-sm text-red-600 flex gap-4 justify-end pr-4 items-center font-semibold">
-          <a
-            className={`${
-              darkMode
-                ? "bg-[#2d2d2d] hover:bg-[#212121]"
-                : "bg-[white] hover:bg-gray-300"
-            } py-2 cursor-pointer px-4 rounded-sm `}
+        <div className="w-3/12 text-sm flex gap-2 justify-end pr-4 items-center font-semibold">
+          <button
+            className={`nav_btn py-1 cursor-pointer px-4 rounded-3xl hidden lg:block `}
+            onClick={handleOnChange}
           >
-            MyCart{" "}
-          </a>
+            <i
+              className={` ${
+                theme === "dark" ? "fa fa-toggle-off" : "fa fa-toggle-on"
+              }`}
+              aria-hidden="true"
+            ></i>
+          </button>
           <Link
-            className={`${
-              darkMode
-                ? "bg-[#2d2d2d] hover:bg-[#212121]"
-                : "bg-[white] hover:bg-gray-300"
-            } py-2 cursor-pointer hidden lg:block px-4 rounded-sm `}
+            className={`nav_btn py-2 cursor-pointer hidden lg:block px-4 rounded-sm `}
             to={"/admin view"}
           >
             Admin View{" "}
           </Link>
-          <a
-            className={`${
-              darkMode
-                ? "bg-[#2d2d2d]  hover:bg-[#212121]"
-                : "bg-[white] hover:bg-gray-300"
-            } py-1 text-red-600 cursor-pointer px-4 rounded-3xl hidden lg:block `}
-            onClick={() => dispatch(setDarkMode())}
+          <button
+            className={`nav_btn py-2 cursor-pointer px-4 text-sm rounded-sm `}
           >
-            {!darkMode ? (
-              <i className="fa fa-toggle-off" aria-hidden="true"></i>
-            ) : (
-              <i className="fa fa-toggle-on" aria-hidden="true"></i>
-            )}
-          </a>
+            MyCart{" "}
+          </button>
+          <button className="nav_btn px-2 rounded-sm py-2">
+            <i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
         </div>
       </nav>
     </>

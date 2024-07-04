@@ -12,6 +12,9 @@ const ProductForm = ({ mode }: any) => {
     productName: "",
     productDescription: "",
     productPrice: "",
+    category: "",
+    company: "",
+    seller: "",
     productImage: "", // Assuming productImage is a URL or path
   });
   const [loading, setLoading] = useState(false);
@@ -28,12 +31,18 @@ const ProductForm = ({ mode }: any) => {
             productDescription,
             productPrice,
             productImage,
+            category,
+            company,
+            seller,
           } = response.data;
           setProduct({
             productName,
             productDescription,
             productPrice,
             productImage,
+            category,
+            company,
+            seller,
           });
           if (productImage) {
             setImagePreview(GetImageURL(productImage)); // Convert image path for preview
@@ -76,31 +85,22 @@ const ProductForm = ({ mode }: any) => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const formData = new FormData();
-    formData.append("productName", product.productName);
-    formData.append("productDescription", product.productDescription);
-    formData.append("productPrice", product.productPrice);
-    //@ts-ignore
-    if (product.productImage instanceof File) {
-      formData.append("productImage", product.productImage);
-    }
 
     if (mode === "create") {
       axios
-        .post(`${domainURL}/products/create`, formData, {
+        .post(`${domainURL}/products/create`, product, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => {
+        .then(() => {
           setLoading(false);
           navigate("/");
-          console.log(res);
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error.response.data.message));
     } else if (mode === "edit" && id) {
       axios
-        .put(`${domainURL}/products/edit/${id}`, formData, {
+        .put(`${domainURL}/products/edit/${id}`, product, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -110,7 +110,7 @@ const ProductForm = ({ mode }: any) => {
           navigate("/");
           console.log("Product updated");
         })
-        .catch((error) => console.log(error));
+        .catch((error) => console.log(error.response.data.message));
     }
   };
 
@@ -122,81 +122,27 @@ const ProductForm = ({ mode }: any) => {
   };
 
   return (
-    <div className="flex pt-6 mt-16 items-center flex-col bg-gray-300 py-6">
-      <h1 className="text-4xl font-bold text-purple-700">
+    <div className="flex items-center flex-col gap-4 theme theme_color py-4">
+      <h1 className="text-3xl font-bold theme_text">
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>
-      <BackButton />
       <form
-        className="w-full max-w-md bg-white shadow-md rounded-lg p-6"
+        className="lg:w-[65vw] w-[90vw] flex-col justify-center items-center theme_container shadow-md rounded-md p-4"
         onSubmit={handleSubmit}
       >
-        <div className="mb-4">
+        <div className=" mb-4 rounded-md p-4 theme  flex justify-center items-center flex-col ">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="productName"
-          >
-            Product Name
-          </label>
-          <input
-            value={product.productName}
-            type="text"
-            name="productName"
-            className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Product Name"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="productDescription"
-          >
-            Product Description
-          </label>
-          <input
-            value={product.productDescription}
-            type="text"
-            name="productDescription"
-            className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Product Description"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="productPrice"
-          >
-            Product Price
-          </label>
-          <input
-            value={product.productPrice}
-            type="number"
-            name="productPrice"
-            className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600"
-            placeholder="Product Price"
-            onChange={handleOnChange}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block  text-sm font-bold mb-2"
             htmlFor="productImage"
           >
             Product Image
           </label>
-          <div className="flex justify-center items-center  gap-4 flex-col">
-            <label className="w-full py-2 px-4 border border-gray-300 rounded-md cursor-pointer bg-white text-gray-700 hover:bg-gray-100">
-              <div className="flex gap-4 items-center justify-start">
-                <span className="block text-center text-black bg-gray-200 w-[30%] border-black border-[1px] text-sm py-1 px-2">
+          <div className="flex justify-center items-center lg:flex-row gap-4 flex-col">
+            <label className="max-w-[8.5rem] py-2 px-4 border border-gray-300 rounded-md cursor-pointer bg-white  hover:bg-gray-100">
+              <div className="flex gap-4 items-center justify-center">
+                <span className="block text-center text-black bg-gray-200 border-black border-[1px] text-sm py-1 px-2">
                   {product.productImage ? "Choose New" : "Choose File"}
                 </span>
-                {product.productName && (
-                  <span className="block text-gray-700 text-sm font-semibold">
-                    {product.productImage ? fileLabel : "Image not provided"}
-                  </span>
-                )}
               </div>
               <input
                 type="file"
@@ -214,6 +160,105 @@ const ProductForm = ({ mode }: any) => {
                 style={{ maxWidth: "50%", maxHeight: "200px" }}
               />
             )}
+          </div>
+        </div>
+        <div className="flex md:flex-row flex-col gap-0 md:gap-2">
+          <div className="theme rounded-md md:rounded-b-md rounded-b-none p-4 sm:pb-0 md:p-4 md:w-1/2 md:mb-4">
+            <div className="mb-4">
+              <label
+                className="block  text-sm font-bold mb-2"
+                htmlFor="productName"
+              >
+                Product Name
+              </label>
+              <input
+                value={product.productName}
+                type="text"
+                name="productName"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Product Name"
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block  text-sm font-bold mb-2"
+                htmlFor="productDescription"
+              >
+                Product Description
+              </label>
+              <input
+                value={product.productDescription}
+                type="textarea"
+                name="productDescription"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Product Description"
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block  text-sm font-bold mb-2"
+                htmlFor="productPrice"
+              >
+                Product Price
+              </label>
+              <input
+                value={product.productPrice}
+                type="number"
+                name="productPrice"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Product Price"
+                onChange={handleOnChange}
+              />
+            </div>
+          </div>
+          <div className="theme rounded-md md:rounded-t-md rounded-t-none p-4 sm:pt-0 md:p-4 md:w-1/2 mb-4">
+            <div className="mb-4">
+              <label
+                className="block  text-sm font-bold mb-2"
+                htmlFor="category"
+              >
+                Category
+              </label>
+              <input
+                value={product.category}
+                type="text"
+                name="category"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Category"
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                className="block  text-sm font-bold mb-2"
+                htmlFor="company"
+              >
+                Company
+              </label>
+              <input
+                value={product.company}
+                type="text"
+                name="company"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Company"
+                onChange={handleOnChange}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block  text-sm font-bold mb-2" htmlFor="seller">
+                Seller Name
+              </label>
+              <input
+                value={product.seller}
+                type="text"
+                name="seller"
+                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                placeholder="Seller"
+                onChange={handleOnChange}
+              />
+            </div>
           </div>
         </div>
         <button

@@ -1,4 +1,38 @@
 html {
   /* scrollbar-width: none; */
-  user-select: none;
+  /* user-select: none; */
+}
+:root {
+  --light-text-color: #fff;
+  --dark-text-color: #000;
+
+  --light-bg-color: #f0f2f6;
+  --dark-bg-color: #000;
+
+  --light-container-color: #2d2d2d;
+  --dark-container-color: #fff;
+
+  --light-btn-hover-color: #212121;
+  --dark-btn-hover-color: #c8c8c8;
+
+  --light-border-color: #e9e9e9;
+  --dark-border-color: #4b4b4b;
+
+  --header-color: #4166fa;
+  --btn-bg-hover: #0a7b1d;
+  --btn-bg: #199923;
+}
+[data-theme="light"] {
+  --body-color: var(--dark-bg-color);
+  --text-color: var(--light-text-color);
+  --container-color: var(--light-container-color);
+  --btn-hover-color: var(--light-btn-hover-color);
+  --border-color: var(--dark-border-color);
+}
+[data-theme="dark"] {
+  --body-color: var(--light-bg-color);
+  --text-color: var(--dark-text-color);
+  --container-color: var(--dark-container-color);
+  --btn-hover-color: var(--dark-btn-hover-color);
+  --border-color: var(--light-border-color);
 }

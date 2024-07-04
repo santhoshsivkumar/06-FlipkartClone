@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { GetImageURL } from "../GetImageURL";
+import Loading from "../components/Loading";
 
 // Component for rendering product image
 const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
@@ -7,7 +8,7 @@ const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
     <img
       src={imageUrl}
       alt="Product Preview"
-      className="mt-2 rounded-md border-[1px] p-1 border-gray-400"
+      className="mt-2 rounded-md border-[1px] p-1 theme_border"
       style={{
         maxWidth: "100%",
         maxHeight: "200px",
@@ -29,7 +30,7 @@ const ProductLink = ({
   iconClass: string;
 }) => (
   <td className="p-4 space-x-2">
-    <Link to={to} className="text-blue-600 hover:underline flex items-center">
+    <Link to={to} className="text-blue-600">
       <i className={iconClass}></i> {text}
     </Link>
   </td>
@@ -41,14 +42,14 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
       return (
         <tr>
           <td colSpan={8} className="p-4 text-center">
-            No products found.
+            <Loading />
           </td>
         </tr>
       );
     }
 
     return products.map((product: any) => (
-      <tr key={product._id} className="border-b text-center">
+      <tr key={product._id} className="border-b theme_border text-center">
         <td className="p-4">{product._id}</td>
         <ProductImage
           imageUrl={
@@ -60,20 +61,20 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
         <td className="p-4">{product.productPrice}</td>
         <ProductLink
           to={`/products/${product._id}`}
-          text="View"
+          text=""
           iconClass="fas fa-eye mr-1"
         />
         <ProductLink
           to={`/products/edit/${product._id}`}
-          text="Edit"
+          text=""
           iconClass="fas fa-edit mr-1"
         />
         <td className="p-4">
           <button
             onClick={() => onDeleteClick(product._id)}
-            className="text-red-600 hover:underline flex items-center"
+            className="text-red-600"
           >
-            <i className="fas fa-trash-alt mr-1"></i> Delete
+            <i className="fas fa-trash-alt mr-1"></i>
           </button>
         </td>
       </tr>
@@ -81,8 +82,8 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
   };
 
   return (
-    <table className="table-auto w-full bg-gray-300 shadow-md rounded-md overflow-hidden">
-      <thead className="bg-purple-600 text-white">
+    <table className="table-auto w-full theme_container theme_text shadow-md rounded-md overflow-hidden">
+      <thead className="theme_bg text-white">
         <tr>
           <th className="p-4">Product ID</th>
           <th className="p-4">Product Image</th>

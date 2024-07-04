@@ -6,6 +6,9 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    company: String,
+    category: String,
+    seller: String,
     productDescription: {
       type: String,
       required: true,
@@ -22,4 +25,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const ProductModel = mongoose.model("Product", productSchema);
+export const Product = mongoose.model("Product", productSchema);
