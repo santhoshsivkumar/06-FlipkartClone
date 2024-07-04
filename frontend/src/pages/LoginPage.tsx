@@ -10,7 +10,7 @@ const initialState = {
   mobile: "",
   password: "",
 };
-const LoginPage = ({ handleShowLogin }: any) => {
+const LoginPage = () => {
   const [newUser, setNewUser] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
