@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { domainURL } from "../static";
-import BackButton from "../components/BackButton";
 import { GetImageURL } from "../GetImageURL";
 
 const ProductForm = ({ mode }: any) => {
@@ -152,14 +151,17 @@ const ProductForm = ({ mode }: any) => {
                 onChange={handleFileChange}
               />
             </label>
-            {imagePreview && (
-              <img
-                src={imagePreview}
-                alt="Product Preview"
-                className="mt-2 rounded-md border-[1px] p-1 border-gray-400"
-                style={{ maxWidth: "50%", maxHeight: "200px" }}
-              />
-            )}
+            <div className="flex flex-col justify-center items-center gap-4 text-md">
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Product Preview"
+                  className="mt-2 rounded-md border-[1px] p-1 border-gray-400"
+                  style={{ maxWidth: "50%", maxHeight: "200px" }}
+                />
+              )}
+              <span className="theme_color">{fileLabel}</span>
+            </div>
           </div>
         </div>
         <div className="flex md:flex-row flex-col gap-0 md:gap-2">
