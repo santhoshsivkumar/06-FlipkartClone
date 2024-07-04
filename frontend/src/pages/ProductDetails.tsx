@@ -88,7 +88,7 @@ const ProductDetails = () => {
                 </p>
                 <p className="text-sm">37,446 Ratings & 1,758 Reviews</p>
               </div>
-              <div className="text-sm font-semibold text-green-700">
+              <div className="text-sm font-semibold text-green-600">
                 Extra ₹{(5 / 100) * product.productPrice} off
               </div>
               <div className=" flex gap-4 items-center">
