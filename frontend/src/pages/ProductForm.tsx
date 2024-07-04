@@ -121,7 +121,7 @@ const ProductForm = ({ mode }: any) => {
   };
 
   return (
-    <div className="flex items-center flex-col gap-4 theme theme_color py-4">
+    <div className="flex min-h-[100vh] items-center flex-col gap-4 theme theme_color py-4">
       <h1 className="text-3xl font-bold theme_text">
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>

@@ -33,6 +33,8 @@ const ProductDetails = () => {
         console.log(err.response.data.message);
       });
   }, [id]);
+  const off30pcent = (30 / 100) * product.productPrice;
+  const extra5pcent = (5 / 100) * product.productPrice;
   return (
     <div className="theme min-h-[100vh]">
       <div className="px-4 h-10 theme_container theme_text flex items-center justify-center theme_border shadow-md border-b">
@@ -89,14 +91,14 @@ const ProductDetails = () => {
                 <p className="text-sm">37,446 Ratings & 1,758 Reviews</p>
               </div>
               <div className="text-sm font-semibold text-green-600">
-                Extra ₹{(5 / 100) * product.productPrice} off
+                Extra ₹{extra5pcent.toFixed(2)} off
               </div>
               <div className=" flex gap-4 items-center">
                 <span className="text-3xl font-bold ">
                   ₹{product.productPrice}
                 </span>
                 <span className="text-2xl text-gray-400 line-through">
-                  ₹{(30 / 100) * product.productPrice}
+                  ₹{off30pcent.toFixed(2)}
                 </span>
                 <span className="text-xl font-semibold text-green-600">
                   30% off
