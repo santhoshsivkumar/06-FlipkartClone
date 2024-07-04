@@ -307,7 +307,7 @@ const ProductDetails = () => {
           </div>
         </div>
       ) : (
-        <div className="flex w-full h-full justify-center items-center">
+        <div className="flex w-full h-[100vh] justify-center items-center">
           <Loading />
         </div>
       )}
