@@ -1,5 +1,5 @@
 import express from "express";
-import { AccessURL, PORT, mongoDBURL } from "./config.js";
+import { AccessURL, PORT, mongoDBURL } from ".//config/config.js";
 import mongoose from "mongoose";
 import productsRoute from "./routes/productsRoute.js";
 import usersRoute from "./routes/usersRoute.js";
