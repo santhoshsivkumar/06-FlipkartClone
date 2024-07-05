@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { GetImageURL } from "../GetImageURL";
-import Loading from "../components/Loading";
+import Loading from "../Loading";
 
 // Component for rendering product image
 const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
@@ -51,14 +50,13 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
     return products.map((product: any) => (
       <tr key={product._id} className="border-b theme_border text-center">
         <td className="p-4">{product._id}</td>
-        <ProductImage
-          imageUrl={
-            product.productImage ? GetImageURL(product.productImage) : ""
-          }
-        />
+        <ProductImage imageUrl={product.productImage} />
         <td className="p-4">{product.productName}</td>
         <td className="p-4">{product.productDescription}</td>
         <td className="p-4">{product.productPrice}</td>
+        <td className="p-4">{product.category}</td>
+        <td className="p-4">{product.company}</td>
+        <td className="p-4">{product.seller}</td>
         <ProductLink
           to={`/products/${product._id}`}
           text=""
@@ -90,6 +88,9 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
           <th className="p-4">Product Name</th>
           <th className="p-4">Product Description</th>
           <th className="p-4">Product Price</th>
+          <th className="p-4">Category</th>
+          <th className="p-4">Company</th>
+          <th className="p-4">Seller</th>
           <th className="p-4">View</th>
           <th className="p-4">Edit</th>
           <th className="p-4">Delete</th>

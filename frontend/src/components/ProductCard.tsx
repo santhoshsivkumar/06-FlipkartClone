@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { GetImageURL } from "../GetImageURL";
 import Default_Img from "../../public/Default_Img.jpg";
 import "../styles/styles.css";
 const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
@@ -8,9 +7,7 @@ const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
       className={`theme_container theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
     >
       <img
-        src={
-          product.productImage ? GetImageURL(product.productImage) : Default_Img
-        }
+        src={product.productImage || Default_Img}
         alt="Product Preview"
         className="rounded-sm p-4 "
         style={{ width: "200px", height: "200px" }}

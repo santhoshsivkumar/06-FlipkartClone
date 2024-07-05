@@ -17,41 +17,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Route for saving a New Product - CREATE
-router.post(
-  "/create",
-  upload.single("productImage"),
-  async (request, response) => {
-    try {
-      const { productName, productDescription, productPrice } = request.body;
-      const productImage = request.file ? request.file.path : undefined; // Path to uploaded file
+router.post("/create", async (request, response) => {
+  try {
+    const { productName, productDescription, productPrice, productImage } =
+      request.body;
 
-      if (
-        !productName ||
-        !productDescription ||
-        !productPrice ||
-        !productImage
-      ) {
-        return response.status(400).send({
-          message:
-            "Send all required fields: productName, productDescription, productPrice, productImage",
-        });
-      }
-
-      const newProduct = {
-        productName,
-        productDescription,
-        productPrice,
-        productImage,
-      };
-
-      const product = await Product.create(newProduct);
-      return response.status(201).send(product);
-    } catch (error) {
-      console.log(error.message);
-      response.status(500).send({ message: error.message });
+    if (!productName || !productDescription || !productPrice || !productImage) {
+      return response.status(400).send({
+        message:
+          "Send all required fields: productName, productDescription, productPrice, productImage" +
+          productName +
+          productDescription +
+          productPrice +
+          productImage,
+      });
     }
+    const product = await Product.create(request.body);
+    return response.status(201).send(product);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
-);
+});
 
 // Route to get all Products - READ ALL
 router.get("/", async (request, response) => {
@@ -84,51 +71,37 @@ router.get("/details/:id", async (request, response) => {
 });
 
 // Route to update a product - UPDATE
-router.put(
-  "/edit/:id",
-  upload.single("productImage"),
-  async (request, response) => {
-    try {
-      const { id } = request.params;
-      const { productName, productDescription, productPrice } = request.body;
-      const productImage = request.file ? request.file.path : undefined; // Updated product image if file uploaded
+router.put("/edit/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { productName, productDescription, productPrice, productImage } =
+      request.body;
 
-      if (!productName || !productDescription || !productPrice) {
-        return response
-          .status(400)
-          .send({ message: "Please provide all the required fields." });
-      }
-
-      const updatedProduct = {
-        productName,
-        productDescription,
-        productPrice,
-        productImage,
-      };
-
-      const result = await Product.findByIdAndUpdate(id, updatedProduct, {
-        new: true,
-      });
-
-      if (!result) {
-        return response.status(404).send({
-          message: "Product not found",
-        });
-      }
-
+    if (!productName || !productDescription || !productPrice || !productImage) {
       return response
-        .status(200)
-        .send({ message: "Product updated successfully", product: result });
-    } catch (error) {
-      console.log(error.message);
-      return response.status(500).send({
-        message: error.message,
+        .status(400)
+        .send({ message: "Please provide all the required fields." });
+    }
+    const result = await Product.findByIdAndUpdate(id, request.body, {
+      new: true,
+    });
+    if (!result) {
+      return response.status(404).send({
+        message: "Product not found",
       });
     }
-  }
-);
 
-// Route to delete a product - DELETE
+    return response
+      .status(200)
+      .send({ message: "Product updated successfully", product: result });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).send({
+      message: error.message,
+    });
+  }
+});
+
 router.delete("/delete/:id", async (request, response) => {
   try {
     const { id } = request.params;

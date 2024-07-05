@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { domainURL } from "../static";
-import { GetImageURL } from "../GetImageURL";
+import { ConvertToBase64 } from "../../static/Functions";
+import { siteURL } from "../../static/Data";
+import Loading from "../Loading";
 
 const ProductForm = ({ mode }: any) => {
   const { id } = useParams();
@@ -14,38 +15,18 @@ const ProductForm = ({ mode }: any) => {
     category: "",
     company: "",
     seller: "",
-    productImage: "", // Assuming productImage is a URL or path
+    productImage: "",
   });
   const [loading, setLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null); // State to hold image preview URL
-  const [fileLabel, setFileLabel] = useState<string>("Choose New"); // Default label for file input
-
   useEffect(() => {
     if (mode === "edit" && id) {
       axios
-        .get(`${domainURL}/products/details/${id}`)
+        .get(`${siteURL}/products/details/${id}`)
         .then((response) => {
-          const {
-            productName,
-            productDescription,
-            productPrice,
-            productImage,
-            category,
-            company,
-            seller,
-          } = response.data;
-          setProduct({
-            productName,
-            productDescription,
-            productPrice,
-            productImage,
-            category,
-            company,
-            seller,
-          });
-          if (productImage) {
-            setImagePreview(GetImageURL(productImage)); // Convert image path for preview
-            setFileLabel(getFileName(productImage)); // Get file name for display
+          setProduct(response.data);
+          if (response.data) {
+            setImagePreview(response.data.productImage);
           }
         })
         .catch((error) => console.log(error));
@@ -60,24 +41,17 @@ const ProductForm = ({ mode }: any) => {
     }));
   };
 
-  const handleFileChange = (e: any) => {
+  const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
-    setProduct((prevState) => ({
-      ...prevState,
-      productImage: file,
-    }));
-
-    // Show image preview
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result as string);
-    };
     if (file) {
-      reader.readAsDataURL(file);
-      setFileLabel(file.name); // Set file name for display
+      const base64Img: any = await ConvertToBase64(file);
+      setImagePreview(base64Img);
+      setProduct((prevState) => ({
+        ...prevState,
+        productImage: base64Img,
+      }));
     } else {
       setImagePreview(null);
-      setFileLabel("Choose New");
     }
   };
 
@@ -87,35 +61,21 @@ const ProductForm = ({ mode }: any) => {
 
     if (mode === "create") {
       axios
-        .post(`${domainURL}/products/create`, product, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post(`${siteURL}/products/create`, product)
         .then(() => {
           setLoading(false);
-          navigate("/");
+          navigate("/admin view");
         })
         .catch((error) => console.log(error.response.data.message));
     } else if (mode === "edit" && id) {
       axios
-        .put(`${domainURL}/products/edit/${id}`, product, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .put(`${siteURL}/products/edit/${id}`, product)
         .then(() => {
           setLoading(false);
-          navigate("/");
+          navigate("/admin view");
         })
         .catch((error) => console.log(error.response.data.message));
     }
-  };
-
-  // Function to get file name from path or URL
-  const getFileName = (path: string) => {
-    const pathParts = path.split("-");
-    return pathParts[pathParts.length - 1]; // Return last part of the path as file name
   };
 
   return (
@@ -162,7 +122,6 @@ const ProductForm = ({ mode }: any) => {
                   style={{ maxWidth: "50%", maxHeight: "200px" }}
                 />
               )}
-              <span className="theme_color">{fileLabel}</span>
             </div>
           </div>
         </div>
@@ -270,11 +229,13 @@ const ProductForm = ({ mode }: any) => {
           className="w-full bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300"
         >
           <i className="fas fa-save mr-2"></i>
-          {loading
-            ? "Processing"
-            : mode === "create"
-            ? "Create Product"
-            : "Update Product"}
+          {loading ? (
+            <Loading />
+          ) : mode === "create" ? (
+            "Create Product"
+          ) : (
+            "Update Product"
+          )}
         </button>
       </form>
     </div>

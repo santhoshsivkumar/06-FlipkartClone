@@ -1,80 +1,60 @@
 import express from "express";
 import { User } from "../models/User.js";
-import multer from "multer";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+//import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-// Set up multer for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/Users/"); // Destination folder for uploaded files
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname); // Unique filename
-  },
-});
-
-const upload = multer({ storage: storage });
-// Route for saving a Login - existing
-
 router.post("/login", async (req, res) => {
   const { mobile, email, password } = req.body;
-  const user = await User.findOne({ $or: [{ mobile }, { email }] });
+  if (!mobile || !email || !password) {
+    return res.status(400).send({
+      message: "Send all required fields: mobile or email, password",
+    });
+  }
 
+  const user = await User.findOne({ $or: [{ mobile }, { email }] });
   if (!user) {
     return res.status(404).send({ message: "No user found, please register" });
   }
 
+  // @ts-ignore
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(401).send({ message: "Password mismatch" });
   }
 
-  const token = jwt.sign({ id: user._id }, "secretkey");
-  res.status(200).send({ token });
+  res.status(200).send({ user: user, msg: "login successful" });
 });
 
 // Route for saving a New User - CREATE
-router.post(
-  "/register",
-  upload.single("UserImage"),
-  async (request, response) => {
-    try {
-      const { name, mobile, password } = request.body;
-      // @ts-ignore
-      const existingUser = await User.findOne({ mobile });
-
-      if (existingUser) {
-        return response
-          .status(409)
-          .send({ message: "Existing user, please login" });
-      }
-
-      const UserImage = request.file ? request.file.path : undefined; // Path to uploaded file
-
-      if (!name || !mobile || !password) {
-        return response.status(400).send({
-          message: "Send all required fields: name, email, password",
-        });
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      const newUser = new User({
-        name,
-        // @ts-ignore
-        mobile,
-        password: hashedPassword,
+router.post("/register", async (request, response) => {
+  try {
+    const { name, mobile, password } = request.body;
+    if (!mobile || !name || !password) {
+      return response.status(400).send({
+        message: "Send all required fields: name, mobile, password",
       });
-      await newUser.save();
-      response.send(200).send({ message: "User registered successfully" });
-    } catch (error) {
-      console.log(error.message);
-      response.status(500).send({ message: error.message });
     }
+    const existingUser = await User.findOne({ mobile });
+    if (existingUser) {
+      return response
+        .status(409)
+        .send({ message: "Existing user, please login" });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+      ...request.body,
+      password: hashedPassword,
+    };
+    await User.create(newUser);
+    response.send(201).send({ message: "User registered successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
   }
-);
+});
 
 // Route to get all Users - READ ALL
 router.get("/", async (request, response) => {
@@ -107,47 +87,41 @@ router.get("/details/:id", async (request, response) => {
 });
 
 // Route to update a User - UPDATE
-router.put(
-  "/edit/:id",
-  upload.single("UserImage"),
-  async (request, response) => {
-    try {
-      const { id } = request.params;
-      const { name, email, password } = request.body;
-      const UserImage = request.file ? request.file.path : undefined; // Updated User image if file uploaded
+router.put("/edit/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const { name, email, password } = request.body;
 
-      if (!name || !email || !password) {
-        return response
-          .status(400)
-          .send({ message: "Please provide all the required fields." });
-      }
-
-      const updatedUser = {
-        ...request.body,
-        UserImage,
-      };
-
-      const result = await User.findByIdAndUpdate(id, updatedUser, {
-        new: true,
-      });
-
-      if (!result) {
-        return response.status(404).send({
-          message: "User not found",
-        });
-      }
-
+    if (!name || !email || !password) {
       return response
-        .status(200)
-        .send({ message: "User updated successfully", User: result });
-    } catch (error) {
-      console.log(error.message);
-      return response.status(500).send({
-        message: error.message,
+        .status(400)
+        .send({ message: "Please provide all the required fields." });
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const updatedUser = {
+      ...request.body,
+      password: hashedPassword,
+    };
+
+    const result = await User.findByIdAndUpdate(id, updatedUser, {
+      new: true,
+    });
+    if (!result) {
+      return response.status(404).send({
+        message: "User not found",
       });
     }
+
+    return response
+      .status(200)
+      .send({ message: "User updated successfully", User: result });
+  } catch (error) {
+    console.log(error.message);
+    return response.status(500).send({
+      message: error.message,
+    });
   }
-);
+});
 
 // Route to delete a User - DELETE
 router.delete("/delete/:id", async (request, response) => {

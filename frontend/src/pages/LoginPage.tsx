@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/styles.css";
 import axios from "axios";
-import { domainURL } from "../static";
+import { siteURL } from "../static/Data";
 import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ const LoginPage = () => {
     if (newUser) {
       if (input.name !== "" && input.password !== "" && input.mobile !== "") {
         axios
-          .post(`${domainURL}/user/register`, input, {
+          .post(`${siteURL}/user/register`, input, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -53,7 +53,7 @@ const LoginPage = () => {
         };
         axios
           .post(
-            `${domainURL}/user/login`,
+            `${siteURL}/user/login`,
             { name, mobile },
             {
               headers: {

@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import AdminHome from "./pages/AdminHome";
-import ProductDetails from "./pages/ProductDetails";
-import ProductForm from "./pages/ProductForm";
+import AdminPage from "./pages/AdminPage.tsx";
+import ProductDetails from "./components/ProductDetails.tsx";
+import ProductForm from "./components/AdminPage/ProductForm.tsx";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage.tsx";
-import Navbar from "./components/Navbar.tsx";
+import Navbar from "./components/UserHomePage/Navbar.tsx";
 import "./App.css";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 const App = () => {
@@ -16,7 +16,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin view" element={<AdminHome />} />
+          <Route path="/admin view" element={<AdminPage />} />
           <Route
             path="/products/create"
             element={<ProductForm mode="create" />}

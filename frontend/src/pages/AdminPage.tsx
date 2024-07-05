@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { domainURL } from "../static";
-import ProductCard from "./ProductCard.tsx";
-import ProductTable from "./ProductTable.tsx";
-import DeleteProduct from "./DeleteProduct";
+import { siteURL } from "../static/Data.tsx";
+import ProductCard from "../components/ProductCard.tsx";
+import ProductTable from "../components/AdminPage/ProductTable.tsx";
+import DeleteProduct from "../components/AdminPage/DeleteProduct.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../slices/productSlice.tsx";
-const AdminHome = () => {
+
+const AdminPage = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
@@ -15,26 +16,26 @@ const AdminHome = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
-    axios
-      .get(`${domainURL}/products`)
-      .then((response: any) => {
-        dispatch(setProducts(response.data.data));
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, []);
+    try {
+      const response = await axios.get(`${siteURL}/products`);
+      dispatch(setProducts(response.data.data));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsLargeScreen(window.innerWidth > 768);
-    };
+    fetchProducts();
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    const handleResize = () => setIsLargeScreen(window.innerWidth > 768);
 
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -43,14 +44,14 @@ const AdminHome = () => {
     setIsDeleteModalOpen(true);
   };
 
-  const handleDeleteProduct = () => {
-    axios
-      .delete(`${domainURL}/products/delete/${deleteProductId}`)
-      .then(() => {
-        products.filter((product: any) => product._id !== deleteProductId);
-        setIsDeleteModalOpen(false);
-      })
-      .catch((err) => console.log(err));
+  const handleDeleteProduct = async () => {
+    try {
+      await axios.delete(`${siteURL}/products/delete/${deleteProductId}`);
+      setIsDeleteModalOpen(false);
+      fetchProducts();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -66,7 +67,7 @@ const AdminHome = () => {
             Add Item
           </Link>
         </div>
-        <div className=" w-full max-w-7xl scroll-m-0">
+        <div className="w-full max-w-7xl scroll-m-0">
           {isLargeScreen ? (
             <ProductTable
               products={products}
@@ -75,10 +76,10 @@ const AdminHome = () => {
           ) : products.length > 0 ? (
             products.map((product: any) => (
               <div
-                className={`theme grid grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm shadow-md`}
+                className={`theme grid grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 rounded-sm shadow-md`}
+                key={product._id}
               >
                 <ProductCard
-                  key={product._id}
                   showOptions={true}
                   product={product}
                   onDeleteClick={handleDeleteClick}
@@ -104,4 +105,4 @@ const AdminHome = () => {
   );
 };
 
-export default AdminHome;
+export default AdminPage;
