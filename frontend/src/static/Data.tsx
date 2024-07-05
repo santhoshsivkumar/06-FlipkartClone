@@ -8,8 +8,8 @@ import MobilesImg from "../assets/mobiles.webp";
 import TravelImg from "../assets/Travel.webp";
 import TwoWeelersImg from "../assets/Twoweelers.webp";
 
-//export const siteURL = "https://mern-app-api-rust.vercel.app";
-export const siteURL = "http://localhost:5555";
+export const siteURL = "https://mern-app-api-rust.vercel.app";
+//export const siteURL = "http://localhost:5555";
 
 export const HomePageImages = [
   { img: GroceryImg, title: "Grocery" },
