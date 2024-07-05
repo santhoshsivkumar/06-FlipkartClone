@@ -85,7 +85,7 @@ const LoginPage = () => {
   return (
     <>
       <div
-        className={` theme gap-2 flex flex-col h-[calc(100vh-3.5rem)] items-center justify-center`}
+        className={` theme gap-2 flex flex-col min-h-[calc(100vh-3.5rem)] items-center justify-center`}
       >
         <div
           className="theme_color w-[65%] text-right"

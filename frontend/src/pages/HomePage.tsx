@@ -24,7 +24,7 @@ const HomePage = () => {
       });
   }, []);
   return (
-    <div className={`theme space-y-4 p-4 `}>
+    <div className={`theme min-h-[100vh] space-y-4 p-4 `}>
       <div
         className={`theme_container border-[1px] theme_border h-40 p-4 shadow-sm rounded-sm justify-center flex items-center`}
       >

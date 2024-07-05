@@ -55,7 +55,7 @@ const AdminHome = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-4 theme">
+      <div className="flex flex-col items-center min-h-[100vh] p-4 theme">
         <h1 className="text-4xl font-bold theme_color p-4">Products</h1>
         <div className="flex justify-end w-[92.5%]">
           <Link
