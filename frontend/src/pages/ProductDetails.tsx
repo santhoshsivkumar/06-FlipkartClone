@@ -33,7 +33,7 @@ const ProductDetails = () => {
         console.log(err.response.data.message);
       });
   }, [id]);
-  const off30pcent = (30 / 100) * product.productPrice;
+  const off30pcent = product.productPrice + (30 / 100) * product.productPrice;
   const extra5pcent = (5 / 100) * product.productPrice;
   return (
     <div className="theme min-h-[100vh]">
