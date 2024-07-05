@@ -23,8 +23,7 @@ const AdminHome = () => {
         dispatch(setProducts(response.data.data));
         setLoading(false);
       })
-      .catch((error) => {
-        console.log(error.response.data.message);
+      .catch(() => {
         setLoading(false);
       });
   }, []);

@@ -5,7 +5,7 @@ import "../styles/styles.css";
 const Navbar = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState(
-    () => localStorage.getItem("theme") || "light"
+    () => localStorage.getItem("theme") || "dark"
   );
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -30,7 +30,7 @@ const Navbar = () => {
             type="text"
             name="search"
             placeholder="Search"
-            className={`nav_search w-[100%] py-2 px-4 outline-none rounded-sm`}
+            className={`theme_search w-[100%] py-2 px-4 outline-none rounded-sm`}
           />
           <button
             onClick={() => {

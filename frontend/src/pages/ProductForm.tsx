@@ -107,7 +107,6 @@ const ProductForm = ({ mode }: any) => {
         .then(() => {
           setLoading(false);
           navigate("/");
-          console.log("Product updated");
         })
         .catch((error) => console.log(error.response.data.message));
     }
@@ -116,7 +115,6 @@ const ProductForm = ({ mode }: any) => {
   // Function to get file name from path or URL
   const getFileName = (path: string) => {
     const pathParts = path.split("-");
-    console.log(pathParts);
     return pathParts[pathParts.length - 1]; // Return last part of the path as file name
   };
 
@@ -165,7 +163,7 @@ const ProductForm = ({ mode }: any) => {
           </div>
         </div>
         <div className="flex md:flex-row flex-col gap-0 md:gap-2">
-          <div className="theme rounded-md md:rounded-b-md rounded-b-none p-4 sm:pb-0 md:p-4 md:w-1/2 md:mb-4">
+          <div className="theme rounded-md md:rounded-b-md rounded-b-none p-4 pb-0 md:p-4 md:w-1/2 md:mb-4">
             <div className="mb-4">
               <label
                 className="block  text-sm font-bold mb-2"
@@ -177,7 +175,7 @@ const ProductForm = ({ mode }: any) => {
                 value={product.productName}
                 type="text"
                 name="productName"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Product Name"
                 onChange={handleOnChange}
               />
@@ -193,7 +191,7 @@ const ProductForm = ({ mode }: any) => {
                 value={product.productDescription}
                 type="textarea"
                 name="productDescription"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Product Description"
                 onChange={handleOnChange}
               />
@@ -209,13 +207,13 @@ const ProductForm = ({ mode }: any) => {
                 value={product.productPrice}
                 type="number"
                 name="productPrice"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Product Price"
                 onChange={handleOnChange}
               />
             </div>
           </div>
-          <div className="theme rounded-md md:rounded-t-md rounded-t-none p-4 sm:pt-0 md:p-4 md:w-1/2 mb-4">
+          <div className="theme rounded-md md:rounded-t-md rounded-t-none p-4 pt-0 md:p-4 md:w-1/2 mb-4">
             <div className="mb-4">
               <label
                 className="block  text-sm font-bold mb-2"
@@ -227,7 +225,7 @@ const ProductForm = ({ mode }: any) => {
                 value={product.category}
                 type="text"
                 name="category"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Category"
                 onChange={handleOnChange}
               />
@@ -243,7 +241,7 @@ const ProductForm = ({ mode }: any) => {
                 value={product.company}
                 type="text"
                 name="company"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Company"
                 onChange={handleOnChange}
               />
@@ -256,7 +254,7 @@ const ProductForm = ({ mode }: any) => {
                 value={product.seller}
                 type="text"
                 name="seller"
-                className="w-full py-2 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
+                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
                 placeholder="Seller"
                 onChange={handleOnChange}
               />
