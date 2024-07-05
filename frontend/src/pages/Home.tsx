@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { HomePageImages } from "../static/Data";
 import "../styles/styles.css";
-const HomePage = () => {
+const Home = () => {
   const { products } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -77,4 +77,4 @@ const HomePage = () => {
     </div>
   );
 };
-export default HomePage;
+export default Home;

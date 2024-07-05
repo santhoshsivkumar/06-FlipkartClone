@@ -43,7 +43,13 @@ router.post("/create", async (request, response) => {
 // Route to get all Products - READ ALL
 router.get("/", async (request, response) => {
   try {
-    const products = await Product.find({});
+    let query = {};
+    const { category } = request.query;
+
+    if (category) {
+      query = { category };
+    }
+    const products = await Product.find(query);
     return response.status(200).json({
       count: products.length,
       data: products,

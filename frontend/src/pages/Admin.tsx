@@ -8,7 +8,7 @@ import DeleteProduct from "../components/AdminPage/DeleteProduct.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../slices/productSlice.tsx";
 
-const AdminPage = () => {
+const Admin = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
@@ -105,4 +105,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default Admin;

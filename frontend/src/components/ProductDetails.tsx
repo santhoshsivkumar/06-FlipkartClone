@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { siteURL } from "../static/Data";
 import defaultImg from "../../public/Default_Img.jpg";
 import { formatPrice } from "../static/Functions";
-import Loading from "../components/Loading";
+import Loading from "./Loading";
 import { headerItems } from "../static/Data";
 import "../styles/styles.css";
 
