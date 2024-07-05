@@ -31,7 +31,6 @@ const ImagesData = [
 const HomePage = () => {
   const { products } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(false);
-  const images = {};
   const dispatch = useDispatch();
   useEffect(() => {
     setLoading(true);
