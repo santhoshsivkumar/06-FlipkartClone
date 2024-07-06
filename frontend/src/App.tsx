@@ -8,6 +8,9 @@ import Navbar from "./components/HomePage/Navbar.tsx";
 import "./App.css";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import ProductCollection from "./pages/ProductCollection.tsx";
+import MyProfile from "./pages/MyProfile.tsx";
+import MyCart from "./pages/MyCart.tsx";
+import Checkout from "./pages/Checkout.tsx";
 const App = () => {
   return (
     <>
@@ -18,6 +21,10 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/admin view" element={<Admin />} />
+          <Route path="/myprofile/" element={<MyProfile />} />
+          <Route path="/mycart" element={<MyCart />} />
+          <Route path="/checkout" element={<Checkout />} />
+
           <Route
             path="/products/create"
             element={<ProductForm mode="create" />}

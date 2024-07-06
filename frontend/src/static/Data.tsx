@@ -42,3 +42,16 @@ export const SortByItems = [
   "Price -- High to Low",
   "Newest First",
 ];
+export const AccountSettingsItems = [
+  "Profile Information",
+  "Manage Address",
+  "PAN Card Information",
+];
+
+export const PaymentsItems = ["Gift Cards", "Saved UPI", "Saved Cards"];
+export const MyStuffItems = [
+  "My Coupons",
+  "My Reviews & Ratings",
+  "All Notifications",
+  "My Wishlist",
+];

@@ -33,6 +33,15 @@
 .theme_bg {
   background-color: var(--header-color);
 }
+.theme_hover:hover {
+  color: var(--header-color);
+}
+.profile_item_bg {
+  background-color: var(--hover-bg);
+}
+.theme_hover_bg:hover {
+  background-color: var(--hover-bg);
+}
 .product_card:hover {
   border-color: var(--header-color);
 }
