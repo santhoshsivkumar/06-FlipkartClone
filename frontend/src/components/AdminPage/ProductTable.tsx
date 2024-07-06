@@ -52,7 +52,7 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
         <td className="p-4">{product._id}</td>
         <ProductImage imageUrl={product.productImage} />
         <td className="p-4">{product.productName}</td>
-        <td className="p-4">{product.productDescription}</td>
+        <td className="p-4">{product.productDescription.substring(0, 15)}</td>
         <td className="p-4">{product.productPrice}</td>
         <td className="p-4">{product.category}</td>
         <td className="p-4">{product.company}</td>

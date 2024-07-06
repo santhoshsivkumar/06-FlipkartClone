@@ -25,11 +25,7 @@ router.post("/create", async (request, response) => {
     if (!productName || !productDescription || !productPrice || !productImage) {
       return response.status(400).send({
         message:
-          "Send all required fields: productName, productDescription, productPrice, productImage" +
-          productName +
-          productDescription +
-          productPrice +
-          productImage,
+          "Send all required fields: productName, productDescription, productPrice, productImage",
       });
     }
     const product = await Product.create(request.body);

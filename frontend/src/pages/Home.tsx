@@ -63,7 +63,7 @@ const Home = () => {
         >
           {products.length > 0 ? (
             products.map((product: any) => (
-              <Link to={`/products/${product._id}`} key={product._id}>
+              <Link to={`/products/collection/smartphones`} key={product._id}>
                 <ProductCard product={product} showOptions={false} />
               </Link>
             ))

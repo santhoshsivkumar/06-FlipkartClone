@@ -13,14 +13,12 @@ export const ConvertToBase64 = (file: File) => {
   });
 };
 
-export const formatPrice = (
-  price: number,
-  locale = "en-IN",
-  currency = "INR"
-) => {
+export const formatPrice = (price: any, locale = "en-IN", currency = "INR") => {
   return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: currency,
+    minimumFractionDigits: 0, // Show no decimal places if there are none
+    maximumFractionDigits: 2, // Show up to two decimal places if they exist
   }).format(price);
 };
 

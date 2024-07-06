@@ -1,31 +1,46 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ConvertToBase64 } from "../../static/Functions";
 import { siteURL } from "../../static/Data";
 import Loading from "../Loading";
+import InputField from "./InputField"; // New component for input fields
+
+const initialState = {
+  productName: "",
+  productDescription: "",
+  productPrice: "",
+  category: "",
+  company: "",
+  seller: "",
+  productImage: "",
+};
+const categories = [
+  "Shampoo",
+  "Smartphones",
+  "Smartwatches",
+  "Laptops",
+  "Tablets",
+  "Accessories",
+]; // Static categories
 
 const ProductForm = ({ mode }: any) => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState({
-    productName: "",
-    productDescription: "",
-    productPrice: "",
-    category: "",
-    company: "",
-    seller: "",
-    productImage: "",
-  });
+
+  const [product, setProduct] = useState(initialState);
+
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState<string | null>(null); // State to hold image preview URL
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [errors, setErrors] = useState(initialState);
+
   useEffect(() => {
     if (mode === "edit" && id) {
       axios
         .get(`${siteURL}/products/details/${id}`)
         .then((response) => {
           setProduct(response.data);
-          if (response.data) {
+          if (response.data && response.data.productImage) {
             setImagePreview(response.data.productImage);
           }
         })
@@ -33,16 +48,22 @@ const ProductForm = ({ mode }: any) => {
     }
   }, [mode, id]);
 
-  const handleOnChange = (e: any) => {
+  const handleOnChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setProduct((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    setErrors((prevState) => ({
+      ...prevState,
+      [name]: "",
+    }));
   };
 
-  const handleFileChange = async (e: any) => {
-    const file = e.target.files[0];
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
       const base64Img: any = await ConvertToBase64(file);
       setImagePreview(base64Img);
@@ -52,30 +73,75 @@ const ProductForm = ({ mode }: any) => {
       }));
     } else {
       setImagePreview(null);
+      setProduct((prevState) => ({
+        ...prevState,
+        productImage: "",
+      }));
     }
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    setLoading(true);
+  const validateFields = () => {
+    const newErrors = { ...errors };
+    let isValid = true;
 
-    if (mode === "create") {
-      axios
-        .post(`${siteURL}/products/create`, product)
-        .then(() => {
-          setLoading(false);
-          navigate("/admin view");
-        })
-        .catch((error) => console.log(error.response.data.message));
-    } else if (mode === "edit" && id) {
-      axios
-        .put(`${siteURL}/products/edit/${id}`, product)
-        .then(() => {
-          setLoading(false);
-          navigate("/admin view");
-        })
-        .catch((error) => console.log(error.response.data.message));
+    if (!product.productImage) {
+      newErrors.productImage = "Product Image is required";
+      isValid = false;
     }
+    if (!product.productName) {
+      newErrors.productName = "Product Name is required";
+      isValid = false;
+    }
+    if (!product.productDescription) {
+      newErrors.productDescription = "Product Description is required";
+      isValid = false;
+    }
+    if (!product.productPrice || isNaN(Number(product.productPrice))) {
+      newErrors.productPrice = "Valid Product Price is required";
+      isValid = false;
+    }
+    if (!product.category) {
+      newErrors.category = "Category is required";
+      isValid = false;
+    }
+    if (!product.company) {
+      newErrors.company = "Company is required";
+      isValid = false;
+    }
+    if (!product.seller) {
+      newErrors.seller = "Seller Name is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
+
+    setLoading(true);
+    const url =
+      mode === "create"
+        ? `${siteURL}/products/create`
+        : `${siteURL}/products/edit/${id}`;
+    axios({
+      method: mode === "create" ? "post" : "put",
+      url: url,
+      data: product,
+    })
+      .then(() => {
+        setLoading(false);
+        navigate("/admin view");
+      })
+      .catch(() => {
+        setLoading(false);
+        // Handle error
+      });
   };
 
   return (
@@ -84,27 +150,22 @@ const ProductForm = ({ mode }: any) => {
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>
       <form
-        className="lg:w-[65vw] w-[90vw] flex-col justify-center items-center theme_container shadow-md rounded-md p-4"
+        className="lg:w-[65vw] w-[90vw] grid grid-cols-1 md:grid-cols-2 gap-2 justify-center items-center theme_container shadow-md rounded-md p-4"
         onSubmit={handleSubmit}
       >
-        <div className=" mb-4 rounded-md p-4 theme  flex justify-center items-center flex-col ">
+        {/* Product Image */}
+        <div className=" rounded-md p-4 theme flex justify-center items-center flex-col col-span-full">
           <label
-            className="block  text-sm font-bold mb-2"
+            className="block text-sm font-bold mb-2"
             htmlFor="productImage"
           >
             Product Image
           </label>
           <div className="flex justify-center items-center lg:flex-row gap-4 flex-col">
-            <label className="max-w-[8.5rem] py-2 px-4 border border-gray-300 rounded-md cursor-pointer bg-white  hover:bg-gray-100">
-              <div className="flex gap-4 items-center justify-center">
-                <span className="block text-center text-black bg-gray-200 border-black border-[1px] text-sm py-1 px-2">
-                  {product
-                    ? product.productImage
-                      ? "Choose New"
-                      : "Choose File"
-                    : ""}
-                </span>
-              </div>
+            <label className="max-w-[8.5rem] py-2 px-4 border border-gray-300 rounded-md cursor-pointer bg-white hover:bg-gray-100">
+              <span className="block text-center text-black bg-gray-200 border-black border-[1px] text-sm py-1 px-2">
+                {product.productImage ? "Choose New" : "Choose File"}
+              </span>
               <input
                 type="file"
                 name="productImage"
@@ -123,119 +184,73 @@ const ProductForm = ({ mode }: any) => {
                 />
               )}
             </div>
+            {errors.productImage && (
+              <p className="text-red-500 text-xs mt-1">{errors.productImage}</p>
+            )}
           </div>
         </div>
-        <div className="flex md:flex-row flex-col gap-0 md:gap-2">
-          <div className="theme rounded-md md:rounded-b-md rounded-b-none p-4 pb-0 md:p-4 md:w-1/2 md:mb-4">
-            <div className="mb-4">
-              <label
-                className="block  text-sm font-bold mb-2"
-                htmlFor="productName"
-              >
-                Product Name
-              </label>
-              <input
-                value={product.productName}
-                type="text"
-                name="productName"
-                className="w-full py-2 px-4 border theme_text theme_search theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Product Name"
-                onChange={handleOnChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block  text-sm font-bold mb-2"
-                htmlFor="productDescription"
-              >
-                Product Description
-              </label>
-              <input
-                value={product.productDescription}
-                type="textarea"
-                name="productDescription"
-                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Product Description"
-                onChange={handleOnChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block  text-sm font-bold mb-2"
-                htmlFor="productPrice"
-              >
-                Product Price
-              </label>
-              <input
-                value={product.productPrice}
-                type="number"
-                name="productPrice"
-                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Product Price"
-                onChange={handleOnChange}
-              />
-            </div>
-          </div>
-          <div className="theme rounded-md md:rounded-t-md rounded-t-none p-4 pt-0 md:p-4 md:w-1/2 mb-4">
-            <div className="mb-4">
-              <label
-                className="block  text-sm font-bold mb-2"
-                htmlFor="category"
-              >
-                Category
-              </label>
-              <input
-                value={product.category}
-                type="text"
-                name="category"
-                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Category"
-                onChange={handleOnChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                className="block  text-sm font-bold mb-2"
-                htmlFor="company"
-              >
-                Company
-              </label>
-              <input
-                value={product.company}
-                type="text"
-                name="company"
-                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Company"
-                onChange={handleOnChange}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block  text-sm font-bold mb-2" htmlFor="seller">
-                Seller Name
-              </label>
-              <input
-                value={product.seller}
-                type="text"
-                name="seller"
-                className="w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic"
-                placeholder="Seller"
-                onChange={handleOnChange}
-              />
-            </div>
-          </div>
-        </div>
+
+        {/* Input Fields */}
+        <InputField
+          label="Product Name"
+          name="productName"
+          value={product.productName}
+          onChange={handleOnChange}
+          error={errors.productName}
+        />
+        <InputField
+          label="Product Description"
+          name="productDescription"
+          value={product.productDescription}
+          onChange={handleOnChange}
+          error={errors.productDescription}
+        />
+        <InputField
+          label="Product Price"
+          name="productPrice"
+          value={product.productPrice}
+          onChange={handleOnChange}
+          error={errors.productPrice}
+        />
+        <InputField
+          label="Category"
+          name="category"
+          value={product.category}
+          onChange={handleOnChange}
+          error={errors.category}
+          options={categories}
+        />
+        <InputField
+          label="Company"
+          name="company"
+          value={product.company}
+          onChange={handleOnChange}
+          error={errors.company}
+        />
+        <InputField
+          label="Seller Name"
+          name="seller"
+          value={product.seller}
+          onChange={handleOnChange}
+          error={errors.seller}
+        />
+
+        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300"
+          className="col-span-full mt-2 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300"
+          disabled={loading}
         >
-          <i className="fas fa-save mr-2"></i>
-          {loading ? (
-            <Loading />
-          ) : mode === "create" ? (
-            "Create Product"
+          {!loading ? (
+            <i className="fas fa-save mr-2"></i>
           ) : (
-            "Update Product"
+            <Loading width={25} height={25} />
           )}
+          {!loading
+            ? mode === "create"
+              ? "Create Product"
+              : "Update Product"
+            : ""}
         </button>
       </form>
     </div>

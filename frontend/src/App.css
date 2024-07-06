@@ -1,6 +1,6 @@
 html {
   scrollbar-width: none;
-  user-select: none;
+  /* user-select: none; */
 }
 :root {
   --light-text-color: #fff;
