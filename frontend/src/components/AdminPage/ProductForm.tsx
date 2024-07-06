@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ConvertToBase64 } from "../../static/Functions";
 import { siteURL } from "../../static/Data";
 import Loading from "../Loading";
-import InputField from "./InputField"; // New component for input fields
+import InputField from "../InputField"; // New component for input fields
 
 const initialState = {
   productName: "",
@@ -140,13 +140,12 @@ const ProductForm = ({ mode }: any) => {
       })
       .catch(() => {
         setLoading(false);
-        // Handle error
       });
   };
 
   return (
     <div className="flex min-h-[100vh] items-center flex-col gap-4 theme theme_color py-4">
-      <h1 className="text-3xl font-bold theme_text">
+      <h1 className="text-2xl font-bold theme_text">
         {mode === "create" ? "Create Product" : "Edit Product"}
       </h1>
       <form

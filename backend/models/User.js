@@ -6,16 +6,21 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    mobile: {
-      type: Number,
-      required: true,
-      unique: true,
-    },
     email: {
       type: String,
       unique: true,
+      sparse: true,
+    },
+    mobile: {
+      type: String,
+      sparse: true,
+      unique: true,
     },
     password: {
+      type: String,
+      required: true,
+    },
+    confirmpassword: {
       type: String,
       required: true,
     },

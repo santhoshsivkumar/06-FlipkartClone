@@ -4,11 +4,9 @@ type InputFieldProps = {
   label: string;
   name: string;
   value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<any>) => void;
   error?: string;
-  options?: string[]; // New prop for dropdown options
+  options?: string[];
 };
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -20,11 +18,26 @@ const InputField: React.FC<InputFieldProps> = ({
   options,
 }) => {
   return (
-    <div className="theme rounded-md p-4 h-28">
+    <div
+      className={`theme rounded-md p-4 h-28 ${
+        name === "productDescription" && "h-[14.5rem] row-span-2 p-4"
+      }`}
+    >
       <label className="block text-sm font-bold mb-2" htmlFor={name}>
         {label}
       </label>
-      {name === "category" ? (
+      {name === "productDescription" ? (
+        <textarea
+          value={value}
+          name={name}
+          className={`w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic ${
+            error ? "border-red-500" : ""
+          }`}
+          placeholder={label}
+          onChange={onChange}
+          style={{ minHeight: "150px", maxHeight: "400px", resize: "vertical" }} // Adjust height here
+        />
+      ) : name === "category" ? (
         <select
           name={name}
           value={value}
@@ -46,7 +59,7 @@ const InputField: React.FC<InputFieldProps> = ({
       ) : (
         <input
           value={value}
-          type={name === "productDescription" ? "textarea" : "text"}
+          type="text"
           name={name}
           className={`w-full py-2 px-4 border theme_text theme_search theme_border rounded-md focus:outline-none focus:ring-2 focus:ring-dynamic ${
             error ? "border-red-500" : ""

@@ -20,7 +20,7 @@ app.get("/", (request, response) => {
   return response.status(234).json("Welcome");
 });
 app.use("/products", productsRoute);
-app.use("/user", usersRoute);
+app.use("/users", usersRoute);
 
 mongoose
   .connect(mongoDBURL)

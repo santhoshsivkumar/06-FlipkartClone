@@ -31,7 +31,6 @@ router.post("/create", async (request, response) => {
     const product = await Product.create(request.body);
     return response.status(201).send(product);
   } catch (error) {
-    console.log(error.message);
     response.status(500).send({ message: error.message });
   }
 });

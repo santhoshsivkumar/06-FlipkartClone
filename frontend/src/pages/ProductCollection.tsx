@@ -107,9 +107,6 @@ export default ProductCollection;
 const off30percent = (price: any) => {
   return price + (30 / 100) * price;
 };
-const extra5percent = (price: any) => {
-  return (5 / 100) * price;
-};
 
 const upto70percent = (price: any) => {
   return (70 / 100) * price;

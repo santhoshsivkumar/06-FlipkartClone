@@ -15,11 +15,12 @@ const Admin = () => {
   const { products } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
+  const [route, setRoute] = useState("products");
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${siteURL}/products`);
+      console.log(`${siteURL}/${route}`);
+      const response = await axios.get(`${siteURL}/${route}`);
       dispatch(setProducts(response.data.data));
     } catch (error) {
       console.error(error);
@@ -30,7 +31,7 @@ const Admin = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [fetchProducts]);
+  }, [fetchProducts, route]);
 
   useEffect(() => {
     const handleResize = () => setIsLargeScreen(window.innerWidth > 768);
@@ -57,8 +58,20 @@ const Admin = () => {
   return (
     <>
       <div className="flex flex-col items-center min-h-[100vh] p-4 theme">
-        <h1 className="text-4xl font-bold theme_color p-4">Products</h1>
-        <div className="flex justify-end w-[92.5%]">
+        <h1 className="text-4xl font-bold theme_color p-4">Admin View</h1>
+        <div className="flex justify-end w-[92.5%] gap-4">
+          <button
+            className="py-2 px-4 theme_btn text-white rounded-md mb-4 transition duration-300"
+            onClick={() => setRoute("products")}
+          >
+            Get Products Data
+          </button>
+          <button
+            className="py-2 px-4 theme_btn text-white rounded-md mb-4 transition duration-300"
+            onClick={() => setRoute("users")}
+          >
+            Get Users Data
+          </button>
           <Link
             to={`/products/create`}
             className="py-2 px-4 theme_btn text-white rounded-md mb-4 transition duration-300"
