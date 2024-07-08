@@ -2,12 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import {
-  MdDarkMode,
-  MdLightMode,
-  MdLogin,
-  MdShoppingCart,
-} from "react-icons/md";
+import { MdDarkMode, MdLightMode, MdShoppingCart } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { BiLockOpen } from "react-icons/bi";
 
@@ -77,7 +72,7 @@ const Navbar = () => {
               className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer  md:rounded-md rounded-3xl `}
               to={"/login"}
             >
-              <MdLogin />
+              <CgProfile />
               <span className="hidden lg:block "> Login</span>
             </Link>
           )}
