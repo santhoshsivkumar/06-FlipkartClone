@@ -1,4 +1,4 @@
-import AppliancesImg from "../assets/Appliances.png";
+import AppliancesImg from "../assets/Appliances.webp";
 import BeautyImg from "../assets/BeautyAndMore.webp";
 import ElectronicsImg from "../assets/Electronics.webp";
 import FashionImg from "../assets/Fashion.webp";
