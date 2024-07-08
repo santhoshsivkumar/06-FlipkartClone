@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { siteURL } from "../static/Data";
 import { formatPrice } from "../static/Functions";
-import "../styles/styles.css";
 import FilterBar from "../components/FilterBar";
 import SortBy from "../components/ProductsPage/SortBy";
 import { Product } from "../static/interface";
@@ -32,7 +31,11 @@ const ProductCollection = () => {
       <div className="flex min-h-[100vh] h-full w-full gap-2 p-2">
         <div className="lg:w-[19.2%] theme_container p-4 shadow-sm "> </div>
         <div className="lg:w-[80.8%] theme_container pt-4 shadow-sm ">
-          <SortBy collection={collection} />
+          <div className="pl-4 font-md theme_text font-semibold">
+            Showing 1 – {productCollection.length} of {productCollection.length}{" "}
+            results for {collection}
+          </div>
+          <SortBy />
           {loading ? (
             <Loading />
           ) : (
@@ -40,10 +43,10 @@ const ProductCollection = () => {
               return (
                 <Link
                   to={`/products/${product._id}`}
-                  className="flex theme_text p-4 border-[0.5px] h-80"
+                  className="flex theme_text p-4 theme_border border-b-[0.5px] h-80"
                   key={product._id}
                 >
-                  <div className="w-[25%]  flex theme_border p-4 border-[1px] justify-center items-center">
+                  <div className="w-[25%]  flex  p-4 justify-center items-center">
                     <img src={product.productImage} alt="" className="" />
                   </div>
                   <div className="w-[45%]  px-4">
@@ -57,7 +60,7 @@ const ProductCollection = () => {
                       </p>
                       <p className="text-sm">37,446 Ratings & 1,758 Reviews</p>
                     </div>
-                    <ul className="text-sm space-y-2 list-disc ml-6">
+                    <ul className="text-xs lg:text-sm space-y-2 list-disc ml-6 ">
                       <li>6 GB RAM | 128 GB ROM | Expandable Upto 2 TB</li>
                       <li>16.94 cm (6.67 inch) Full HD+ Display</li>
                       <li>50MP + 2MP | 16MP Front Camera</li>

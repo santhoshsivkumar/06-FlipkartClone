@@ -1,17 +1,21 @@
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Admin from "./pages/Admin.tsx";
-import ProductDetails from "./pages/ProductDetails.tsx";
-import ProductForm from "./components/AdminPage/ProductForm.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
-import Home from "./pages/Home.tsx";
-import Navbar from "./components/HomePage/Navbar.tsx";
+import Admin from "./pages/Admin";
+import ProductDetails from "./pages/ProductDetails";
+import ProductForm from "./components/AdminPage/ProductForm";
+import LoginPage from "./pages/LoginPage";
+import Home from "./pages/Home";
+import Navbar from "./components/HomePage/Navbar";
 import "./App.css";
-import ScrollToTop from "./components/ScrollToTop.tsx";
-import ProductCollection from "./pages/ProductCollection.tsx";
-import MyProfile from "./pages/MyProfile.tsx";
-import MyCart from "./pages/MyCart.tsx";
-import Checkout from "./pages/Checkout.tsx";
-const App = () => {
+import "./styles/styles.css";
+import ScrollToTop from "./components/ScrollToTop";
+import ProductCollection from "./pages/ProductCollection";
+import MyProfile from "./pages/MyProfile";
+import MyCart from "./pages/MyCart";
+import Checkout from "./pages/Checkout";
+import PrivateRoute from "./components/PrivateRoute";
+
+const App: React.FC = () => {
   return (
     <>
       <Navbar />
@@ -20,23 +24,38 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/admin view" element={<Admin />} />
-          <Route path="/myprofile/" element={<MyProfile />} />
-          <Route path="/mycart" element={<MyCart />} />
-          <Route path="/checkout" element={<Checkout />} />
 
-          <Route
-            path="/products/create"
-            element={<ProductForm mode="create" />}
-          />
-          <Route path="/products/:id" element={<ProductDetails />} />
+          {/* Public Route */}
           <Route
             path="/products/collection/:collection"
             element={<ProductCollection />}
           />
+          <Route path="/products/:id" element={<ProductDetails />} />
+          {/* Private Routes */}
+          <Route
+            path="/admin view"
+            element={<PrivateRoute element={<Admin />} />}
+          />
+          <Route
+            path="/myprofile"
+            element={<PrivateRoute element={<MyProfile />} />}
+          />
+          <Route
+            path="/mycart"
+            element={<PrivateRoute element={<MyCart />} />}
+          />
+          <Route
+            path="/checkout"
+            element={<PrivateRoute element={<Checkout />} />}
+          />
+          <Route
+            path="/products/create"
+            element={<PrivateRoute element={<ProductForm mode="create" />} />}
+          />
+
           <Route
             path="/products/edit/:id"
-            element={<ProductForm mode="edit" />}
+            element={<PrivateRoute element={<ProductForm mode="edit" />} />}
           />
         </Routes>
       </div>

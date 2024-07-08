@@ -55,3 +55,6 @@
 .theme_border {
   border-color: var(--border-color);
 }
+.theme_disabled_color {
+  color: var(--disabled-bg);
+}

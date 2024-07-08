@@ -3,7 +3,7 @@ import { User } from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-
+import { Blacklist } from "../models/Blacklist.js";
 const router = express.Router();
 // Generate a secure JWT secret
 const generateJWTSecret = () => {
@@ -12,23 +12,82 @@ const generateJWTSecret = () => {
 
 // Use the generated secret
 const JWT_SECRET = generateJWTSecret();
+// ------------------------------------------------------------------------------------------
+router.post("/addAddress/:id", async (req, res) => {
+  const { id } = req.params;
+  const newAddress = req.body;
 
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    user.addressData.push(newAddress);
+    await user.save();
+
+    res.status(200).send({ message: "Address added successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+router.delete("/deleteAddress/:id/:addressId", async (req, res) => {
+  const { id, addressId } = req.params;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const address = user.addressData.id(addressId);
+    if (!address) {
+      return res.status(404).send({ message: "Address not found" });
+    }
+
+    user.addressData.pull({ _id: addressId });
+    await user.save();
+
+    res.status(200).send({ message: "Address deleted successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+router.put("/updateAddress/:id/:addressId", async (req, res) => {
+  const { id, addressId } = req.params;
+  const updatedAddress = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const address = user.addressData.id(addressId);
+    if (!address) {
+      return res.status(404).send({ message: "Address not found" });
+    }
+
+    Object.assign(address, updatedAddress);
+    await user.save();
+
+    res.status(200).send({ message: "Address updated successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+// -------------------------------------------------------------------------------------------------------
 router.post("/login", async (req, res) => {
   const { user_Id, password } = req.body;
 
-  if (!user_Id) {
-    return res.status(400).send({
-      message: "Send either mobile or email",
-    });
-  }
-  if (!password) {
-    return res.status(400).send({
-      message: "Send password",
-    });
-  }
-
   try {
-    // Find user by mobile or email
+    // Find user by email or mobile
     const user = await User.findOne({
       $or: [{ email: user_Id }, { mobile: user_Id }],
     });
@@ -39,10 +98,23 @@ router.post("/login", async (req, res) => {
         .send({ message: "No user found. Please register." });
     }
 
+    // Check if user is blacklisted
+    if (user.isBlacklisted) {
+      return res
+        .status(403)
+        .send({ message: "User is blacklisted. Please contact admin." });
+    }
+
+    const emailOrMobileField = user_Id.includes("@")
+      ? "Email id"
+      : "Mobile number";
+
     // Validate password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).send({ message: "Password mismatch" });
+      return res.status(401).send({
+        message: emailOrMobileField + " or password is incorrect",
+      });
     }
 
     // Generate JWT token
@@ -57,7 +129,6 @@ router.post("/login", async (req, res) => {
     res.status(500).send({ message: "Server error. Please try again later." });
   }
 });
-
 // Route for user registration
 router.post("/register", async (req, res) => {
   const { name, user_Id, password, confirmpassword } = req.body;
@@ -77,6 +148,16 @@ router.post("/register", async (req, res) => {
       return res.status(409).send({ message: "Existing user. Please login." });
     }
 
+    // Check if user is blacklisted
+    const blacklistedUser = await Blacklist.findOne({
+      $or: [{ email: user_Id }, { mobile: user_Id }],
+    });
+    if (blacklistedUser) {
+      return res.status(403).send({
+        message: "Your account has been blocked. Please contact Admin",
+      });
+    }
+
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -87,7 +168,7 @@ router.post("/register", async (req, res) => {
     // Create new user
     const newUser = new User({
       name,
-      confirmpassword,
+      confirmpassword: hashedPassword,
       password: hashedPassword,
       ...emailOrMobileField,
     });
@@ -134,39 +215,51 @@ router.get("/details/:id", async (request, response) => {
 });
 
 // Route to update a User - UPDATE
-router.put("/edit/:id", async (request, response) => {
+router.put("/update/:id", async (request, response) => {
   try {
     const { id } = request.params;
-    const { name, email, password } = request.body;
+    const { email, mobile, password } = request.body;
 
-    if (!name || !email || !password) {
-      return response
-        .status(400)
-        .send({ message: "Please provide all the required fields." });
+    // Create a filter to check for existing email or mobile if they are being updated
+    const filter = [];
+    if (email) {
+      filter.push({ email: email, _id: { $ne: id } });
     }
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const updatedUser = {
-      ...request.body,
-      password: hashedPassword,
-    };
+    if (mobile) {
+      filter.push({ mobile: mobile, _id: { $ne: id } });
+    }
 
+    // Check for existing email or mobile
+    if (filter.length > 0) {
+      const existingUser = await User.findOne({
+        $or: filter,
+      });
+      if (existingUser) {
+        return response.status(409).send({ message: "Existing Data" });
+      }
+    }
+
+    // Hash the password if it is provided
+    let updatedUser = { ...request.body };
+    if (password) {
+      updatedUser.password = await bcrypt.hash(password, 10);
+    }
+
+    // Update user
     const result = await User.findByIdAndUpdate(id, updatedUser, {
       new: true,
     });
     if (!result) {
-      return response.status(404).send({
-        message: "User not found",
-      });
+      return response.status(404).send({ message: "User not found" });
     }
 
-    return response
-      .status(200)
-      .send({ message: "User updated successfully", User: result });
+    return response.status(200).send({
+      message: "User updated successfully",
+      User: result,
+    });
   } catch (error) {
     console.log(error.message);
-    return response.status(500).send({
-      message: error.message,
-    });
+    return response.status(500).send({ message: error.message });
   }
 });
 
@@ -174,13 +267,25 @@ router.put("/edit/:id", async (request, response) => {
 router.delete("/delete/:id", async (request, response) => {
   try {
     const { id } = request.params;
-    const result = await User.findByIdAndDelete(id);
+    const userToDelete = await User.findById(id);
 
-    if (!result) {
+    if (!userToDelete) {
       return response.status(404).send({
         message: "User not found",
       });
     }
+
+    // Add user details to Blacklist
+    const blacklistedUser = new Blacklist({
+      name: userToDelete.name,
+      email: userToDelete?.email,
+      mobile: userToDelete?.mobile,
+    });
+
+    await blacklistedUser.save();
+
+    // Update isBlacklisted in User collection
+    await User.findByIdAndUpdate(id, { isBlacklisted: true });
 
     return response.status(200).send({
       message: "User deleted successfully",

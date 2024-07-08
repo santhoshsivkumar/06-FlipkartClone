@@ -1,4 +1,22 @@
 import mongoose from "mongoose";
+const addressSchema = new mongoose.Schema(
+  {
+    name: String,
+    pincode: String,
+    city: String,
+    state: String,
+    mobile: String,
+    locality: String,
+    landmark: String,
+    address: String,
+    alternatePhone: String,
+    addressType: {
+      type: String,
+      default: "Home",
+    },
+  },
+  { _id: true }
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,11 +43,12 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     image: String,
-    address: String,
-    city: String,
-    state: String,
-    country: String,
-    pincode: Number,
+    gender: String,
+    addressData: [addressSchema],
+    isBlacklisted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

@@ -7,7 +7,6 @@ import { siteURL } from "../static/Data";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { HomePageImages } from "../static/Data";
-import "../styles/styles.css";
 const Home = () => {
   const { products } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(false);

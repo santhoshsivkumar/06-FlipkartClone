@@ -24,7 +24,7 @@ const StyledInputField: React.FC<InputFieldProps> = ({
         value={value}
         type={type}
         name={name}
-        className={`w-full py-2 px-4 theme_text outline-none border-b-[1px] theme_border ${
+        className={`w-full py-2 px-4 theme_text theme_search outline-none border-b-[1px] theme_border ${
           error ? "border-red-500" : "border-gray-500"
         }`}
         placeholder={placeholder}

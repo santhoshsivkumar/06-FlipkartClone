@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Default_Img from "../../public/Default_Img.jpg";
-import "../styles/styles.css";
 const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
   return (
     <div

@@ -1,10 +1,11 @@
-import { useState } from "react";
-import "../styles/styles.css";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { siteURL } from "../static/Data";
-import Loading from "../components/Loading"; // Assuming you have this component
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../slices/authSlice";
 import StyledInputField from "../components/StyledInputField";
+import Loading from "../components/Loading";
+import { siteURL } from "../static/Data";
 
 const initialState = {
   name: "",
@@ -17,14 +18,28 @@ const LoginPage = () => {
   const [newUser, setNewUser] = useState<boolean>(false);
   const [errors, setErrors] = useState({ ...initialState, matched: "" });
   const [loading, setLoading] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to manage success message display
   const navigate = useNavigate();
   const [input, setInput] = useState(initialState);
+  const dispatch = useDispatch();
 
-  const handleOnChange = (e: any) => {
+  useEffect(() => {
+    if (newUser && showSuccessMessage) {
+      // Reset newUser and success message state after 5 seconds
+      const timer = setTimeout(() => {
+        setNewUser(false);
+        setShowSuccessMessage(false);
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [newUser, showSuccessMessage]);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInput((prev: any) => ({ ...prev, [name]: value }));
-    setErrors((prevState) => ({
-      ...prevState,
+    setInput((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({
+      ...prev,
       [name]: "",
     }));
   };
@@ -42,7 +57,6 @@ const LoginPage = () => {
       newErrors.user_Id = "Please enter a valid email id or mobile number";
       isValid = false;
     } else {
-      // Regular expressions for email and mobile number validation
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const mobileRegex = /^[0-9]{10}$/;
 
@@ -73,50 +87,63 @@ const LoginPage = () => {
     return isValid;
   };
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateFields()) {
       return;
     }
+
+    setLoading(true);
+
     if (newUser) {
-      setLoading(true);
       axios
         .post(`${siteURL}/users/register`, input)
         .then((response) => {
           setLoading(false);
-          alert(response.data.data.message);
+          if (
+            response.data &&
+            response.data.message === "User registered successfully."
+          ) {
+            setShowSuccessMessage(true); // Show success message
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+              setNewUser(false);
+              setShowSuccessMessage(false);
+              setInput(initialState);
+              navigate("/login"); // Redirect to login page after success message
+            }, 3000);
+          } else {
+            setErrors((prev) => ({
+              ...prev,
+              confirmpassword: response.data.message,
+            }));
+          }
         })
         .catch((error) => {
           setLoading(false);
-
           if (
             error.response &&
             error.response.data &&
             error.response.data.message
           ) {
-            const { message } = error.response.data;
-            if (message === "Existing user. Please login.") {
-              setErrors((prev) => ({
-                ...prev,
-                confirmpassword: message,
-              }));
-            } else {
-              console.log(error.response.data.data);
-              setErrors((prev) => ({
-                ...prev,
-                confirmpassword: message,
-              }));
-            }
+            setErrors((prev) => ({
+              ...prev,
+              confirmpassword: error.response.data.message,
+            }));
+          } else {
+            console.log(error);
           }
         });
     } else {
-      setLoading(true);
       axios
         .post(`${siteURL}/users/login`, input)
         .then((response) => {
-          const { token } = response.data;
+          const { token, user } = response.data;
           localStorage.setItem("token", token);
+          localStorage.setItem("userId", user._id);
+          dispatch(login());
           setTimeout(() => {
             setLoading(false);
           }, 1000);
@@ -130,23 +157,12 @@ const LoginPage = () => {
             error.response.data &&
             error.response.data.message
           ) {
-            const { message } = error.response.data;
-            if (message === "No user found. Please register.") {
-              setErrors((prev) => ({
-                ...prev,
-                password: message,
-              }));
-            } else if (message === "Password mismatch") {
-              setErrors((prev) => ({
-                ...prev,
-                password: message,
-              }));
-            } else {
-              setErrors((prev) => ({
-                ...prev,
-                password: message,
-              }));
-            }
+            setErrors((prev) => ({
+              ...prev,
+              password: error.response.data.message,
+            }));
+          } else {
+            console.log(error);
           }
         });
     }
@@ -180,7 +196,12 @@ const LoginPage = () => {
           </div>
           <div className="lg:w-[60%] flex flex-col items-center gap-4 relative">
             {loading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-50 z-10">
+              <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+                {showSuccessMessage && (
+                  <div className=" theme_text py-2">
+                    Registration Successful! Redirecting to Login...
+                  </div>
+                )}
                 <Loading />
               </div>
             )}

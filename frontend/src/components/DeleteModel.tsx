@@ -1,4 +1,4 @@
-const DeleteProduct = ({ isOpen, onClose, onDelete }: any) => {
+const DeleteModel = ({ isOpen, onClose, onDelete }: any) => {
   if (!isOpen) return null;
 
   return (
@@ -24,4 +24,4 @@ const DeleteProduct = ({ isOpen, onClose, onDelete }: any) => {
   );
 };
 
-export default DeleteProduct;
+export default DeleteModel;

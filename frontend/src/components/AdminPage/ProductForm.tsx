@@ -16,12 +16,12 @@ const initialState = {
   productImage: "",
 };
 const categories = [
-  "Shampoo",
-  "Smartphones",
-  "Smartwatches",
-  "Laptops",
-  "Tablets",
-  "Accessories",
+  "shampoo",
+  "smartphones",
+  "smartwatches",
+  "laptops",
+  "tablets",
+  "accessories",
 ]; // Static categories
 
 const ProductForm = ({ mode }: any) => {
@@ -203,6 +203,7 @@ const ProductForm = ({ mode }: any) => {
           value={product.productDescription}
           onChange={handleOnChange}
           error={errors.productDescription}
+          isTextarea={true}
         />
         <InputField
           label="Product Price"
@@ -218,6 +219,7 @@ const ProductForm = ({ mode }: any) => {
           onChange={handleOnChange}
           error={errors.category}
           options={categories}
+          isSelect={true}
         />
         <InputField
           label="Company"

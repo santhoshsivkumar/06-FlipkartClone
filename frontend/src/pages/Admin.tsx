@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { siteURL } from "../static/Data.tsx";
 import ProductCard from "../components/ProductCard.tsx";
 import ProductTable from "../components/AdminPage/ProductTable.tsx";
-import DeleteProduct from "../components/AdminPage/DeleteProduct.tsx";
+import DeleteComponent from "../components/DeleteComponent.tsx";
 import { useDispatch, useSelector } from "react-redux";
 import { setProducts } from "../slices/productSlice.tsx";
 
@@ -109,7 +109,7 @@ const Admin = () => {
         </div>
       </div>
 
-      <DeleteProduct
+      <DeleteComponent
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDeleteProduct}

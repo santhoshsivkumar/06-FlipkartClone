@@ -5,7 +5,7 @@ import { siteURL } from "../static/Data";
 import defaultImg from "../../public/Default_Img.jpg";
 import { formatPrice } from "../static/Functions";
 import Loading from "../components/Loading";
-import "../styles/styles.css";
+
 import FilterBar from "../components/FilterBar";
 
 const ProductDetails = () => {
@@ -103,7 +103,7 @@ const ProductDetails = () => {
                     aria-hidden="true"
                   ></i>
                   <span className="font-semibold">Bank Offer</span> Get ₹50
-                  Instant Discount on first Flipkart UPI transaction on order of
+                  Instant Discount on first Zencart UPI transaction on order of
                   ₹200 and above{" "}
                   <span className="theme_color font-semibold">T&C</span>
                 </div>
@@ -113,7 +113,7 @@ const ProductDetails = () => {
                     aria-hidden="true"
                   ></i>
                   <span className="font-semibold">Bank Offer</span> 5% Cashback
-                  on Flipkart Axis Bank Card
+                  on Zencart Axis Bank Card
                   <span className="theme_color font-semibold"> T&C</span>
                 </div>
                 <div className="text-sm">
@@ -131,7 +131,7 @@ const ProductDetails = () => {
                     aria-hidden="true"
                   ></i>
                   <span className="font-semibold">Partner Offer</span> Sign-up
-                  for Flipkart Pay Later & get free Times Prime Benefits worth
+                  for Zencart Pay Later & get free Times Prime Benefits worth
                   ₹20,000*
                   <span className="theme_color font-semibold"> T&C</span>
                 </div>
@@ -169,20 +169,20 @@ const ProductDetails = () => {
                 PRICEGALAXY S6 PRICE IN INDIASAMSUNG E1282SONY XPERIA Z1 COMPACT
                 PRICEVIDEOCONMI MOBILE PRICEMOTO X PLAY 32GBOPPO F3+ PRICEXIAOMI
                 REDMI NOTESAMSUNG GALAXY JBUY SWIPE ELITE MAX ABOUT Contact Us
-                About Us Careers Flipkart Stories Press Corporate Information
+                About Us Careers Zencart Stories Press Corporate Information
                 GROUP COMPANIES Myntra Cleartrip Shopsy HELP Payments Shipping
                 Cancellation & Returns FAQ Report Infringement CONSUMER POLICY
                 Cancellation & Returns Terms Of Use Security Privacy Sitemap
-                Grievance Redressal EPR Compliance Mail Us: Flipkart Internet
+                Grievance Redressal EPR Compliance Mail Us: Zencart Internet
                 Private Limited, Buildings Alyssa, Begonia & Clove Embassy Tech
                 Village, Outer Ring Road, Devarabeesanahalli Village, Bengaluru,
                 560103, Karnataka, India Social Registered Office Address:
-                Flipkart Internet Private Limited, Buildings Alyssa, Begonia &
+                Zencart Internet Private Limited, Buildings Alyssa, Begonia &
                 Clove Embassy Tech Village, Outer Ring Road, Devarabeesanahalli
                 Village, Bengaluru, 560103, Karnataka, India CIN :
                 U51109KA2012PTC066107 Telephone: 044-45614700 / 044-67415800
                 Become a Seller Advertise Gift Cards Help Center © 2007-2024
-                Flipkart.com Price details Maximum Retail Price (incl. of all
+                Zencart .com Price details Maximum Retail Price (incl. of all
                 taxes) ₹ 17999.00 Selling Price ₹ 17999.00 Special Price ₹
                 12499.00
               </div>

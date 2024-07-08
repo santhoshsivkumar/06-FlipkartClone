@@ -2,6 +2,7 @@ html {
   scrollbar-width: none;
   /* user-select: none; */
 }
+
 :root {
   --light-text-color: #fff;
   --dark-text-color: #000;
@@ -23,6 +24,8 @@ html {
   --btn-bg: #199923;
   --light-hover-bg: #45464a;
   --dark-hover-bg: #e2e2e2;
+  --dark-disabled-bg: #a9a9a9;
+  --light-disabled-bg: #777777;
 }
 [data-theme="light"] {
   --body-color: var(--dark-bg-color);
@@ -31,6 +34,7 @@ html {
   --btn-hover-color: var(--light-btn-hover-color);
   --border-color: var(--dark-border-color);
   --hover-bg: var(--light-hover-bg);
+  --disabled-bg: var(--light-disabled-bg);
 }
 [data-theme="dark"] {
   --body-color: var(--light-bg-color);
@@ -39,4 +43,5 @@ html {
   --btn-hover-color: var(--dark-btn-hover-color);
   --border-color: var(--light-border-color);
   --hover-bg: var(--dark-hover-bg);
+  --disabled-bg: var(--dark-disabled-bg);
 }
