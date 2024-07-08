@@ -74,7 +74,7 @@ const Navbar = () => {
             </>
           ) : (
             <Link
-              className={`nav_btn p-2 theme_border border-2 cursor-pointer  md:rounded-md rounded-3xl `}
+              className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer  md:rounded-md rounded-3xl `}
               to={"/login"}
             >
               <MdLogin />
