@@ -39,7 +39,7 @@ const Navbar = () => {
         >
           Zencart
         </a>
-        <div className="absolute lg:w-[50%] lg:left-[400px] w-[55%] left-[115px] items-center">
+        <div className="absolute w-[54%] left-[95px] lg:w-[50%] lg:left-[400px] md:w-[55%] md:left-[115px] items-center">
           <input
             type="text"
             name="search"
