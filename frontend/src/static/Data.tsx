@@ -1,4 +1,3 @@
-import AppliancesImg from "../assets/Appliances.webp";
 import BeautyImg from "../assets/BeautyAndMore.webp";
 import ElectronicsImg from "../assets/Electronics.webp";
 import FashionImg from "../assets/Fashion.webp";
@@ -7,6 +6,7 @@ import HomeAndFurnitures from "../assets/HomeAndFurnitures.png";
 import MobilesImg from "../assets/Mobiles.webp";
 import TravelImg from "../assets/Travel.webp";
 import TwoWheelersImg from "../assets/TwoWheelers.webp";
+import AppliancesImg from "../assets/Appliances.png";
 
 export const siteURL = "https://mern-app-api-rust.vercel.app";
 //export const siteURL = "http://localhost:5555";
