@@ -7,6 +7,7 @@ import { siteURL } from "../static/Data";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { HomePageImages } from "../static/Data";
+import Carousel from "../components/HomePage/Carousel";
 const Home = () => {
   const { products } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(false);
@@ -45,20 +46,13 @@ const Home = () => {
           );
         })}
       </div>
-      <div
-        className={`theme_container h-80 p-4 shadow-sm rounded-sm justify-center flex items-center`}
-      >
-        <h1 className="theme_text text-2xl font-semibold text-center  ">
-          {" "}
-          Working on...
-        </h1>
-      </div>
+      <Carousel />
 
       <div
         className={`theme_container justify-center flex p-4 shadow-md rounded-sm`}
       >
         <div
-          className={`theme grid justify-center items-center grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
+          className={`theme relative grid justify-center items-center grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
         >
           {products.length > 0 ? (
             products.map((product: any) => (
@@ -67,7 +61,9 @@ const Home = () => {
               </Link>
             ))
           ) : loading ? (
-            <Loading />
+            <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+              <Loading />
+            </div>
           ) : (
             <p className="text-2xl text-red-400">No data found</p>
           )}

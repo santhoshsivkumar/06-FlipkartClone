@@ -30,14 +30,16 @@ const ProductCollection = () => {
       <FilterBar />
       <div className="flex min-h-[100vh] h-full w-full gap-2 p-2">
         <div className="lg:w-[19.2%] theme_container p-4 shadow-sm "> </div>
-        <div className="lg:w-[80.8%] theme_container pt-4 shadow-sm ">
+        <div className="lg:w-[80.8%] relative theme_container pt-4 shadow-sm ">
           <div className="pl-4 font-md theme_text font-semibold">
             Showing 1 – {productCollection.length} of {productCollection.length}{" "}
             results for {collection}
           </div>
           <SortBy />
           {loading ? (
-            <Loading />
+            <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+              <Loading />
+            </div>
           ) : (
             productCollection.map((product: Product) => {
               return (
