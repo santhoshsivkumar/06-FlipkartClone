@@ -180,14 +180,14 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="theme gap-2 flex flex-col min-h-[calc(100vh-3.5rem)] items-center justify-center">
+      <div className="theme gap-2 flex flex-col min-h-[calc(100vh-3.5rem)]  items-center justify-center">
         <div
-          className="theme_color w-[65%] text-right"
+          className="theme_color w-[92%] lg:w-[65%] text-right"
           onClick={() => navigate(-1)}
         >
           <i className="theme_container fas fa-times cursor-pointer py-[10px] px-[12px] rounded-full"></i>
         </div>
-        <div className="theme_container flex flex-col lg:flex-row shadow-lg rounded-sm w-[60%] h-[80%] min-h-[70vh]">
+        <div className="theme_container flex flex-col lg:flex-row shadow-lg rounded-sm w-[90%] lg:w-[60%] h-[80%] min-h-[60vh]  lg:min-h-[70vh]">
           <div className="theme_bg lg:w-[40%] space-y-4 rounded-sm p-8">
             <h1 className="text-3xl font-bold text-white">Login</h1>
             <p className="text-lg text-gray-300">
