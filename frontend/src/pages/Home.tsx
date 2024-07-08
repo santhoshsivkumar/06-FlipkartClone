@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <div className={`theme min-h-[100vh] space-y-4 p-4 `}>
       <div
-        className={`w-full gap-12 overflow-x-auto flex theme_container justify-center items-center font-semibold h-32 shadow-sm rounded-sm`}
+        className={`w-full gap-12 overflow-scroll flex theme_container justify-center items-center font-semibold h-32 shadow-sm rounded-sm`}
       >
         {HomePageImages.map((item: any, index: any) => {
           return (
