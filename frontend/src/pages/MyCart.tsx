@@ -12,6 +12,7 @@ const MyCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [address, setAddress] = useState(initialAddressState);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [loadingStates, setLoadingStates] = useState<{
     [key: string]: boolean;
   }>({});
@@ -22,7 +23,11 @@ const MyCart = () => {
       .get(`${siteURL}/users/details/${userId}`)
       .then((response: any) => {
         console.log(response.data.cart);
-        setCartItems(response.data.cart);
+        if (response.data.cart.length) {
+          setCartItems(response.data.cart);
+        } else {
+          setError("No items in your cart");
+        }
         setAddress(response.data.addressData[0]);
         setTotalPrice(calculateTotalPrice(response.data.cart));
         setLoading(false);
@@ -30,6 +35,7 @@ const MyCart = () => {
       .catch((err) => {
         console.log(err);
         setLoading(false);
+        setError(err.message);
       });
   }, []);
 
@@ -76,24 +82,42 @@ const MyCart = () => {
             Zencart {`(${cartItems.length})`}
           </div>
           <div className="theme_container text-sm theme_text justify-between p-2 ">
-            <div className="p-2">
-              <div className="flex gap-2 font-semibold items-center">
-                <span>Deliver to:</span>
-                <span>{address.name},</span>
-                <span>{address.pincode}</span>
-                <span className="font-semibold text-xs text-white theme_bg rounded-sm p-1 h-fit w-fit">
-                  {address.addressType ? address.addressType : "HOME"}
-                </span>
+            {loading ? (
+              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+                <Loading />
               </div>
-              <p className="py-2 text-xs">{address.address}</p>
-              <p className="text-xs">
-                {address.city}, {address.state}
-              </p>
-            </div>
+            ) : error ? (
+              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+                {error}
+              </div>
+            ) : (
+              <div className="p-2">
+                <div className="flex gap-2 font-semibold items-center">
+                  <span>Deliver to:</span>
+                  <span>{address.name},</span>
+                  <span>{address.pincode}</span>
+                  <span className="font-semibold text-xs text-white theme_bg rounded-sm p-1 h-fit w-fit">
+                    {address.addressType ? address.addressType : "HOME"}
+                  </span>
+                </div>
+                <p className="py-2 text-xs">{address.address}</p>
+                <p className="text-xs">
+                  {address.city}, {address.state}
+                </p>
+              </div>
+            )}
           </div>
           <div className="theme_container relative min-h-[calc(100vh-17.5rem)]">
             <div className="h-[85%] md:overflow-y-auto">
-              {cartItems.length ? (
+              {loading ? (
+                <div className="flex h-full justify-center p-4  items-center text-red-500">
+                  <Loading />
+                </div>
+              ) : error ? (
+                <div className="flex h-full justify-center p-4 items-center text-red-500">
+                  {error}
+                </div>
+              ) : (
                 cartItems.map((product: any) => {
                   const loading = loadingStates[product.productId] || false;
                   return (
@@ -165,10 +189,6 @@ const MyCart = () => {
                     </div>
                   );
                 })
-              ) : (
-                <div className="flex h-full justify-center items-center">
-                  {loading ? <Loading /> : "No items in your cart"}
-                </div>
               )}
             </div>
             <div className="theme_container theme_border border-[1px] pr-4 h-[15%] hidden bottom-0 absolute w-full md:flex items-center justify-end shadow-sm ">
@@ -185,8 +205,12 @@ const MyCart = () => {
         {/* right */}
         <div className=" md:w-5/12 lg:w-1/3 h-fit text-md theme_container shadow-sm rounded-sm flex flex-col">
           {loading ? (
-            <div className="flex justify-center p-4 lg:h-[42vh] items-center">
-              <Loading width={30} height={30} />
+            <div className="flex h-[43vh] justify-center p-4  items-center text-red-500">
+              <Loading />
+            </div>
+          ) : error ? (
+            <div className="flex h-[43vh] justify-center p-4 items-center text-red-500">
+              {error}
             </div>
           ) : (
             <>
