@@ -8,7 +8,6 @@ import Loading from "../components/Loading";
 
 import FilterBar from "../components/FilterBar";
 import { BiCartAdd, BiCartAlt } from "react-icons/bi";
-import { TailSpin } from "react-loader-spinner";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -147,7 +146,9 @@ const ProductDetails = () => {
                 {formatPrice(product.productPrice)}
               </span>
               <span className="text-2xl text-gray-400 line-through">
-                {formatPrice(find30percent(product.productPrice))}
+                {formatPrice(
+                  product.productPrice + find30percent(product.productPrice)
+                )}
               </span>
               <span className="text-xl font-semibold text-green-600">
                 30% off

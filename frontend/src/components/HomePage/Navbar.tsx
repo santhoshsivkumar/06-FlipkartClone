@@ -1,16 +1,22 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import { MdDarkMode, MdLightMode, MdShoppingCart } from "react-icons/md";
+import {
+  MdDarkMode,
+  MdLightMode,
+  MdLogin,
+  MdShoppingCart,
+} from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { BiLockOpen } from "react-icons/bi";
+import { logout } from "../../slices/authSlice";
 
 const Navbar = () => {
   const isAuthenticated = useSelector(
     (state: RootState) => state.auth.isAuthenticated
   );
-
+  const dispatch = useDispatch();
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "dark"
   );
@@ -24,68 +30,120 @@ const Navbar = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    dispatch(logout());
+  };
 
   return (
     <>
-      <nav className="nav h-[3.5rem] z-20 shadow-sm justify-around flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold">
-        <a
-          href="/"
-          className="absolute  bg-re pl-4 lg:pl-[17.5rem] left-0 text-right text-lg cursor-pointer text-white"
-        >
+      <nav className="nav h-[3.5rem] z-20 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
+        <a href="/" className="text-lg cursor-pointer text-white">
           Zencart
         </a>
-        <div className="absolute w-[54%] left-[95px] lg:w-[50%] lg:left-[400px] md:w-[55%] md:left-[115px] items-center">
+        <div className="flex-grow flex justify-center">
           <input
             type="text"
             name="search"
             placeholder="Search"
-            className={`theme_search py-2 px-4 w-[80%] outline-none rounded-sm`}
+            className="theme_search py-2 px-4 w-full max-w-lg outline-none rounded-sm"
           />
         </div>
-        <div className=" absolute right-0 text-sm flex gap-2 justify-end px-4 items-center font-semibold">
+        <div className="flex items-center gap-2">
           {isAuthenticated ? (
             <>
               <Link
-                className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer  md:rounded-md rounded-3xl`}
+                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
                 to={"/myprofile"}
               >
                 <CgProfile />
-                <span className="hidden lg:block "> Account</span>
+                <span className="hidden lg:block">Account</span>
               </Link>
               <Link
-                className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer md:rounded-md rounded-3xl `}
-                to={"/admin view"}
+                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
+                to={"/admin"}
               >
                 <BiLockOpen />
-                <span className="hidden lg:block "> Admin</span>
+                <span className="hidden lg:block">Admin</span>
               </Link>
               <Link
+                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md"
                 to={"/mycart"}
-                className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer  md:rounded-md rounded-3xl `}
               >
                 <MdShoppingCart />
-                <span className="hidden lg:block ">MyCart</span>
+                <span className="hidden lg:block">MyCart</span>
               </Link>
             </>
           ) : (
             <Link
-              className={`nav_btn p-2 theme_border flex items-center gap-2 border-2 cursor-pointer  md:rounded-md rounded-3xl `}
+              className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
               to={"/login"}
             >
               <CgProfile />
-              <span className="hidden lg:block "> Login</span>
+              <span className="hidden lg:block">Login</span>
             </Link>
           )}
           <button
             title="Switch Theme"
-            className={`nav_btn p-2 theme_border border-2 cursor-pointer rounded-3xl `}
+            className="nav_btn p-2 theme_border border-2 cursor-pointer rounded-3xl"
             onClick={handleOnChange}
           >
             {theme !== "dark" ? <MdDarkMode /> : <MdLightMode />}
           </button>
-          <button className="nav_btn px-2 rounded-sm py-2" title="Menu">
-            <i className="fa fa-ellipsis-v" aria-hidden="true"></i>
-          </button>
+          <div className="relative group sm:hidden">
+            <button className="nav_btn p-1 rounded-sm border-2" title="Menu">
+              <i className="fa fa-ellipsis-v" aria-hidden="true"></i>
+            </button>
+            <div className="absolute right-0 mt-2 w-48 theme_container border-[1px] theme_border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              {isAuthenticated ? (
+                <>
+                  <Link
+                    to="/myprofile"
+                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                  >
+                    {" "}
+                    <CgProfile className="theme_color" />
+                    Account
+                  </Link>
+                  <Link
+                    to="/admin"
+                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                  >
+                    {" "}
+                    <BiLockOpen className="theme_color" />
+                    Admin
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                >
+                  <CgProfile className="theme_color" />
+                  Login
+                </Link>
+              )}
+              <Link
+                to="/mycart"
+                className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+              >
+                <MdShoppingCart className="theme_color" />
+                MyCart
+              </Link>
+              {isAuthenticated && (
+                <Link
+                  to="/"
+                  className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                  onClick={handleLogout}
+                >
+                  {" "}
+                  <MdLogin className="theme_color" />
+                  Logout
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       </nav>
     </>

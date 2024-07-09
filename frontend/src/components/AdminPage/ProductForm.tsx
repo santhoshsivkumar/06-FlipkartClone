@@ -136,7 +136,7 @@ const ProductForm = ({ mode }: any) => {
     })
       .then(() => {
         setLoading(false);
-        navigate("/admin view");
+        navigate("/admin");
       })
       .catch(() => {
         setLoading(false);

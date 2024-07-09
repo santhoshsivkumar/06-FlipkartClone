@@ -114,7 +114,7 @@ const MyProfile = () => {
       <FilterBar />
       <div className="flex w-full min-h-[87vh] theme_text theme lg:px-20 gap-4 p-4 ">
         {/* left */}
-        <div className=" hidden lg:flex lg:w-[25%] h-full flex-col gap-2 ">
+        <div className=" hidden md:flex md:w-4/12 lg:w-[25%] h-full flex-col gap-2 ">
           <div className="h-[11.5%] flex gap-4 shadow-md  items-center rounded-sm theme_border p-3 theme_container">
             <img
               src={ProfileImg}
@@ -175,7 +175,7 @@ const MyProfile = () => {
           </div>
         </div>
         {/* right */}
-        <div className="lg:w-[75%] shadow-md rounded-sm theme_border p-4 theme_container">
+        <div className="lg:w-[75%] md:w-8/12 shadow-md rounded-sm theme_border p-4 theme_container">
           {active === "Profile Information" ? (
             <ProfileInformation
               loginId={loginId}

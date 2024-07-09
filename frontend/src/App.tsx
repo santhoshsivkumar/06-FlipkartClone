@@ -32,10 +32,7 @@ const App: React.FC = () => {
           />
           <Route path="/products/:id" element={<ProductDetails />} />
           {/* Private Routes */}
-          <Route
-            path="/admin view"
-            element={<PrivateRoute element={<Admin />} />}
-          />
+          <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
           <Route
             path="/myprofile"
             element={<PrivateRoute element={<MyProfile />} />}

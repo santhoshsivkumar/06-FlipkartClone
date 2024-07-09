@@ -71,13 +71,11 @@ const InputField: React.FC<InputFieldProps> = ({
             Select {label}
           </option>
           {options &&
-            (options as { value: string; label: string }[]).map(
-              (option, index) => (
-                <option key={index} value={option.value}>
-                  {option.label}
-                </option>
-              )
-            )}
+            options.map((option: any, index: number) => (
+              <option key={index} value={option.value}>
+                {option}
+              </option>
+            ))}
         </select>
       ) : isRadio ? (
         <div className="flex gap-4 ">
