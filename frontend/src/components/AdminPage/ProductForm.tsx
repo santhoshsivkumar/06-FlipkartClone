@@ -238,6 +238,7 @@ const ProductForm = ({ mode }: any) => {
 
         {/* Submit Button */}
         <button
+          title="Submit"
           type="submit"
           className="col-span-full mt-2 bg-blue-600 text-white rounded-md py-2 px-4 hover:bg-blue-700 transition duration-300"
           disabled={loading}

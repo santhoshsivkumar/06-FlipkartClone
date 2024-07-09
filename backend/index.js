@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import productsRoute from "./routes/productsRoute.js";
 import usersRoute from "./routes/usersRoute.js";
 import cors from "cors";
+import cartRoute from "./routes/cartRoute.js";
 
 const app = express();
 // Middleware for parsing request body
@@ -21,7 +22,7 @@ app.get("/", (request, response) => {
 });
 app.use("/products", productsRoute);
 app.use("/users", usersRoute);
-
+app.use("/cart", cartRoute);
 mongoose
   .connect(mongoDBURL)
   .then(() => {

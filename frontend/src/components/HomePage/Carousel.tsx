@@ -40,12 +40,14 @@ const Carousel = () => {
         </div>
       ))}
       <button
+        title="Left"
         onClick={prevSlide}
         className="absolute left-0 top-1/2 transform -translate-y-1/2 theme_text theme_container px-3 rounded-r-lg py-8 hover:bg-opacity-75"
       >
         <i className="fa fa-chevron-left" aria-hidden="true"></i>
       </button>
       <button
+        title="Right"
         onClick={nextSlide}
         className="absolute right-0 top-1/2 transform -translate-y-1/2 theme_text theme_container px-3 rounded-l-lg py-8  hover:bg-opacity-75"
       >

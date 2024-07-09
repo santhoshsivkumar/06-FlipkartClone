@@ -77,12 +77,13 @@ const Navbar = () => {
             </Link>
           )}
           <button
+            title="Switch Theme"
             className={`nav_btn p-2 theme_border border-2 cursor-pointer rounded-3xl `}
             onClick={handleOnChange}
           >
             {theme !== "dark" ? <MdDarkMode /> : <MdLightMode />}
           </button>
-          <button className="nav_btn px-2 rounded-sm py-2">
+          <button className="nav_btn px-2 rounded-sm py-2" title="Menu">
             <i className="fa fa-ellipsis-v" aria-hidden="true"></i>
           </button>
         </div>

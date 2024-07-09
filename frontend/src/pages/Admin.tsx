@@ -61,12 +61,14 @@ const Admin = () => {
         <h1 className="text-4xl font-bold theme_color p-4">Admin View</h1>
         <div className="flex justify-end w-[92.5%] gap-4">
           <button
+            title="Get Products Data"
             className="py-2 px-4 theme_btn text-white rounded-md mb-4 transition duration-300"
             onClick={() => setRoute("products")}
           >
             Get Products Data
           </button>
           <button
+            title="Get Users Data"
             className="py-2 px-4 theme_btn text-white rounded-md mb-4 transition duration-300"
             onClick={() => setRoute("users")}
           >

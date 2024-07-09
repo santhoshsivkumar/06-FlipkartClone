@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { siteURL } from "../static/Data";
-import { formatPrice } from "../static/Functions";
+import { find30percent, find70percent, formatPrice } from "../static/Functions";
 import FilterBar from "../components/FilterBar";
 import SortBy from "../components/ProductsPage/SortBy";
 import { Product } from "../static/interface";
@@ -80,7 +80,7 @@ const ProductCollection = () => {
                     </div>
                     <div className="text-sm flex gap-4">
                       <span className="text-gray-500 line-through">
-                        {formatPrice(off30percent(product.productPrice))}
+                        {formatPrice(find30percent(product.productPrice))}
                       </span>
                       <span className="text-green-500 font-semibold">
                         30% off
@@ -96,7 +96,7 @@ const ProductCollection = () => {
                     <div className="text-sm">
                       Upto{" "}
                       <span className="font-semibold">
-                        {formatPrice(upto70percent(product.productPrice))}
+                        {formatPrice(find70percent(product.productPrice))}
                       </span>{" "}
                       Off on Exchange
                     </div>
@@ -112,11 +112,3 @@ const ProductCollection = () => {
 };
 
 export default ProductCollection;
-
-const off30percent = (price: any) => {
-  return price + (30 / 100) * price;
-};
-
-const upto70percent = (price: any) => {
-  return (70 / 100) * price;
-};

@@ -246,6 +246,7 @@ const LoginPage = () => {
                 />
               )}
               <button
+                title="Submit"
                 type="submit"
                 className="w-full py-2 px-4 mt-2 text-white theme_btn"
               >

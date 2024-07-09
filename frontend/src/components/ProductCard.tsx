@@ -32,6 +32,7 @@ const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
             <i className="fas fa-edit mr-1"></i> Edit
           </Link>
           <button
+            title="Delete"
             onClick={() => onDeleteClick(product._id)}
             className="text-red-600 hover:underline"
           >

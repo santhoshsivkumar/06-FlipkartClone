@@ -127,8 +127,8 @@ const ProfileInformation = ({
           </span>
         )}
       </div>
-      <div className="flex gap-4">
-        <div className="flex flex-col gap-4 pt-4 w-1/2">
+      <div className="lg:flex gap-4">
+        <div className="flex flex-col gap-4 pt-4 lg:w-7/12">
           <InputField
             label="Name"
             name="name"
@@ -147,10 +147,11 @@ const ProfileInformation = ({
             fixHeight={true}
           />
         </div>
-        <div className="flex flex-col gap-4 pt-4 w-1/2">
+        <div className="flex flex-col gap-4 pt-4 lg:w-5/12">
           {!disableSection1 && (
             <button
-              className=" w-1/5 py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
+              title="Save"
+              className="w-fit  py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
               onClick={() => handleSaveBtnClick({ name, gender })}
             >
               Save
@@ -179,8 +180,8 @@ const ProfileInformation = ({
             </span>
           )}
         </div>
-        <div className="flex gap-4">
-          <div className="flex flex-col gap-4 w-1/2">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="lg:w-7/12">
             <InputField
               placeholder="Email"
               name="email"
@@ -191,10 +192,11 @@ const ProfileInformation = ({
               fixHeight={true}
             />
           </div>
-          <div className="flex flex-col gap-4 w-1/2">
+          <div className="lg:w-5/12">
             {!disableSection2 && (
               <button
-                className=" w-1/5 py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
+                title="Save"
+                className=" w-fit  py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
                 onClick={() => handleSaveBtnClick({ email })}
               >
                 Save
@@ -224,8 +226,8 @@ const ProfileInformation = ({
             </span>
           )}
         </div>
-        <div className="flex gap-4">
-          <div className="flex flex-col gap-4 w-1/2">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex flex-col gap-4 lg:w-7/12">
             <InputField
               placeholder="Mobile Number"
               name="mobile"
@@ -237,10 +239,11 @@ const ProfileInformation = ({
               fixHeight={true}
             />
           </div>
-          <div className="flex flex-col gap-4 w-1/2">
+          <div className="flex flex-col gap-4 lg:w-5/12">
             {!disableSection3 && (
               <button
-                className=" w-1/5 py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
+                title="Save"
+                className="w-fit py-2 px-4 text-sm rounded-sm text-white theme_bg font-semibold"
                 onClick={() => handleSaveBtnClick({ mobile })}
               >
                 Save

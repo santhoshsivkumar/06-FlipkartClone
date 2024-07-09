@@ -35,3 +35,10 @@ export function groupProducts(products: Product[], field: string) {
 
   return groupedProducts;
 }
+export const find30percent = (price: any) => {
+  return (30 / 100) * price;
+};
+
+export const find70percent = (price: any) => {
+  return (70 / 100) * price;
+};

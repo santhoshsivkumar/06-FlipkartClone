@@ -68,11 +68,24 @@ const MyProfile = () => {
       ) {
         const { message } = error.response.data;
 
-        setErrors((prev) => ({
-          ...prev,
-          //@ts-ignore
-          [field]: message,
-        }));
+        if (field.length > 1) {
+          setErrors((prev) => ({
+            ...prev,
+            //@ts-ignore
+            [field[0]]: message,
+          }));
+          setErrors((prev) => ({
+            ...prev,
+            //@ts-ignore
+            [field[1]]: message,
+          }));
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            //@ts-ignore
+            [field]: message,
+          }));
+        }
         //@ts-ignore
         turnOffEditMode(field[0], false);
       }
@@ -99,9 +112,9 @@ const MyProfile = () => {
   return (
     <>
       <FilterBar />
-      <div className="flex w-full min-h-[87vh] theme_text theme px-20 gap-4 p-4 ">
+      <div className="flex w-full min-h-[87vh] theme_text theme lg:px-20 gap-4 p-4 ">
         {/* left */}
-        <div className="lg:w-[25%] h-full flex flex-col gap-2 ">
+        <div className=" hidden lg:flex lg:w-[25%] h-full flex-col gap-2 ">
           <div className="h-[11.5%] flex gap-4 shadow-md  items-center rounded-sm theme_border p-3 theme_container">
             <img
               src={ProfileImg}
@@ -161,6 +174,7 @@ const MyProfile = () => {
             </div>
           </div>
         </div>
+        {/* right */}
         <div className="lg:w-[75%] shadow-md rounded-sm theme_border p-4 theme_container">
           {active === "Profile Information" ? (
             <ProfileInformation

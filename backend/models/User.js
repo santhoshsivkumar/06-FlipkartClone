@@ -17,7 +17,25 @@ const addressSchema = new mongoose.Schema(
   },
   { _id: true }
 );
-
+const cartSchema = new mongoose.Schema({
+  productId: String,
+  quantity: Number,
+  productName: {
+    type: String,
+  },
+  company: String,
+  category: String,
+  seller: String,
+  productDescription: {
+    type: String,
+  },
+  productPrice: {
+    type: Number,
+  },
+  productImage: {
+    type: String, // Assuming you store the file path or URL in the database
+  },
+});
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -45,6 +63,7 @@ const userSchema = new mongoose.Schema(
     image: String,
     gender: String,
     addressData: [addressSchema],
+    cart: [cartSchema],
     isBlacklisted: {
       type: Boolean,
       default: false,

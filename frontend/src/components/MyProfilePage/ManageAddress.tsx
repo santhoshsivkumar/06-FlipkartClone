@@ -270,6 +270,7 @@ const ManageAddress = () => {
 
             <div className="flex items-center gap-4 pt-4">
               <button
+                title="Submit"
                 type="submit"
                 className="theme_bg text-white rounded-md py-2 px-4"
                 onClick={handleSubmit}
@@ -277,6 +278,7 @@ const ManageAddress = () => {
                 {editingAddressId ? "Update" : "Save"}
               </button>
               <button
+                title="Cancel"
                 type="button"
                 className="theme_bg text-white rounded-md py-2 px-4"
                 onClick={() => {
@@ -312,12 +314,14 @@ const ManageAddress = () => {
               </p>
               <div className="flex gap-2 pt-2">
                 <button
+                  title="Edit"
                   className="text-blue-500"
                   onClick={() => handleEdit(address)}
                 >
                   Edit
                 </button>
                 <button
+                  title="Delete"
                   className="text-red-500"
                   onClick={() => setIsDeleteModalOpen(true)}
                 >

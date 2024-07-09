@@ -37,6 +37,7 @@ const DeleteComponent = ({
         />
         <div className="flex justify-center gap-4">
           <button
+            title="Confirm"
             onClick={handleConfirm}
             className={`text-white rounded-md py-2 px-4 ${
               inputValue.trim().toLowerCase() ===
@@ -52,6 +53,7 @@ const DeleteComponent = ({
             Confirm
           </button>
           <button
+            title="Cancel"
             onClick={onClose}
             className="text-white bg-green-500 rounded-md py-2 px-4 hover:bg-green-600 transition duration-300"
           >

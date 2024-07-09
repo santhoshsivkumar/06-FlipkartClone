@@ -69,6 +69,7 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
         />
         <td className="p-4">
           <button
+            title="Delete"
             onClick={() => onDeleteClick(product._id)}
             className="text-red-600"
           >

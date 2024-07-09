@@ -38,6 +38,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
           Redirecting in {redirectTimer} seconds...
         </p>
         <button
+          title="Login Now"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           onClick={() => setRedirectTimer(0)}
         >
