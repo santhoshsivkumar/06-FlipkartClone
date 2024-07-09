@@ -30,7 +30,7 @@ const ProductDetails = () => {
     axios
       .get(`${siteURL}/products/details/${id}`)
       .then((res) => {
-        setLoading(false);
+        setLoading(true);
         if (res.data) {
           setProduct(res.data);
         } else {
@@ -78,21 +78,21 @@ const ProductDetails = () => {
     }
   };
   return (
-    <div className="theme min-h-[100vh]">
+    <div className="theme min-h-[100vh] ">
       <FilterBar />
 
-      <div className="lg:mx-6 p-4 theme_container">
+      <div className="lg:mx-6 p-4 mt-2 h-full min-h-[84.5vh] theme_container">
         <div className={`flex lg:flex-row flex-col `}>
           {/* left */}
           <div
             className={`lg:w-[37.3%] h-[65vh] w-full contents lg:flex flex-col  lg:sticky top-[4.5rem]`}
           >
             {loading ? (
-              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+              <div className="flex h-full justify-center p-4 items-center text-red-500">
                 <Loading />
               </div>
             ) : error ? (
-              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+              <div className="flex h-full justify-center p-4 items-center text-red-500">
                 {error}
               </div>
             ) : (
@@ -110,7 +110,7 @@ const ProductDetails = () => {
                     <img
                       src={product.productImage || defaultImg}
                       alt=""
-                      className="lg:size-full md:max-h-96 md:max-w-96 hover:shadow-rounded-sm  hover:scale-[1.008]"
+                      className=" md:max-h-96 md:max-w-96 hover:shadow-rounded-sm  hover:scale-[1.008]"
                     />
                   </div>
                 </div>
@@ -151,15 +151,15 @@ const ProductDetails = () => {
             className={`theme_container theme_text w-full lg:w-[62.3%] px-8`}
           >
             {loading ? (
-              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+              <div className="flex h-full justify-center p-4  items-center text-red-500">
                 <Loading />
               </div>
             ) : error ? (
-              <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+              <div className="flex h-full justify-center p-4  items-center text-red-500">
                 {error}
               </div>
             ) : (
-              <>
+              <div className="h-full">
                 <div className="text-lg w-full"> {product.productName}</div>
                 <div className="text-[12px] flex gap-4 py-2 text-gray-400 font-semibold">
                   <p className="bg-green-600 text-white w-[3rem] rounded-sm px-4  flex gap-2 justify-center items-center">
@@ -244,19 +244,7 @@ const ProductDetails = () => {
                   off Bought together Selfie Sticks All Categories Screen Guards
                   Mobile Skin Stickers Plain Cases & Covers Designer Cases &
                   Covers Power Banks Hold up Wireless R1 Bluetooth Selfie Stick
-                  4(59,922) ₹199₹99980% off Recently ViewedVIEW ALL REDMI 12 5G
-                  (Pastel Blue, 128 GB) 4.2(37,446) ₹12,499₹17,99930% off POCO
-                  M6 Pro 5G (Power Black, 128 GB) 4.2(1,05,403) ₹9,999₹16,99941%
-                  off Crompton ACGM-DS500W3J BLK 500 W Mixer Grinder (3 Jars,
-                  Black & G... 4.2(2,836) ₹1,799₹3,50048% off Top Stories:Brand
-                  Directory MOST SEARCHED IN MOBILES & ACCESSORIES:HTC DESIRE
-                  616 REVIEWCANVAS PLAYAMAZON MOBILE COVERSPOWER BANKSLAVA
-                  MOBILESLENOVO MOBILE WITH PRICEMI SMART PHONENOKIA MOBSAMSUNG
-                  ANDROID MOBILE PRICE IN INDIASMARTPHONE PRICEASHA 501PANASONIC
-                  ELUGA I PRICESAMSUNG GALAXY A3 PRICE IN INDIASAMSUNG NEO
-                  PLUSJ2 SAMSUNG PRICESAMSUNG S DUOS 3 PRICE IN INDIASAMSUNG
-                  GALAXY S4 PRICESAMSUNG GALAXY S5 PRICEGALAXY S6 PRICE IN
-                  INDIASAMSUNG E1282SONY XPERIA Z1 COMPACT PRICEVIDEOCONMI
+                  IN INDIASAMSUNG E1282SONY XPERIA Z1 COMPACT PRICEVIDEOCONMI
                   MOBILE PRICEMOTO X PLAY 32GBOPPO F3+ PRICEXIAOMI REDMI
                   NOTESAMSUNG GALAXY JBUY SWIPE ELITE MAX ABOUT Contact Us About
                   Us Careers Zencart Stories Press Corporate Information GROUP
@@ -276,7 +264,7 @@ const ProductDetails = () => {
                   (incl. of all taxes) ₹ 17999.00 Selling Price ₹ 17999.00
                   Special Price ₹ 12499.00
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

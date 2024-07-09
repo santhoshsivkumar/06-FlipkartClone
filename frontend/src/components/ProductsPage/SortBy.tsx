@@ -5,8 +5,8 @@ const SortBy = () => {
   const [active, setActive] = useState<string>("Relevance");
 
   return (
-    <div className="border-b-[0.5px] theme_text theme_border">
-      <div className="flex gap-4 pt-4 pl-4 ">
+    <div className="border-b-[0.5px] theme_text theme_border hidden lg:block ">
+      <div className="flex gap-4 pt-4 pl-4 overflow-x-auto">
         {SortByItems.map((item, index) => {
           return (
             <span
