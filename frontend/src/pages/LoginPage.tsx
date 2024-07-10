@@ -103,7 +103,7 @@ const LoginPage = () => {
       .catch((error) => {
         setLoading(false);
         if (error.response?.data?.message) {
-          setErrors((prev) => ({
+          setErrors(() => ({
             ...initialState,
             confirmpassword: error.response.data.message,
           }));
