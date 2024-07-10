@@ -124,7 +124,7 @@ const LoginPage = () => {
   return (
     <div className="theme gap-2 flex flex-col min-h-[calc(100vh-3.5rem)] items-center justify-center">
       <div
-        className="theme_color w-[92%] lg:w-[65%] text-right mt-[-150px] lg:mt-0"
+        className="theme_color w-[92%] lg:w-[65%] text-right  lg:mt-0"
         onClick={() => navigate("/")}
       >
         <i className="theme_container fas fa-times cursor-pointer py-[10px] px-[12px] rounded-full"></i>

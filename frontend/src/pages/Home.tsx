@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
 import axios from "axios";
-import { setProducts } from "../slices/productSlice";
+// import { setProducts } from "../slices/productSlice";
 import ProductCard from "../components/ProductCard";
 import { siteURL } from "../static/Data";
 import { Link } from "react-router-dom";
@@ -9,15 +9,15 @@ import Loading from "../components/Loading";
 import { HomePageImages } from "../static/Data";
 import Carousel from "../components/HomePage/Carousel";
 const Home = () => {
-  const { products } = useSelector((state: any) => state.products);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${siteURL}/products`)
+      .get(`${siteURL}/products/categories`)
       .then((response: any) => {
-        dispatch(setProducts(response.data.data));
+        setCategories(response.data);
         setLoading(false);
       })
       .catch(() => {
@@ -35,12 +35,7 @@ const Home = () => {
               key={index}
               className="flex flex-col items-center justify-center gap-2 cursor-pointer"
             >
-              <img
-                src={item.img}
-                alt={item.title}
-                className="w-20 h-
-                    20"
-              />
+              <img src={item.img} alt={item.title} className="w-20 h-20" />
               <p className="text-sm theme_text">{item.title}</p>
             </a>
           );
@@ -49,15 +44,15 @@ const Home = () => {
       <Carousel />
 
       <div
-        className={`theme_container justify-center flex p-4 shadow-md rounded-sm`}
+        className={`theme_container justify-center flex p-0 lg:p-4 shadow-none lg:shadow-md rounded-sm`}
       >
         <div
-          className={`theme relative grid justify-center items-center grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
+          className={`relative grid justify-center items-center grid-cols-1 p-0 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
         >
-          {products.length > 0 ? (
-            products.map((product: any) => (
-              <Link to={`/products/collection/smartphones`} key={product._id}>
-                <ProductCard product={product} showOptions={false} />
+          {categories?.length > 0 ? (
+            categories.map((category: any, index: number) => (
+              <Link to={`/products/collection/${category}`} key={index}>
+                <ProductCard category={category} />
               </Link>
             ))
           ) : loading ? (

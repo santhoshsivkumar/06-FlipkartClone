@@ -1,23 +1,18 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Default_Img from "../../public/Default_Img.jpg";
-const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
+const ProductCard = ({ category }: any) => {
   return (
     <div
-      className={`theme_container theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
+      className={`theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
     >
       <img
-        src={product.productImage || Default_Img}
+        src={Default_Img}
         alt="Product Preview"
         className="rounded-sm p-4 "
         style={{ width: "200px", height: "200px" }}
       />
-      <div className="theme_color text-md font-bold pt-2">
-        {product.productName.substring(0, 15)}
-      </div>
-      <div className="theme_text">
-        <strong>Price:</strong> ₹{product.productPrice.toFixed(2)}
-      </div>
-      {showOptions && (
+      <div className="theme_color text-md font-bold pt-2">{category}</div>
+      {/* {showOptions && (
         <div className="flex justify-between">
           <Link
             to={`/products/${product._id}`}
@@ -39,7 +34,7 @@ const ProductCard = ({ product, onDeleteClick, showOptions }: any) => {
             <i className="fas fa-trash-alt mr-1"></i> Delete
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
