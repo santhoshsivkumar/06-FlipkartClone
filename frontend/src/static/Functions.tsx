@@ -42,3 +42,6 @@ export const find30percent = (price: any) => {
 export const find70percent = (price: any) => {
   return (70 / 100) * price;
 };
+export const find5percent = (price: any) => {
+  return (5 / 100) * price;
+};

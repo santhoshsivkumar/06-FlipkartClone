@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { siteURL } from "../static/Data";
 import defaultImg from "../../public/Default_Img.jpg";
-import { find30percent, formatPrice } from "../static/Functions";
+import { find30percent, find5percent, formatPrice } from "../static/Functions";
 import Loading from "../components/Loading";
 
 import FilterBar from "../components/FilterBar";
@@ -18,19 +18,20 @@ const ProductDetails = () => {
     seller: "",
   });
   const [error, setError] = useState("");
-
+  const isAuthenticated = !!localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState<Boolean>(false);
+  const [contentLoading, setContentLoading] = useState<Boolean>(false);
   const [existing, setExisting] = useState<Boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(true);
+    setContentLoading(true);
     axios
       .get(`${siteURL}/products/details/${id}`)
       .then((res) => {
-        setLoading(true);
+        setContentLoading(false);
         if (res.data) {
           setProduct(res.data);
         } else {
@@ -38,56 +39,60 @@ const ProductDetails = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        setContentLoading(false);
         setError(err.response);
       });
   }, [id]);
   useEffect(() => {
     try {
-      axios
-        .get(`${siteURL}/users/details/${userId}`)
-        .then((res) => {
-          setExisting(
-            res.data.cart?.find((item: any) => item.productId === id)
-          );
-
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.log(err.response.data.message);
-        });
+      if (isAuthenticated) {
+        axios
+          .get(`${siteURL}/users/details/${userId}`)
+          .then((res) => {
+            setExisting(
+              res.data.cart?.find((item: any) => item.productId === id)
+            );
+          })
+          .catch((err) => {
+            console.log(err.response.data.message);
+          });
+      }
     } catch (error) {
       console.log(error);
     }
   }, []);
-  const extra5pcent = (5 / 100) * product.productPrice;
 
   const handleAddToCart = async () => {
-    setLoading(true);
     try {
-      axios
-        .post(`${siteURL}/cart/${userId}/add`, { productId: id, ...product })
-        .then(() => {
-          setExisting(true);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
+      if (isAuthenticated) {
+        setLoading(true);
+        axios
+          .post(`${siteURL}/cart/${userId}/add`, { productId: id, ...product })
+          .then(() => {
+            setExisting(true);
+            setLoading(false);
+          })
+          .catch((err) => console.log(err));
+      } else {
+        setLoading(false);
+        navigate("/mycart");
+      }
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
   return (
-    <div className="theme min-h-[100vh] ">
+    <div className="theme">
       <FilterBar />
 
-      <div className="lg:mx-6 p-4 mt-2 h-full min-h-[84.5vh] theme_container">
+      <div className="lg:mx-6 p-4 mt-2 h-full min-h-[93.5vh]  md:min-h-[84.5vh] theme_container">
         <div className={`flex lg:flex-row flex-col `}>
           {/* left */}
           <div
             className={`lg:w-[37.3%] h-[65vh] w-full contents lg:flex flex-col  lg:sticky top-[4.5rem]`}
           >
-            {loading ? (
+            {contentLoading ? (
               <div className="flex h-full justify-center p-4 items-center text-red-500">
                 <Loading />
               </div>
@@ -138,6 +143,10 @@ const ProductDetails = () => {
                   <button
                     title="BUY NOW"
                     className="w-3/6 py-2 px-4 text-white text-sm theme_btn font-semibold"
+                    onClick={() => {
+                      handleAddToCart();
+                      navigate("/mycart");
+                    }}
                   >
                     BUY NOW
                   </button>
@@ -150,7 +159,7 @@ const ProductDetails = () => {
           <div
             className={`theme_container theme_text w-full lg:w-[62.3%] px-8`}
           >
-            {loading ? (
+            {contentLoading ? (
               <div className="flex h-full justify-center p-4  items-center text-red-500">
                 <Loading />
               </div>
@@ -169,7 +178,7 @@ const ProductDetails = () => {
                   <p className="text-sm">37,446 Ratings & 1,758 Reviews</p>
                 </div>
                 <div className="text-sm font-semibold text-green-600">
-                  Extra {formatPrice(extra5pcent)} off
+                  Extra {formatPrice(find5percent(product.productPrice))} off
                 </div>
                 <div className=" flex gap-4 items-center">
                   <span className="text-3xl font-bold ">
