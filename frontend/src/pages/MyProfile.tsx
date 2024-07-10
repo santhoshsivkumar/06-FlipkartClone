@@ -18,7 +18,6 @@ import { initialUserState } from "../static/initialStates";
 import DeleteComponent from "../components/DeleteComponent";
 import ManageAddress from "../components/MyProfilePage/ManageAddress";
 import ComingSoon from "../components/MyProfilePage/ComingSoon";
-import { BsArrowRight } from "react-icons/bs";
 
 const MyProfile = () => {
   const userId = localStorage.getItem("userId");

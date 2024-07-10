@@ -8,13 +8,7 @@ import Loading from "../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setOrder } from "../slices/productSlice";
-const initialOrderState = {
-  orderName: "",
-  totalPrice: "",
-  productImage: "",
-  savedPrice: "",
-  price30Percent: "",
-};
+
 const MyCart = () => {
   const userId = localStorage.getItem("userId");
   const [cartItems, setCartItems] = useState<any>([]);
