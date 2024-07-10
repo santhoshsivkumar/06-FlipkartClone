@@ -301,7 +301,7 @@ const ManageAddress = () => {
             className="text-sm theme_text justify-between p-2 theme_border border-[1px] "
           >
             <div className="text-sm  pl-4 pt-4">
-              <p className="font-semibold text-xs theme_bg rounded-sm w-fit">
+              <p className="font-semibold text-xs theme_bg rounded-sm p-[2px] text-white w-fit">
                 {address.addressType ? address.addressType : "HOME"}
               </p>
               <p className="text-lg flex gap-6 font-semibold pt-2">

@@ -36,6 +36,19 @@ const cartSchema = new mongoose.Schema({
     type: String, // Assuming you store the file path or URL in the database
   },
 });
+
+const orderSchema = new mongoose.Schema(
+  {
+    savedPrice: String,
+    price30Percent: String,
+    orderName: String,
+    totalPrice: String,
+    orderImage: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -64,6 +77,7 @@ const userSchema = new mongoose.Schema(
     gender: String,
     addressData: [addressSchema],
     cart: [cartSchema],
+    order: [orderSchema],
     isBlacklisted: {
       type: Boolean,
       default: false,

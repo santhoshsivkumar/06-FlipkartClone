@@ -33,7 +33,8 @@ const ProductCollection = () => {
           {" "}
         </div>
         <div className="lg:w-[80.8%] w-full md:w-9/12 relative theme_container pt-4 shadow-sm ">
-          <div className="pl-4 font-md theme_text font-semibold">
+          <div className="pl-4 pb-4 font-md border-b-[1px] theme_border theme_text font-semibold">
+            {" "}
             Showing 1 – {productCollection.length} of {productCollection.length}{" "}
             results for {collection}
           </div>
@@ -47,23 +48,30 @@ const ProductCollection = () => {
               return (
                 <Link
                   to={`/products/${product._id}`}
-                  className="flex theme_text p-4 theme_border border-b-[0.5px] h-25  md:h-80"
+                  className="flex theme_text p-4 theme_border border-b-[0.5px] "
                   key={product._id}
                 >
-                  <div className="lg:w-[25%] w-4/12 flex  p-4 justify-center items-center">
-                    <img src={product.productImage} alt="" className="" />
+                  <div className="lg:w-[25%] w-4/12 flex justify-center items-center">
+                    <img
+                      src={product.productImage}
+                      alt=""
+                      className="max-h-32 "
+                    />
                   </div>
                   <div className="flex flex-col lg:w-[75%] w-8/12 lg:flex-row ">
                     <div className=" px-4">
-                      <h3 className="font-semibold lg:text-xl text-sm">
+                      <h3 className="font-semibold block md:hidden lg:text-xl">
+                        {product.productName?.substring(0, 20)}
+                      </h3>
+                      <h3 className="font-semibold hidden md:block lg:text-xl">
                         {product.productName}
                       </h3>
-                      <div className="text-[12px] flex gap-2 lg:gap-4 py-2 text-gray-400 font-semibold">
+                      <div className="text-[12px] items-center flex gap-2 lg:gap-4 py-2 text-gray-400 font-semibold">
                         <p className="bg-green-600 text-[8px] lg:text-xs h-fit text-white lg:w-[3rem] px-1 rounded-sm  flex gap-2 justify-center items-center">
                           4.2
                           <i className="fa fa-star " aria-hidden="true"></i>
                         </p>
-                        <p className="text-[8px] lg:text-sm">
+                        <p className="text-[11px] lg:text-sm">
                           37,446 Ratings & 1,758 Reviews
                         </p>
                       </div>
@@ -82,7 +90,7 @@ const ProductCollection = () => {
                     <div className="flex px-4 flex-col gap-1">
                       <div className="flex flex-row items-center lg:items-start gap-2 lg:flex-col">
                         {" "}
-                        <div className="lg:text-2xl text-[10px] font-bold">
+                        <div className="lg:text-2xl text-sm font-bold">
                           {formatPrice(product.productPrice)}
                         </div>
                         <div className="lg:text-sm  text-[10px] flex gap-2 lg:gap-4">
@@ -94,19 +102,17 @@ const ProductCollection = () => {
                           </span>
                         </div>
                       </div>
-                      <div className="text-[10px] lg:text-sm">
-                        Free delivery by{" "}
-                        <span className="font-semibold">Tomorrow</span>
-                      </div>
-                      <div className="text-[10px] lg:text-sm  text-green-500 font-semibold">
-                        Save extra with combo offers
-                      </div>
-                      <div className="text-[10px] lg:text-sm ">
+
+                      <div className="text-xs lg:text-sm ">
                         Upto{" "}
                         <span className="font-semibold">
                           {formatPrice(find70percent(product.productPrice))}
                         </span>{" "}
                         Off on Exchange
+                      </div>
+                      <div className="text-xs lg:text-sm">
+                        Free delivery by{" "}
+                        <span className="font-semibold">Tomorrow</span>
                       </div>
                     </div>
                   </div>

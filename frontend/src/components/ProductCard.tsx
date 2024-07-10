@@ -9,7 +9,7 @@ const ProductCard = ({ category }: any) => {
         src={Default_Img}
         alt="Product Preview"
         className="rounded-sm p-4 "
-        style={{ width: "200px", height: "200px" }}
+        style={{ width: "150px", height: "150px" }}
       />
       <div className="theme_color text-md font-bold pt-2">{category}</div>
       {/* {showOptions && (

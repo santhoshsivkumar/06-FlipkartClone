@@ -1,11 +1,3 @@
-export const initialUserState = {
-  image: "",
-  name: "",
-  email: "",
-  mobile: "",
-  addressData: "",
-  gender: "",
-};
 export const initialAddressState = {
   name: "",
   pincode: "",
@@ -17,4 +9,20 @@ export const initialAddressState = {
   address: "",
   alternatePhone: "",
   addressType: "",
+};
+export const initialOrderState = {
+  orderName: "",
+  totalPrice: "",
+  orderImage: "",
+  savedPrice: "",
+  price30Percent: "",
+};
+export const initialUserState = {
+  image: "",
+  name: "",
+  email: "",
+  mobile: "",
+  addressData: [initialAddressState],
+  gender: "",
+  cart: [initialOrderState],
 };

@@ -18,10 +18,12 @@ import { initialUserState } from "../static/initialStates";
 import DeleteComponent from "../components/DeleteComponent";
 import ManageAddress from "../components/MyProfilePage/ManageAddress";
 import ComingSoon from "../components/MyProfilePage/ComingSoon";
+import { BsArrowRight } from "react-icons/bs";
 
 const MyProfile = () => {
   const userId = localStorage.getItem("userId");
   const [active, setActive] = useState("Profile Information");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loginId, setLoginId] = useState("mobile");
@@ -91,6 +93,7 @@ const MyProfile = () => {
       }
     }
   };
+
   const turnOffEditMode = (section: string, payload: boolean = true) => {
     if (section === "name") setDisableSection1(payload);
     if (section === "email") setDisableSection2(payload);
@@ -109,13 +112,27 @@ const MyProfile = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <>
       <FilterBar />
-      <div className="flex w-full min-h-[87vh] theme_text theme lg:px-20 gap-4 p-4 ">
+      <div className="flex relative w-full h-fit theme_text theme lg:px-20 gap-4 p-0 md:p-4">
         {/* left */}
-        <div className=" hidden md:flex md:w-4/12 lg:w-[25%] h-full flex-col gap-2 ">
-          <div className="h-[11.5%] flex gap-4 shadow-md  items-center rounded-sm theme_border p-3 theme_container">
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } fixed inset-0 bg-gray-800 bg-opacity-50 z-20 md:hidden`}
+          onClick={toggleSidebar}
+        ></div>
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } fixed inset-y-0 left-0 bg-white w-64 p-1 md:p-4 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] h-full flex-col gap-2 shadow-md`}
+        >
+          <div className="h-[11.5%] flex gap-4 shadow-md items-center rounded-sm theme_border p-3 theme_container">
             <img
               src={ProfileImg}
               alt="Default Profile Image"
@@ -123,10 +140,10 @@ const MyProfile = () => {
             />
             <div className="flex flex-col gap-[2px]">
               <span className="text-xs">Hello,</span>
-              <span className="font-semibold text-md ">{userData.name}</span>
+              <span className="font-semibold text-md">{userData.name}</span>
             </div>
           </div>
-          <div className="h-[85%] shadow-md rounded-sm theme_border theme_container">
+          <div className="h-fit md:h-[85%] shadow-md rounded-sm theme_border theme_container">
             {/* 2nd */}
             <div className="flex items-center gap-4 theme_border border-b-[1px] p-4">
               <i
@@ -134,7 +151,7 @@ const MyProfile = () => {
                 aria-hidden="true"
               ></i>
               <a className="flex justify-between w-full items-center theme_hover cursor-pointer">
-                <h2 className="font-semibold ">MY ORDERS</h2>
+                <h2 className="font-semibold">MY ORDERS</h2>
                 <i
                   className="fa fa-chevron-right theme_text"
                   aria-hidden="true"
@@ -160,7 +177,7 @@ const MyProfile = () => {
               active={active}
               setActive={setActive}
             />
-            <div className="flex flex-col ">
+            <div className="flex flex-col">
               <a
                 className="flex flex-row gap-4 p-4 w-full items-center theme_hover cursor-pointer"
                 onClick={handleLogout}
@@ -174,8 +191,16 @@ const MyProfile = () => {
             </div>
           </div>
         </div>
+        <div className="flex absolute pl-1 rounded-r-2xl md:hidden justify-end">
+          <button onClick={toggleSidebar} className="">
+            <i
+              className="fa fa-chevron-right mt-1 theme_color nav_btn p-2 theme_border border-2 cursor-pointer rounded-2xl"
+              aria-hidden="true"
+            ></i>
+          </button>
+        </div>
         {/* right */}
-        <div className="lg:w-[75%] md:w-8/12 shadow-md rounded-sm theme_border p-4 theme_container">
+        <div className="lg:w-[75%] md:w-8/12 pt-8 md:pt-0 md:p-4 shadow-md rounded-sm theme_border theme_container">
           {active === "Profile Information" ? (
             <ProfileInformation
               loginId={loginId}

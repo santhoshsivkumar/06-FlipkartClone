@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import {
@@ -20,16 +20,32 @@ const Navbar = () => {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "dark"
   );
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuVisible(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuRef]);
+
   const handleOnChange = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
   };
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -38,7 +54,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="nav h-[3.5rem] z-20 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
+      <nav className="nav h-[3.5rem] z-100 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
         <a href="/" className="text-lg cursor-pointer text-white">
           Zencart
         </a>
@@ -92,57 +108,70 @@ const Navbar = () => {
             {theme !== "dark" ? <MdDarkMode /> : <MdLightMode />}
           </button>
           <div className="relative group sm:hidden">
-            <button className="nav_btn p-1 rounded-sm border-2" title="Menu">
+            <button
+              className="nav_btn p-1 rounded-sm border-2"
+              title="Menu"
+              onClick={() => setIsMenuVisible(!isMenuVisible)}
+            >
               <i className="fa fa-ellipsis-v" aria-hidden="true"></i>
             </button>
-            <div className="absolute right-0 mt-2 w-48 theme_container border-[1px] theme_border rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    to="/myprofile"
-                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
-                  >
-                    {" "}
-                    <CgProfile className="theme_color" />
-                    Account
-                  </Link>
-                  <Link
-                    to="/admin"
-                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
-                  >
-                    {" "}
-                    <BiLockOpen className="theme_color" />
-                    Admin
-                  </Link>
-                </>
-              ) : (
-                <Link
-                  to="/login"
-                  className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
-                >
-                  <CgProfile className="theme_color" />
-                  Login
-                </Link>
-              )}
-              <Link
-                to="/mycart"
-                className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+            {isMenuVisible && (
+              <div
+                ref={menuRef}
+                className="absolute right-0 mt-2 w-48 theme_container border-[1px] theme_border rounded-md shadow-lg"
               >
-                <MdShoppingCart className="theme_color" />
-                MyCart
-              </Link>
-              {isAuthenticated && (
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/myprofile"
+                      className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                      onClick={() => setIsMenuVisible(!isMenuVisible)}
+                    >
+                      <CgProfile className="theme_color" />
+                      Account
+                    </Link>
+                    <Link
+                      to="/admin"
+                      className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                      onClick={() => setIsMenuVisible(!isMenuVisible)}
+                    >
+                      <BiLockOpen className="theme_color" />
+                      Admin
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    to="/login"
+                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                    onClick={() => setIsMenuVisible(!isMenuVisible)}
+                  >
+                    <CgProfile className="theme_color" />
+                    Login
+                  </Link>
+                )}
                 <Link
-                  to="/"
+                  to="/mycart"
                   className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
-                  onClick={handleLogout}
+                  onClick={() => setIsMenuVisible(!isMenuVisible)}
                 >
-                  {" "}
-                  <MdLogin className="theme_color" />
-                  Logout
+                  <MdShoppingCart className="theme_color" />
+                  MyCart
                 </Link>
-              )}
-            </div>
+                {isAuthenticated && (
+                  <Link
+                    to="/"
+                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                    onClick={() => {
+                      setIsMenuVisible(!isMenuVisible);
+                      handleLogout();
+                    }}
+                  >
+                    <MdLogin className="theme_color" />
+                    Logout
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </nav>

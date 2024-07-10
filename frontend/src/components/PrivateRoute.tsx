@@ -28,15 +28,13 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
   return isAuthenticated ? (
     element
   ) : (
-    <div className="flex flex-col items-center justify-center h-[80vh]">
-      <div className="max-w-sm p-6 bg-white rounded-lg shadow-lg">
-        <h3 className="text-xl font-semibold mb-2">
+    <div className="flex flex-col items-center theme justify-center min-h-[95vh]">
+      <div className="max-w-sm theme_text p-6 theme_container rounded-lg shadow-lg">
+        <h3 className="text-xl font-semibold text-red-500 mb-2">
           You are not authenticated.
         </h3>
-        <p className="text-gray-700 mb-4">Please log in to continue.</p>
-        <p className="text-gray-700 mb-4">
-          Redirecting in {redirectTimer} seconds...
-        </p>
+        <p className="mb-4">Please log in to continue.</p>
+        <p className="mb-4">Redirecting in {redirectTimer} seconds...</p>
         <button
           title="Login Now"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

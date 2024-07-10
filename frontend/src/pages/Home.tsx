@@ -46,7 +46,26 @@ const Home = () => {
       <div
         className={`theme_container justify-center flex p-0 lg:p-4 shadow-none lg:shadow-md rounded-sm`}
       >
-        <div
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <Loading />
+          </div>
+        ) : categories?.length > 0 ? (
+          <div
+            className={`relative grid justify-center items-center grid-cols-1 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4  rounded-sm `}
+          >
+            {categories.map((category: any, index: number) => (
+              <Link to={`/products/collection/${category}`} key={index}>
+                <ProductCard category={category} />
+              </Link>
+            ))}
+          </div>
+        ) : (
+          <p className="text-2xl flex items-center justify-center text-red-400">
+            No data found
+          </p>
+        )}
+        {/* <div
           className={`relative grid justify-center items-center grid-cols-1 p-0 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
         >
           {categories?.length > 0 ? (
@@ -56,13 +75,15 @@ const Home = () => {
               </Link>
             ))
           ) : loading ? (
-            <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+            <div className="flex items-center justify-center">
               <Loading />
             </div>
           ) : (
-            <p className="text-2xl text-red-400">No data found</p>
+            <p className="text-2xl flex items-center justify-center text-red-400">
+              No data found
+            </p>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

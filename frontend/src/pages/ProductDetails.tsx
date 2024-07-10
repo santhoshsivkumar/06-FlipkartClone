@@ -25,24 +25,6 @@ const ProductDetails = () => {
   const [contentLoading, setContentLoading] = useState<Boolean>(false);
   const [existing, setExisting] = useState<Boolean>(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setContentLoading(true);
-    axios
-      .get(`${siteURL}/products/details/${id}`)
-      .then((res) => {
-        setContentLoading(false);
-        if (res.data) {
-          setProduct(res.data);
-        } else {
-          setError("Product not found");
-        }
-      })
-      .catch((err) => {
-        setContentLoading(false);
-        setError(err.response);
-      });
-  }, [id]);
   useEffect(() => {
     try {
       if (isAuthenticated) {
@@ -61,6 +43,23 @@ const ProductDetails = () => {
       console.log(error);
     }
   }, []);
+  useEffect(() => {
+    setContentLoading(true);
+    axios
+      .get(`${siteURL}/products/details/${id}`)
+      .then((res) => {
+        setContentLoading(false);
+        if (res.data) {
+          setProduct(res.data);
+        } else {
+          setError("Product not found");
+        }
+      })
+      .catch((err) => {
+        setContentLoading(false);
+        setError(err.response);
+      });
+  }, [id]);
 
   const handleAddToCart = async () => {
     try {

@@ -14,6 +14,7 @@ import MyProfile from "./pages/MyProfile";
 import MyCart from "./pages/MyCart";
 import Checkout from "./pages/Checkout";
 import PrivateRoute from "./components/PrivateRoute";
+import FinalPage from "./pages/FinalPage";
 
 const App: React.FC = () => {
   return (
@@ -33,6 +34,10 @@ const App: React.FC = () => {
           <Route path="/products/:id" element={<ProductDetails />} />
           {/* Private Routes */}
           <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
+          <Route
+            path="/final"
+            element={<PrivateRoute element={<FinalPage />} />}
+          />
           <Route
             path="/myprofile"
             element={<PrivateRoute element={<MyProfile />} />}
