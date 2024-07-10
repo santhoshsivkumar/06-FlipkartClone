@@ -5,7 +5,7 @@ import { find30percent, formatPrice } from "../static/Functions";
 import { initialAddressState } from "../static/initialStates";
 import { BiMinus, BiPlus } from "react-icons/bi";
 import Loading from "../components/Loading";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setOrder } from "../slices/productSlice";
 
@@ -81,14 +81,21 @@ const MyCart = () => {
         `${siteURL}/cart/${userId}/remove`,
         product
       );
-      setCartItems(response.data);
-      if (response.data.length > 1) {
-        setOrderName(`(${response.data.length} items)`);
+      if (!response.data.length) {
+        setError("No items in your cart");
+        setTimeout(() => {
+          navigate(-1);
+        }, 1000);
       } else {
-        setOrderName(response.data[0].productName);
+        setCartItems(response.data);
+        if (response.data.length > 1) {
+          setOrderName(`(${response.data.length} items)`);
+        } else {
+          setOrderName(response.data[0].productName);
+        }
+        setTotalPrice(calculateTotalPrice(response.data));
+        setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
       }
-      setTotalPrice(calculateTotalPrice(response.data));
-      setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
     } catch (error) {
       console.log(error);
       setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
@@ -107,7 +114,7 @@ const MyCart = () => {
     navigate("/checkout");
   };
   return (
-    <div className="theme theme_text w-full lg:min-h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
+    <div className="theme theme_text w-full h-[100vh] md:min-h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
       {/* left */}
       <div className="flex flex-col gap-4 md:w-7/12 lg:w-2/3 ">
         <div className="theme_container shadow-sm theme_color flex justify-center items-center p-4">
@@ -123,21 +130,29 @@ const MyCart = () => {
             <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
               {error}
             </div>
-          ) : (
+          ) : address ? (
             <div className="p-2">
               <div className="flex gap-2 font-semibold items-center">
                 <span>Deliver to:</span>
-                <span>{address.name},</span>
-                <span>{address.pincode}</span>
+                <span>{address?.name},</span>
+                <span>{address?.pincode}</span>
                 <span className="font-semibold text-xs text-white theme_bg rounded-sm p-1 h-fit w-fit">
-                  {address.addressType ? address.addressType : "HOME"}
+                  {address?.addressType ? address?.addressType : "HOME"}
                 </span>
               </div>
-              <p className="py-2 text-xs">{address.address}</p>
+              <p className="py-2 text-xs">{address?.address}</p>
               <p className="text-xs">
-                {address.city}, {address.state}
+                {address?.city}, {address?.state}
               </p>
             </div>
+          ) : (
+            <Link
+              to={"/myprofile"}
+              className="flex justify-center text-blue-500"
+            >
+              {" "}
+              Please add delivery address to continue{" "}
+            </Link>
           )}
         </div>
         <div className="theme_container relative h-fit md:min-h-[calc(100vh-17.5rem)]">
@@ -161,7 +176,13 @@ const MyCart = () => {
                     <div className="flex  gap-4 ">
                       <img src={product?.productImage} className="w-15 h-20" />
                       <div className=" flex flex-col gap-3">
-                        <span className="text-md">{product?.productName}</span>
+                        {" "}
+                        <h3 className="block md:hidden text-md">
+                          {product.productName?.substring(0, 45)}
+                        </h3>
+                        <h3 className="hidden md:block text-md">
+                          {product.productName}
+                        </h3>
                         <div className="text-sm flex gap-4">
                           <span>
                             {formatPrice(
@@ -221,7 +242,10 @@ const MyCart = () => {
             {" "}
             <button
               title="ADD TO CART"
-              className={`bg-orange-500 py-3 px-12  text-white font-semibold`}
+              className={`${
+                address ? "bg-orange-500 " : "bg-gray-400"
+              } py-3 px-12  text-white font-semibold`}
+              disabled={address ? false : true}
               onClick={handleContinue}
             >
               CONTINUE
@@ -278,7 +302,10 @@ const MyCart = () => {
         {" "}
         <button
           title="ADD TO CART"
-          className={`bg-orange-500 py-3 px-12  text-white font-semibold`}
+          className={`${
+            address ? "bg-orange-500 " : "bg-gray-400"
+          } py-3 px-12  text-white font-semibold`}
+          disabled={address ? false : true}
           onClick={handleContinue}
         >
           CONTINUE

@@ -1,4 +1,3 @@
-import FilterBar from "../components/FilterBar";
 import ProfileImg from "../assets/profile-pic-male_4811a1.svg";
 import { useEffect, useState } from "react";
 import {
@@ -114,24 +113,25 @@ const MyProfile = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [active]);
   return (
     <>
-      <FilterBar />
-      <div className="flex relative w-full h-fit theme_text theme lg:px-20 gap-4 p-0 md:p-4">
+      <div className="flex w-full h-fit theme_text theme lg:px-20 gap-4 p-0 md:p-4">
         {/* left */}
         <div
           className={`${
             isSidebarOpen ? "block" : "hidden"
-          } fixed inset-0 bg-gray-800 bg-opacity-50 z-20 md:hidden`}
+          } fixed inset-0 bg-gray-800 bg-opacity-50 z-10 md:hidden`}
           onClick={toggleSidebar}
         ></div>
         <div
           className={`${
             isSidebarOpen ? "block" : "hidden"
-          } fixed inset-y-0 left-0 bg-white w-64 p-1 md:p-4 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] h-full flex-col gap-2 shadow-md`}
+          } fixed inset-y-0 left-0 theme_container  h-full w-64 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] min-h-[100vh] overflow-y-scroll flex-col gap-2 shadow-md`}
         >
-          <div className="h-[11.5%] flex gap-4 shadow-md items-center rounded-sm theme_border p-3 theme_container">
+          <div className="h-[11.5%] flex gap-4 items-center rounded-sm border-b-[1px] theme_border p-3 theme_container">
             <img
               src={ProfileImg}
               alt="Default Profile Image"
@@ -142,7 +142,7 @@ const MyProfile = () => {
               <span className="font-semibold text-md">{userData.name}</span>
             </div>
           </div>
-          <div className="h-fit md:h-[85%] shadow-md rounded-sm theme_border theme_container">
+          <div className="h-full md:h-[85%] rounded-sm theme_border theme_container">
             {/* 2nd */}
             <div className="flex items-center gap-4 theme_border border-b-[1px] p-4">
               <i
@@ -193,13 +193,13 @@ const MyProfile = () => {
         <div className="flex absolute pl-1 rounded-r-2xl md:hidden justify-end">
           <button onClick={toggleSidebar} className="">
             <i
-              className="fa fa-chevron-right mt-1 theme_color nav_btn p-2 theme_border border-2 cursor-pointer rounded-2xl"
+              className="fa fa-chevron-right mt-2 theme_color nav_btn p-2 theme_border border-2 cursor-pointer rounded-2xl"
               aria-hidden="true"
             ></i>
           </button>
         </div>
         {/* right */}
-        <div className="lg:w-[75%] md:w-8/12 pt-8 md:pt-0 md:p-4 shadow-md rounded-sm theme_border theme_container">
+        <div className="lg:w-[75%] md:w-8/12  pt-8 md:pt-0 md:p-4 shadow-md rounded-sm theme_border theme_container">
           {active === "Profile Information" ? (
             <ProfileInformation
               loginId={loginId}

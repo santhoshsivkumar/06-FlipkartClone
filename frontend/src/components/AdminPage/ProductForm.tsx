@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ConvertToBase64 } from "../../static/Functions";
-import { siteURL } from "../../static/Data";
+import { siteURL, categories } from "../../static/Data";
 import Loading from "../Loading";
 import InputField from "../InputField"; // New component for input fields
 
@@ -15,14 +15,6 @@ const initialState = {
   seller: "",
   productImage: "",
 };
-const categories = [
-  "shampoo",
-  "smartphones",
-  "smartwatches",
-  "laptops",
-  "tablets",
-  "accessories",
-]; // Static categories
 
 const ProductForm = ({ mode }: any) => {
   const { id } = useParams();
@@ -161,8 +153,8 @@ const ProductForm = ({ mode }: any) => {
             Product Image
           </label>
           <div className="flex justify-center items-center lg:flex-row gap-4 flex-col">
-            <label className="max-w-[8.5rem] py-2 px-4 border border-gray-300 rounded-md cursor-pointer bg-white hover:bg-gray-100">
-              <span className="block text-center text-black bg-gray-200 border-black border-[1px] text-sm py-1 px-2">
+            <label className="max-w-[8.5rem] py-2 px-4 border theme_border rounded-md cursor-pointer theme_container hover:bg-gray-100">
+              <span className="block text-center text-black bg-gray-300 border-black border-[1px] text-sm py-1 px-2">
                 {product.productImage ? "Choose New" : "Choose File"}
               </span>
               <input

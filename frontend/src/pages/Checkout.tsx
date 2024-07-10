@@ -6,7 +6,9 @@ import { siteURL } from "../static/Data";
 import { initialUserState } from "../static/initialStates";
 import { MdDone } from "react-icons/md";
 import axisSvg from "../assets/axis-78501b36.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { IoMdLink } from "react-icons/io";
+import { GoLinkExternal } from "react-icons/go";
 const Checkout = () => {
   const { order } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(true);
@@ -29,22 +31,22 @@ const Checkout = () => {
       });
   }, []);
   const handlePlaceOrder = async () => {
-    console.log(`${siteURL}/users/order/${userId}`);
-    navigate("/final");
     console.log(order);
     try {
-      await axios
-        .post(`${siteURL}/users/order/${userId}`, order)
-        .then((response: any) => {
-          console.log(response);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } catch (error) {
-      console.log(error);
+      const response = await axios.post(
+        `${siteURL}/users/orders/${userId}`,
+        order
+      );
+      console.log(response.data);
+      // navigate("/final");
+    } catch (error: any) {
+      console.error("Error placing order:", error);
+      if (error.response) {
+        console.log(error.response.data);
+      }
     }
   };
+
   return (
     <div className="theme theme_text w-full lg:min-h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
       {/* left */}
@@ -85,7 +87,7 @@ const Checkout = () => {
             <div className="flex h-[8vh] justify-center items-center text-red-500">
               <Loading width={20} height={20} />
             </div>
-          ) : (
+          ) : user.addressData[0] ? (
             <div className="theme_text pl-[38px] text-sm ">
               <span>
                 <span className="font-semibold">
@@ -99,6 +101,20 @@ const Checkout = () => {
               <p className="text-xs text-gray-400 pt-1">
                 {user.addressData[0].city}, {user.addressData[0].state}
               </p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <span className="text-red-500">
+                {" "}
+                Please add delivery address to continue{" "}
+              </span>
+              <Link
+                to={"/myprofile"}
+                className="flex justify-center gap-1 items-center text-blue-500"
+              >
+                Add Address
+                <GoLinkExternal size={12} className="" />
+              </Link>
             </div>
           )}
         </div>
@@ -127,7 +143,10 @@ const Checkout = () => {
 
               <div className="flex flex-col gap-2 w-full ">
                 <div className="flex items-center justify-between">
-                  <span>{order.orderName}</span>
+                  <h3 className="block md:hidden">
+                    {order.orderName?.substring(0, 20)}
+                  </h3>
+                  <span className="hidden md:block">{order.orderName}</span>
                   <span className="pr-4">
                     Delivery In 2 days |{" "}
                     <span className="text-green-600">Free</span>
@@ -188,7 +207,10 @@ const Checkout = () => {
                     {" "}
                     <button
                       title="ADD TO CART"
-                      className={`bg-orange-500 py-3 px-12  text-white font-semibold`}
+                      className={`${
+                        user.addressData[0] ? "bg-orange-500 " : "bg-gray-400"
+                      } py-3 px-12  text-white font-semibold`}
+                      disabled={user.addressData[0] ? false : true}
                       onClick={handlePlaceOrder}
                     >
                       PLACE ORDER
@@ -239,7 +261,10 @@ const Checkout = () => {
         {" "}
         <button
           title="ADD TO CART"
-          className={`bg-orange-500 py-3 px-12  text-white font-semibold`}
+          className={`${
+            user.addressData[0] ? "bg-orange-500 " : "bg-gray-400"
+          } py-3 px-12  text-white font-semibold`}
+          disabled={user.addressData[0] ? false : true}
           onClick={handlePlaceOrder}
         >
           PLACE ORDER

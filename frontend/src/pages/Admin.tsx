@@ -1,55 +1,59 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { siteURL } from "../static/Data.tsx";
-import ProductCard from "../components/ProductCard.tsx";
-import ProductTable from "../components/AdminPage/ProductTable.tsx";
-import DeleteComponent from "../components/DeleteComponent.tsx";
-import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "../slices/productSlice.tsx";
+import { siteURL } from "../static/Data";
+import DynamicTable from "../components/AdminPage/DynamicTable";
+import DeleteComponent from "../components/DeleteComponent";
+import { useDispatch } from "react-redux";
+import { setProducts } from "../slices/productSlice";
 
 const Admin = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [deleteProductId, setDeleteProductId] = useState(null);
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768);
-  const { products } = useSelector((state: any) => state.products);
+  const [deleteItemId, setDeleteItemId] = useState(null);
+
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [data, setData] = useState([]);
+  const [headers, setHeaders] = useState<any>([]);
   const [route, setRoute] = useState("products");
-  const fetchProducts = useCallback(async () => {
+  const dispatch = useDispatch();
+
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      console.log(`${siteURL}/${route}`);
       const response = await axios.get(`${siteURL}/${route}`);
-      dispatch(setProducts(response.data.data));
+      const data = response.data.data;
+      if (data.length > 0) {
+        const headers = Object.keys(data[0]);
+        setHeaders(headers);
+        setData(data);
+      }
+      if (route === "products") {
+        dispatch(setProducts(data));
+      }
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  }, [dispatch]);
+  }, [dispatch, route]);
 
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts, route]);
-
-  useEffect(() => {
-    const handleResize = () => setIsLargeScreen(window.innerWidth > 768);
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    fetchData();
+  }, [fetchData, route]);
 
   const handleDeleteClick = (id: any) => {
-    setDeleteProductId(id);
+    setDeleteItemId(id);
     setIsDeleteModalOpen(true);
   };
 
-  const handleDeleteProduct = async () => {
+  const handleDeleteItem = async () => {
     try {
-      await axios.delete(`${siteURL}/products/delete/${deleteProductId}`);
+      await axios
+        .delete(`${siteURL}/${route}/delete/${deleteItemId}`)
+        .then((res) => console.log(res))
+        .catch((err) => console.error(err));
       setIsDeleteModalOpen(false);
-      fetchProducts();
+      fetchData();
     } catch (error) {
       console.error(error);
     }
@@ -82,25 +86,14 @@ const Admin = () => {
             Add Item
           </Link>
         </div>
-        <div className="w-full max-w-7xl scroll-m-0">
-          {isLargeScreen ? (
-            <ProductTable
-              products={products}
+        <div className="w-full ">
+          {data.length > 0 ? (
+            <DynamicTable
+              headers={headers}
+              data={data}
+              route={route}
               onDeleteClick={handleDeleteClick}
             />
-          ) : products.length > 0 ? (
-            products.map((product: any) => (
-              <div
-                className={`theme grid grid-cols-1 p-4 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 rounded-sm shadow-md`}
-                key={product._id}
-              >
-                <ProductCard
-                  showOptions={true}
-                  product={product}
-                  onDeleteClick={handleDeleteClick}
-                />
-              </div>
-            ))
           ) : (
             !loading && (
               <p className="text-2xl text-red-400 p-4 text-center">
@@ -114,7 +107,7 @@ const Admin = () => {
       <DeleteComponent
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={handleDeleteProduct}
+        onDelete={handleDeleteItem}
       />
     </>
   );

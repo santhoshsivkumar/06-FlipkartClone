@@ -13,6 +13,7 @@ router.post("/addAddress/:id", async (req, res) => {
     }
 
     user.addressData.push(newAddress);
+    // @ts-ignore
     await user.save();
 
     res.status(200).send({ message: "Address added successfully", user });
@@ -37,6 +38,7 @@ router.delete("/deleteAddress/:id/:addressId", async (req, res) => {
     }
 
     user.addressData.pull({ _id: addressId });
+    // @ts-ignore
     await user.save();
 
     res.status(200).send({ message: "Address deleted successfully", user });
@@ -62,6 +64,7 @@ router.put("/updateAddress/:id/:addressId", async (req, res) => {
     }
 
     Object.assign(address, updatedAddress);
+    // @ts-ignore
     await user.save();
 
     res.status(200).send({ message: "Address updated successfully", user });
@@ -70,3 +73,4 @@ router.put("/updateAddress/:id/:addressId", async (req, res) => {
     res.status(500).send({ message: "Server error. Please try again later." });
   }
 });
+export default router;

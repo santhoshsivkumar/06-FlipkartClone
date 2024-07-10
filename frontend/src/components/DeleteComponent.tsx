@@ -4,7 +4,7 @@ const DeleteComponent = ({
   isOpen,
   onClose,
   onDelete,
-  confirmationPhrase,
+  confirmationPhrase = "confirm",
 }: any) => {
   const [inputValue, setInputValue] = useState("");
 

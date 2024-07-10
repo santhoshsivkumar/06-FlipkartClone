@@ -8,6 +8,8 @@ import Loading from "../components/Loading";
 
 import FilterBar from "../components/FilterBar";
 import { BiCartAdd, BiCartAlt } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { setOrder } from "../slices/productSlice";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState({
@@ -25,6 +27,7 @@ const ProductDetails = () => {
   const [contentLoading, setContentLoading] = useState<Boolean>(false);
   const [existing, setExisting] = useState<Boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   useEffect(() => {
     try {
       if (isAuthenticated) {
@@ -60,6 +63,20 @@ const ProductDetails = () => {
         setError(err.response);
       });
   }, [id]);
+
+  const handleBuyNow = () => {
+    const orderData = {
+      orderName: product.productName,
+      totalPrice: formatPrice(
+        product.productPrice - find30percent(product.productPrice)
+      ),
+      orderImage: product.productImage,
+      savedPrice: formatPrice(find30percent(product.productPrice)),
+      price30Percent: formatPrice(product.productPrice),
+    };
+    dispatch(setOrder(orderData));
+    navigate("/checkout");
+  };
 
   const handleAddToCart = async () => {
     try {
@@ -142,10 +159,7 @@ const ProductDetails = () => {
                   <button
                     title="BUY NOW"
                     className="w-3/6 py-2 px-4 text-white text-sm theme_btn font-semibold"
-                    onClick={() => {
-                      handleAddToCart();
-                      navigate("/mycart");
-                    }}
+                    onClick={handleBuyNow}
                   >
                     BUY NOW
                   </button>

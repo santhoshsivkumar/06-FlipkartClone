@@ -215,7 +215,7 @@ router.delete("/delete/:id", async (request, response) => {
     await blacklistedUser.save();
 
     // Update isBlacklisted in User collection
-    await User.findByIdAndUpdate(id, { isBlacklisted: true });
+    await User.findByIdAndDelete(id, { isBlacklisted: true });
 
     return response.status(200).send({
       message: "User deleted successfully",

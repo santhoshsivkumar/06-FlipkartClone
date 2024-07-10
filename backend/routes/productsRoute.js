@@ -81,7 +81,7 @@ router.get("/details/:id", async (request, response) => {
 });
 
 // Route to update a product - UPDATE
-router.put("/edit/:id", async (request, response) => {
+router.put("/update/:id", async (request, response) => {
   try {
     const { id } = request.params;
     const { productName, productDescription, productPrice, productImage } =

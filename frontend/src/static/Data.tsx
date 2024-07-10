@@ -22,6 +22,34 @@ export const HomePageImages = [
   { img: BeautyImg, title: "Beauty, Toys & More" },
   { img: TwoWheelersImg, title: "Two Wheelers" },
 ];
+export const categories = [
+  "shampoo",
+  "smartphones",
+  "smartwatches",
+  "laptops",
+  "tablets",
+  "accessories",
+  "televisions",
+  "cameras",
+  "headphones",
+  "speakers",
+  "home appliances",
+  "furniture",
+  "fashion",
+  "shoes",
+  "beauty products",
+  "sports equipment",
+  "books",
+  "toys",
+  "automotive",
+  "stationery",
+  "kitchenware",
+  "groceries",
+  "fitness",
+  "gaming",
+  "pet supplies",
+]; // Static categories
+
 export const FilterBarItems = [
   "Electronics",
   "TVs & Appliances",
@@ -54,4 +82,24 @@ export const MyStuffItems = [
   "My Reviews & Ratings",
   "All Notifications",
   "My Wishlist",
+];
+export const productHeaders = [
+  "_id",
+  "productImage",
+  "productName",
+  "company",
+  "category",
+  "seller",
+  "productDescription",
+  "productPrice",
+];
+
+export const userHeaders = [
+  "image",
+  "name",
+  "email",
+  "mobile",
+  "addressData",
+  "gender",
+  "cart",
 ];

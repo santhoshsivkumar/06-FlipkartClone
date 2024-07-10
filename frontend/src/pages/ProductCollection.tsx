@@ -7,11 +7,14 @@ import FilterBar from "../components/FilterBar";
 import SortBy from "../components/ProductsPage/SortBy";
 import { Product } from "../static/interface";
 import Loading from "../components/Loading";
+import FilterSection from "../components/ProductCollectionPage/FilterSection";
 
 const ProductCollection = () => {
   const [productCollection, setProductCollection] = useState([]);
   const { collection } = useParams<{ collection: string }>();
   const [loading, setLoading] = useState<Boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
+
   useEffect(() => {
     setLoading(true);
     axios
@@ -24,15 +27,35 @@ const ProductCollection = () => {
         console.log(err.response.data.message);
       });
   }, [collection]);
-
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   return (
-    <div className="theme w-full  min-h-[100vh]">
+    <div className="theme w-full  min-h-[100vh] ">
       <FilterBar />
-      <div className="flex min-h-[100vh] h-full w-full gap-2 lg:p-4">
-        <div className="lg:w-[19.2%] md:w-3/12 theme_container  hidden md:block p-4 shadow-sm ">
-          {" "}
+      <div className="flex min-h-[100vh] h-full w-full gap-2 p-0 md:p-4">
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } fixed inset-0 bg-gray-800 bg-opacity-50 z-20 md:hidden`}
+          onClick={toggleSidebar}
+        ></div>
+        <div
+          className={`${
+            isSidebarOpen ? "block" : "hidden"
+          } fixed inset-y-0 left-0 theme_container w-64 p-1 md:p-4 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] h-[100vh] overflow-y-scroll flex-col gap-2 shadow-md`}
+        >
+          <FilterSection />
         </div>
-        <div className="lg:w-[80.8%] w-full md:w-9/12 relative theme_container pt-4 shadow-sm ">
+        <div className="flex z-5 absolute pl-1 rounded-r-2xl md:hidden justify-end">
+          <button onClick={toggleSidebar} className="">
+            <i
+              className="fa fa-chevron-right mt-2 theme_color nav_btn p-2 theme_border border-2 cursor-pointer rounded-2xl"
+              aria-hidden="true"
+            ></i>
+          </button>
+        </div>
+        <div className="lg:w-[80.8%] w-full md:w-9/12 md:relative theme_container pt-12 md:pt-4 shadow-sm ">
           <div className="pl-4 pb-4 font-md border-b-[1px] theme_border theme_text font-semibold">
             {" "}
             Showing 1 – {productCollection.length} of {productCollection.length}{" "}

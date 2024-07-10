@@ -88,6 +88,7 @@ const ManageAddress = () => {
           .then((res) => {
             setAddress(initialAddressState);
             setFormHidden(true);
+            console.log(res);
             dispatch(setUserData(res.data.user));
             setEditingAddressId(null);
             window.scrollTo(0, 0);
