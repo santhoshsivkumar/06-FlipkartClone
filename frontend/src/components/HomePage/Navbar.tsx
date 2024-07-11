@@ -56,15 +56,15 @@ const Navbar = () => {
   return (
     <>
       <nav className="nav h-[3.5rem] z-[5] md:z-50 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
-        <a href="/" className="text-lg cursor-pointer text-white">
-          Zencart
-        </a>
-        <div className="flex-grow flex justify-center">
+        <div className="flex-grow flex justify-center md:pr-6 items-center gap-6">
+          <a href="/" className="text-xl md:text-2xl cursor-pointer text-white">
+            Zencart
+          </a>
           <input
             type="text"
             name="search"
             placeholder="Search"
-            className="theme_search py-2 px-4 w-full max-w-lg outline-none rounded-sm"
+            className="theme_search py-2 px-4 w-full max-w-[40rem] outline-none rounded-sm"
           />
         </div>
         <div className="flex items-center gap-2">
