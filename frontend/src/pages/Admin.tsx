@@ -5,10 +5,7 @@ import { siteURL } from "../static/Data";
 import { useDispatch } from "react-redux";
 import { setProducts } from "../slices/productSlice";
 import ProductTable from "../components/AdminPage/ProductTable";
-import {
-  MdChangeCircle,
-  MdOutlineProductionQuantityLimits,
-} from "react-icons/md";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 import { BiTable, BiUser } from "react-icons/bi";
 import { PiPlus } from "react-icons/pi";
 import UserTable from "../components/AdminPage/UserTable";

@@ -6,7 +6,7 @@ import { siteURL } from "../static/Data";
 import { initialUserState } from "../static/initialStates";
 import { MdDone } from "react-icons/md";
 import axisSvg from "../assets/axis-78501b36.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GoLinkExternal } from "react-icons/go";
 import ErrorModal from "../components/ErrorModal"; // Import your ErrorModal component
 import FinalPage from "./FinalPage";
@@ -14,7 +14,6 @@ import FinalPage from "./FinalPage";
 const Checkout = () => {
   const { order } = useSelector((state: any) => state.products);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const [user, setUser] = useState(initialUserState);
   const [error, setError] = useState("");
