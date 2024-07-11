@@ -56,7 +56,7 @@ const Navbar = () => {
   return (
     <>
       <nav className="nav h-[3.5rem] z-[5] md:z-50 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
-        <div className="flex-grow flex justify-center md:pr-6 items-center gap-6">
+        <div className="flex-grow flex justify-end md:pr-6 items-center gap-6">
           <a href="/" className="text-xl md:text-2xl cursor-pointer text-white">
             Zencart
           </a>
