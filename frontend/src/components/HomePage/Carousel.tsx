@@ -23,7 +23,7 @@ const Carousel = () => {
 
   return (
     <div
-      className={`theme_container  hover:scale-[1.009] h-64 p-4 shadow-sm rounded-sm justify-center flex items-center relative`}
+      className={`theme_container h-64 p-4 shadow-sm rounded-sm justify-center flex items-center relative`}
     >
       {slides.map((slide, index) => (
         <div

@@ -22,9 +22,9 @@ const Home = () => {
       });
   }, []);
   return (
-    <div className={`theme min-h-[100vh] space-y-4 p-4 `}>
+    <div className={`theme min-h-[100vh] space-y-2 md:space-y-4 p-0 md:p-1 `}>
       <div
-        className={`w-full gap-12 overflow-scroll flex theme_container justify-center items-center font-semibold h-32 shadow-sm rounded-sm`}
+        className={`w-full gap-12 overflow-x-scroll flex theme_container justify-center items-center font-semibold h-32 shadow-sm rounded-sm`}
       >
         {HomePageImages.map((item: any, index: any) => {
           return (
@@ -41,7 +41,7 @@ const Home = () => {
       <Carousel />
 
       <div
-        className={`theme_container justify-center flex p-0 lg:p-4 shadow-none lg:shadow-md rounded-sm`}
+        className={`justify-center flex p-0 lg:p-4 shadow-none lg:shadow-md rounded-sm`}
       >
         {loading ? (
           <div className="flex items-center justify-center">
@@ -49,12 +49,12 @@ const Home = () => {
           </div>
         ) : categories?.length > 0 ? (
           <div
-            className={`relative grid justify-center items-center grid-cols-1 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4  rounded-sm `}
+            className={`relative grid justify-center items-center grid-cols-2 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2  rounded-sm `}
           >
             {categories.map((category: any, index: number) => (
               <Link to={`/products/collection/${category}`} key={index}>
                 <div
-                  className={` theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
+                  className={` theme_container m-1 theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
                 >
                   <img
                     src={Default_Img}
