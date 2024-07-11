@@ -22,7 +22,7 @@ const Home = () => {
       });
   }, []);
   return (
-    <div className={`theme min-h-[100vh] space-y-2 md:space-y-4 p-0 md:p-1 `}>
+    <div className={`theme min-h-[100vh] space-y-2 md:space-y-4 p-0 md:p-4 `}>
       <div
         className={`w-full gap-12 overflow-x-scroll flex theme_container justify-center items-center font-semibold h-32 shadow-sm rounded-sm`}
       >
@@ -41,7 +41,7 @@ const Home = () => {
       <Carousel />
 
       <div
-        className={`justify-center flex p-0 lg:p-4 shadow-none lg:shadow-md rounded-sm`}
+        className={`justify-center flex shadow-none lg:shadow-md rounded-sm`}
       >
         {loading ? (
           <div className="flex items-center justify-center">
