@@ -40,9 +40,7 @@ const Home = () => {
       </div>
       <Carousel />
 
-      <div
-        className={`justify-center flex shadow-none lg:shadow-md rounded-sm`}
-      >
+      <div className={`justify-center flex rounded-sm`}>
         {loading ? (
           <div className="flex items-center justify-center">
             <Loading />
