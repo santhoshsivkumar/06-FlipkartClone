@@ -134,7 +134,6 @@ const UserTable = ({
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onConfirm={confirmVisibility}
-        requiredPassword="admin_password" // Replace with actual admin password
       />
     </>
   );
