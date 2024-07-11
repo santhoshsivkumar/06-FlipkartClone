@@ -14,7 +14,8 @@ import MyProfile from "./pages/MyProfile";
 import MyCart from "./pages/MyCart";
 import Checkout from "./pages/Checkout";
 import PrivateRoute from "./components/PrivateRoute";
-import FinalPage from "./pages/FinalPage";
+
+import MyOrders from "./components/MyProfilePage/MyOrders";
 
 const App: React.FC = () => {
   return (
@@ -25,7 +26,6 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
-
           {/* Public Route */}
           <Route
             path="/products/collection/:collection"
@@ -33,10 +33,13 @@ const App: React.FC = () => {
           />
           <Route path="/products/:id" element={<ProductDetails />} />
           {/* Private Routes */}
-          <Route path="/admin" element={<PrivateRoute element={<Admin />} />} />
           <Route
-            path="/final"
-            element={<PrivateRoute element={<FinalPage />} />}
+            path="/admin"
+            element={<PrivateRoute element={<Admin />} />}
+          />{" "}
+          <Route
+            path="/myorders"
+            element={<PrivateRoute element={<MyOrders />} />}
           />
           <Route
             path="/myprofile"
@@ -54,7 +57,6 @@ const App: React.FC = () => {
             path="/products/create"
             element={<PrivateRoute element={<ProductForm mode="create" />} />}
           />
-
           <Route
             path="/products/edit/:id"
             element={<PrivateRoute element={<ProductForm mode="edit" />} />}

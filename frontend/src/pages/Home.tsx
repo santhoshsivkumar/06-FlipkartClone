@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
 import axios from "axios";
-// import { setProducts } from "../slices/productSlice";
-import ProductCard from "../components/ProductCard";
+import Default_Img from "../../public/Default_Img.jpg";
 import { siteURL } from "../static/Data";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
@@ -11,7 +9,6 @@ import Carousel from "../components/HomePage/Carousel";
 const Home = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
   useEffect(() => {
     setLoading(true);
     axios
@@ -33,7 +30,7 @@ const Home = () => {
           return (
             <a
               key={index}
-              className="flex flex-col items-center justify-center gap-2 cursor-pointer"
+              className="flex hover:scale-[1.05]  flex-col items-center justify-center gap-2 cursor-pointer"
             >
               <img src={item.img} alt={item.title} className="w-20 h-20" />
               <p className="text-sm theme_text">{item.title}</p>
@@ -56,7 +53,19 @@ const Home = () => {
           >
             {categories.map((category: any, index: number) => (
               <Link to={`/products/collection/${category}`} key={index}>
-                <ProductCard category={category} />
+                <div
+                  className={` theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
+                >
+                  <img
+                    src={Default_Img}
+                    alt="Product Preview"
+                    className="rounded-sm p-4 hover:scale-[1.1]"
+                    style={{ width: "150px", height: "150px" }}
+                  />
+                  <div className="theme_color text-md font-bold pt-2">
+                    {category}
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
@@ -65,25 +74,6 @@ const Home = () => {
             No data found
           </p>
         )}
-        {/* <div
-          className={`relative grid justify-center items-center grid-cols-1 p-0 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4  rounded-sm `}
-        >
-          {categories?.length > 0 ? (
-            categories.map((category: any, index: number) => (
-              <Link to={`/products/collection/${category}`} key={index}>
-                <ProductCard category={category} />
-              </Link>
-            ))
-          ) : loading ? (
-            <div className="flex items-center justify-center">
-              <Loading />
-            </div>
-          ) : (
-            <p className="text-2xl flex items-center justify-center text-red-400">
-              No data found
-            </p>
-          )}
-        </div> */}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Loading from "../Loading";
+import { formatRelativeTime } from "../../static/Functions";
 
-// Component for rendering product image
 const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
   <td className="p-4 justify-center flex items-center">
     <img
@@ -11,36 +11,47 @@ const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
       style={{
         maxWidth: "100%",
         maxHeight: "200px",
-        width: "auto",
+        width: "250px",
         height: "100px",
       }}
     />
   </td>
 );
 
-// Reusable link component
-const ProductLink = ({
-  to,
-  text,
-  iconClass,
-}: {
-  to: string;
-  text: string;
-  iconClass: string;
-}) => (
+const ProductLink = ({ to, iconClass }: { to: string; iconClass: string }) => (
   <td className="p-4 space-x-2">
-    <Link to={to} className="text-blue-600">
-      <i className={iconClass}></i> {text}
+    <Link
+      to={to}
+      className={`${
+        iconClass === "fas fa-eye mr-1" ? `text-yellow-500` : `text-blue-500`
+      }`}
+    >
+      <i className={iconClass}></i>
     </Link>
   </td>
 );
+
+const headers = [
+  "Product ID",
+  "Product Image",
+  "Product Name",
+  "Product Description",
+  "Product Price",
+  "Category",
+  "Company",
+  "Seller",
+  "Created At",
+  "View",
+  "Edit",
+  "Delete",
+];
 
 const ProductTable = ({ products, onDeleteClick }: any) => {
   const renderRows = () => {
     if (!products || products.length === 0) {
       return (
         <tr>
-          <td colSpan={8} className="p-4 text-center">
+          <td colSpan={headers.length} className="p-4 text-center">
             <Loading />
           </td>
         </tr>
@@ -51,20 +62,31 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
       <tr key={product._id} className="border-b theme_border text-center">
         <td className="p-4">{product._id}</td>
         <ProductImage imageUrl={product.productImage} />
-        <td className="p-4">{product.productName}</td>
-        <td className="p-4">{product.productDescription.substring(0, 15)}</td>
-        <td className="p-4">{product.productPrice}</td>
-        <td className="p-4">{product.category}</td>
-        <td className="p-4">{product.company}</td>
-        <td className="p-4">{product.seller}</td>
+        {[
+          "productName",
+          "productDescription",
+          "productPrice",
+          "category",
+          "company",
+          "seller",
+          "createdAt",
+        ].map((field, index) => (
+          <td key={index} className="p-4">
+            {field === "productDescription"
+              ? product[field]?.substring(0, 15)
+              : field === "createdAt"
+              ? product[field]
+                ? formatRelativeTime(product[field])
+                : product[field]
+              : product[field]}
+          </td>
+        ))}
         <ProductLink
           to={`/products/${product._id}`}
-          text=""
           iconClass="fas fa-eye mr-1"
         />
         <ProductLink
           to={`/products/edit/${product._id}`}
-          text=""
           iconClass="fas fa-edit mr-1"
         />
         <td className="p-4">
@@ -84,17 +106,11 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
     <table className="table-auto w-full theme_container theme_text shadow-md rounded-md overflow-hidden">
       <thead className="theme_bg text-white">
         <tr>
-          <th className="p-4">Product ID</th>
-          <th className="p-4">Product Image</th>
-          <th className="p-4">Product Name</th>
-          <th className="p-4">Product Description</th>
-          <th className="p-4">Product Price</th>
-          <th className="p-4">Category</th>
-          <th className="p-4">Company</th>
-          <th className="p-4">Seller</th>
-          <th className="p-4">View</th>
-          <th className="p-4">Edit</th>
-          <th className="p-4">Delete</th>
+          {headers.map((header, index) => (
+            <th key={index} className="p-4">
+              {header}
+            </th>
+          ))}
         </tr>
       </thead>
       <tbody>{renderRows()}</tbody>

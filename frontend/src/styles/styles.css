@@ -58,3 +58,9 @@
 .theme_disabled_color {
   color: var(--disabled-bg);
 }
+/* .active-link {
+  background-color: var(--body-color);
+} */
+.bg_hover:hover {
+  background-color: var(--btn-hover-color2);
+}

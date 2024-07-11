@@ -9,13 +9,13 @@ const FilterSection = () => {
       <div className="mb-4">
         <h3 className="font-semibold mb-2 theme_color">Brand</h3>
         <label className="block">
-          <input type="checkbox" className="mr-2" /> Brand 1
+          <input type="checkbox" className="mr-2" /> Redmi
         </label>
         <label className="block">
-          <input type="checkbox" className="mr-2" /> Brand 2
+          <input type="checkbox" className="mr-2" /> Realme
         </label>
         <label className="block">
-          <input type="checkbox" className="mr-2" /> Brand 3
+          <input type="checkbox" className="mr-2" /> Poco
         </label>
       </div>
       <div className="mb-4">

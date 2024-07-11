@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { SortByItems } from "../../static/Data";
 
-const SortBy = () => {
+interface SortByProps {
+  setSortOption: (option: string) => void;
+}
+
+const SortBy = ({ setSortOption }: SortByProps) => {
   const [active, setActive] = useState<string>("Relevance");
 
   return (
@@ -12,20 +16,19 @@ const SortBy = () => {
             <span
               key={index}
               onClick={() => {
-                if (index != 0) setActive(item);
+                setActive(item);
+                setSortOption(item);
               }}
               className={`${
-                index !== 0
-                  ? active === item
-                    ? "theme_color cursor-pointer "
-                    : " cursor-pointer "
-                  : "font-semibold"
-              }  text-sm`}
+                active === item
+                  ? "theme_color cursor-pointer"
+                  : "cursor-pointer"
+              } text-sm`}
             >
               <span>{item}</span>
               <span
                 className={`mt-2 h-[2px] flex ${
-                  active === item && index !== 0 && "theme_bg "
+                  active === item ? "theme_bg" : ""
                 } text-sm`}
               ></span>
             </span>

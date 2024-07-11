@@ -120,7 +120,7 @@ const ProductForm = ({ mode }: any) => {
     const url =
       mode === "create"
         ? `${siteURL}/products/create`
-        : `${siteURL}/products/edit/${id}`;
+        : `${siteURL}/products/update/${id}`;
     axios({
       method: mode === "create" ? "post" : "put",
       url: url,
@@ -203,6 +203,7 @@ const ProductForm = ({ mode }: any) => {
           value={product.productPrice}
           onChange={handleOnChange}
           error={errors.productPrice}
+          type="number"
         />
         <InputField
           label="Category"

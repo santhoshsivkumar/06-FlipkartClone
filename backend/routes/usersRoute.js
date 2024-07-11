@@ -11,7 +11,101 @@ const generateJWTSecret = () => {
 };
 // Use the generated secret
 const JWT_SECRET = generateJWTSecret();
+//------------------------------------------------------------------------------------------------------
+//address route
+router.post("/addAddress/:id", async (req, res) => {
+  const { id } = req.params;
+  const newAddress = req.body;
 
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    user.addressData.push(newAddress);
+    // @ts-ignore
+    await user.save();
+
+    res.status(200).send({ message: "Address added successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+router.delete("/deleteAddress/:id/:addressId", async (req, res) => {
+  const { id, addressId } = req.params;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const address = user.addressData.id(addressId);
+    if (!address) {
+      return res.status(404).send({ message: "Address not found" });
+    }
+
+    user.addressData.pull({ _id: addressId });
+    // @ts-ignore
+    await user.save();
+
+    res.status(200).send({ message: "Address deleted successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+router.put("/updateAddress/:id/:addressId", async (req, res) => {
+  const { id, addressId } = req.params;
+  const updatedAddress = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    const address = user.addressData.id(addressId);
+    if (!address) {
+      return res.status(404).send({ message: "Address not found" });
+    }
+
+    Object.assign(address, updatedAddress);
+    // @ts-ignore
+    await user.save();
+
+    res.status(200).send({ message: "Address updated successfully", user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
+
+//------------------------------------------------------------------------------------------------------
+//orders route
+router.post("/orders/:id", async (req, res) => {
+  const { id } = req.params;
+  const newOrder = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    user.orders.push(newOrder); // Ensure 'orders' is the correct field name in the User schema
+    await user.save();
+
+    res.status(200).send({ message: "Order placed successfully", newOrder });
+  } catch (error) {
+    console.error("Error placing order:", error);
+    res.status(500).send({ message: "Server error. Please try again later." });
+  }
+});
 // -------------------------------------------------------------------------------------------------------
 router.post("/login", async (req, res) => {
   const { user_Id, password } = req.body;

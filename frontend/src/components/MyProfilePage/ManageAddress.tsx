@@ -155,7 +155,7 @@ const ManageAddress = () => {
   };
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="p-4 space-y-4 min-h-[90vh] min-w-[100vw] md:min-w-fit">
       <h1 className="text-xl font-semibold">Manage Addresses</h1>
       <div className="theme_text border theme_border p-4 font-semibold items-center">
         <div

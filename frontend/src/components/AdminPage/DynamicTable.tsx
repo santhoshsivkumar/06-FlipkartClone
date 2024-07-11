@@ -76,7 +76,7 @@ const DynamicTable = ({ headers, data, route, onDeleteClick }: any) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full text-xs">
       <div className="flex justify-between items-center mb-4">
         <div>
           <button

@@ -16,6 +16,9 @@ html {
   --light-btn-hover-color: #212121;
   --dark-btn-hover-color: #c8c8c8;
 
+  --light-btn-hover-color2: #212121;
+  --dark-btn-hover-color2: #f6f6f6;
+
   --light-border-color: #e9e9e9;
   --dark-border-color: #4b4b4b;
 
@@ -32,6 +35,8 @@ html {
   --text-color: var(--light-text-color);
   --container-color: var(--light-container-color);
   --btn-hover-color: var(--light-btn-hover-color);
+  --btn-hover-color2: var(--light-btn-hover-color2);
+
   --border-color: var(--dark-border-color);
   --hover-bg: var(--light-hover-bg);
   --disabled-bg: var(--light-disabled-bg);
@@ -41,6 +46,7 @@ html {
   --text-color: var(--dark-text-color);
   --container-color: var(--dark-container-color);
   --btn-hover-color: var(--dark-btn-hover-color);
+  --btn-hover-color2: var(--dark-btn-hover-color2);
   --border-color: var(--light-border-color);
   --hover-bg: var(--dark-hover-bg);
   --disabled-bg: var(--dark-disabled-bg);

@@ -10,10 +10,11 @@ import Loading from "../components/Loading";
 import FilterSection from "../components/ProductCollectionPage/FilterSection";
 
 const ProductCollection = () => {
-  const [productCollection, setProductCollection] = useState([]);
+  const [productCollection, setProductCollection] = useState<Product[]>([]);
   const { collection } = useParams<{ collection: string }>();
   const [loading, setLoading] = useState<Boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
+  const [sortOption, setSortOption] = useState<string>("Relevance");
 
   useEffect(() => {
     setLoading(true);
@@ -25,11 +26,34 @@ const ProductCollection = () => {
       })
       .catch((err) => {
         console.log(err.response.data.message);
+        setLoading(false);
       });
   }, [collection]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const sortProducts = (products: any, sortOption: string) => {
+    switch (sortOption) {
+      case "Price -- Low to High":
+        return [...products].sort((a, b) => a.productPrice - b.productPrice);
+      case "Price -- High to Low":
+        return [...products].sort((a, b) => b.productPrice - a.productPrice);
+      case "Newest First":
+        return [...products].sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      // case "Popularity":
+      //   return [...products].sort((a, b) => b.popularity - a.popularity); // Assuming you have a popularity field
+      default:
+        return products;
+    }
+  };
+
+  const sortedProducts = sortProducts(productCollection, sortOption);
+
   return (
     <div className="theme w-full  min-h-[100vh] ">
       <FilterBar />
@@ -57,17 +81,16 @@ const ProductCollection = () => {
         </div>
         <div className="lg:w-[80.8%] w-full md:w-9/12 md:relative theme_container pt-12 md:pt-4 shadow-sm ">
           <div className="pl-4 pb-4 font-md border-b-[1px] theme_border theme_text font-semibold">
-            {" "}
-            Showing 1 – {productCollection.length} of {productCollection.length}{" "}
+            Showing 1 – {sortedProducts.length} of {sortedProducts.length}{" "}
             results for {collection}
           </div>
-          <SortBy />
+          <SortBy setSortOption={setSortOption} />
           {loading ? (
             <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
               <Loading />
             </div>
           ) : (
-            productCollection.map((product: Product) => {
+            sortedProducts.map((product: Product) => {
               return (
                 <Link
                   to={`/products/${product._id}`}

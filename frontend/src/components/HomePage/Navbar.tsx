@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/store";
@@ -22,6 +22,7 @@ const Navbar = () => {
   );
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -54,7 +55,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="nav h-[3.5rem] z-100 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
+      <nav className="nav h-[3.5rem] z-[5] md:z-50 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
         <a href="/" className="text-lg cursor-pointer text-white">
           Zencart
         </a>
@@ -70,21 +71,27 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <Link
-                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
+                className={`nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex ${
+                  location.pathname === "/myprofile" ? "active-link" : ""
+                }`}
                 to={"/myprofile"}
               >
                 <CgProfile />
                 <span className="hidden lg:block">Account</span>
               </Link>
               <Link
-                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
+                className={`nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex ${
+                  location.pathname === "/admin" ? "active-link" : ""
+                }`}
                 to={"/admin"}
               >
                 <BiLockOpen />
                 <span className="hidden lg:block">Admin</span>
               </Link>
               <Link
-                className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md"
+                className={`nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md ${
+                  location.pathname === "/mycart" ? "active-link" : ""
+                }`}
                 to={"/mycart"}
               >
                 <MdShoppingCart />
@@ -93,7 +100,9 @@ const Navbar = () => {
             </>
           ) : (
             <Link
-              className="nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex"
+              className={`nav_btn p-2 theme_border md:flex items-center gap-2 border-2 cursor-pointer rounded-md hidden sm:flex ${
+                location.pathname === "/login" ? "active-link" : ""
+              }`}
               to={"/login"}
             >
               <CgProfile />
@@ -124,7 +133,9 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/myprofile"
-                      className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                      className={`flex px-4 py-2 theme_text gap-2 items-center nav_btn ${
+                        location.pathname === "/myprofile" ? "active-link" : ""
+                      }`}
                       onClick={() => setIsMenuVisible(!isMenuVisible)}
                     >
                       <CgProfile className="theme_color" />
@@ -132,7 +143,9 @@ const Navbar = () => {
                     </Link>
                     <Link
                       to="/admin"
-                      className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                      className={`flex px-4 py-2 theme_text gap-2 items-center nav_btn ${
+                        location.pathname === "/admin" ? "active-link" : ""
+                      }`}
                       onClick={() => setIsMenuVisible(!isMenuVisible)}
                     >
                       <BiLockOpen className="theme_color" />
@@ -142,7 +155,9 @@ const Navbar = () => {
                 ) : (
                   <Link
                     to="/login"
-                    className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                    className={`flex px-4 py-2 theme_text gap-2 items-center nav_btn ${
+                      location.pathname === "/login" ? "active-link" : ""
+                    }`}
                     onClick={() => setIsMenuVisible(!isMenuVisible)}
                   >
                     <CgProfile className="theme_color" />
@@ -151,7 +166,9 @@ const Navbar = () => {
                 )}
                 <Link
                   to="/mycart"
-                  className="flex px-4 py-2 theme_text gap-2 items-center nav_btn"
+                  className={`flex px-4 py-2 theme_text gap-2 items-center nav_btn ${
+                    location.pathname === "/mycart" ? "active-link" : ""
+                  }`}
                   onClick={() => setIsMenuVisible(!isMenuVisible)}
                 >
                   <MdShoppingCart className="theme_color" />

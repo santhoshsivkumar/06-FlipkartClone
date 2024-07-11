@@ -31,6 +31,7 @@ const MyCart = () => {
       .then((response: any) => {
         if (response.data.cart.length) {
           setCartItems(response.data.cart);
+          console.log(response.data.cart);
           setOrderImage(response.data.cart[0].productImage);
           if (response.data.cart.length > 1) {
             setOrderName(`(${response.data.cart.length} items)`);
@@ -45,7 +46,6 @@ const MyCart = () => {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setError(err.message);
       });
@@ -68,7 +68,6 @@ const MyCart = () => {
       setTotalPrice(calculateTotalPrice(response.data));
       setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
     } catch (error) {
-      console.log(error);
       setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
     }
   };
@@ -83,21 +82,17 @@ const MyCart = () => {
       );
       if (!response.data.length) {
         setError("No items in your cart");
-        setTimeout(() => {
-          navigate(-1);
-        }, 1000);
-      } else {
-        setCartItems(response.data);
-        if (response.data.length > 1) {
-          setOrderName(`(${response.data.length} items)`);
-        } else {
-          setOrderName(response.data[0].productName);
-        }
-        setTotalPrice(calculateTotalPrice(response.data));
-        setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
       }
+
+      setCartItems(response.data);
+      if (response.data.length > 1) {
+        setOrderName(`(${response.data.length} items)`);
+      } else {
+        setOrderName(response.data[0].productName);
+      }
+      setTotalPrice(calculateTotalPrice(response.data));
+      setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
     } catch (error) {
-      console.log(error);
       setLoadingStates((prev) => ({ ...prev, [product.productId]: false }));
     }
   };
@@ -243,9 +238,9 @@ const MyCart = () => {
             <button
               title="ADD TO CART"
               className={`${
-                address ? "bg-orange-500 " : "bg-gray-400"
+                address && !error ? "bg-orange-500 " : "bg-gray-400"
               } py-3 px-12  text-white font-semibold`}
-              disabled={address ? false : true}
+              disabled={address && !error ? false : true}
               onClick={handleContinue}
             >
               CONTINUE
@@ -303,9 +298,9 @@ const MyCart = () => {
         <button
           title="ADD TO CART"
           className={`${
-            address ? "bg-orange-500 " : "bg-gray-400"
+            address && !error ? "bg-orange-500 " : "bg-gray-400"
           } py-3 px-12  text-white font-semibold`}
-          disabled={address ? false : true}
+          disabled={address && !error ? false : true}
           onClick={handleContinue}
         >
           CONTINUE

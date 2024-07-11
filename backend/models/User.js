@@ -34,13 +34,18 @@ const cartSchema = new mongoose.Schema({
   },
 });
 
-const orderSchema = new mongoose.Schema({
-  savedPrice: String,
-  price30Percent: String,
-  orderName: String,
-  totalPrice: String,
-  orderImage: String,
-});
+const orderSchema = new mongoose.Schema(
+  {
+    savedPrice: String,
+    price30Percent: String,
+    orderName: String,
+    totalPrice: String,
+    orderImage: String,
+  },
+  {
+    timestamps: true,
+  }
+);
 export const userSchema = new mongoose.Schema(
   {
     name: {

@@ -17,6 +17,7 @@ import { initialUserState } from "../static/initialStates";
 import DeleteComponent from "../components/DeleteComponent";
 import ManageAddress from "../components/MyProfilePage/ManageAddress";
 import ComingSoon from "../components/MyProfilePage/ComingSoon";
+import MyOrders from "../components/MyProfilePage/MyOrders";
 
 const MyProfile = () => {
   const userId = localStorage.getItem("userId");
@@ -129,7 +130,7 @@ const MyProfile = () => {
         <div
           className={`${
             isSidebarOpen ? "block" : "hidden"
-          } fixed inset-y-0 left-0 theme_container  h-full w-64 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] min-h-[100vh] overflow-y-scroll flex-col gap-2 shadow-md`}
+          } fixed inset-y-0 left-0 theme_container  h-full w-64 z-10 md:flex md:relative md:w-4/12 lg:w-[25%] min-h-[100vh] overflow-y-scroll flex-col gap-2 shadow-md`}
         >
           <div className="h-[11.5%] flex gap-4 items-center rounded-sm border-b-[1px] theme_border p-3 theme_container">
             <img
@@ -144,7 +145,12 @@ const MyProfile = () => {
           </div>
           <div className="h-full md:h-[85%] rounded-sm theme_border theme_container">
             {/* 2nd */}
-            <div className="flex items-center gap-4 theme_border border-b-[1px] p-4">
+            <div
+              className="flex items-center gap-4 theme_border border-b-[1px] p-4"
+              onClick={() => {
+                navigate("/myorders");
+              }}
+            >
               <i
                 className="fa fa-cart-arrow-down theme_color"
                 aria-hidden="true"
