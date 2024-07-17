@@ -152,18 +152,10 @@ const LoginPage = () => {
         })
         .catch((error) => {
           setLoading(false);
-          if (
-            error.response &&
-            error.response.data &&
-            error.response.data.message
-          ) {
-            setErrors((prev) => ({
-              ...prev,
-              password: error.response.data.message,
-            }));
-          } else {
-            console.log(error);
-          }
+          setErrors((prev) => ({
+            ...prev,
+            password: error.response.data.message,
+          }));
         });
     }
   };

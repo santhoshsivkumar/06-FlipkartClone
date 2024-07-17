@@ -3,7 +3,7 @@ import { formatPrice } from "../../static/Functions";
 
 const ProductCard = ({ products, onDeleteClick }: any) => {
   return (
-    <div className="grid grid-cols-1 theme_text md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-1 theme_text md:grid-cols-2 lg:grid-cols-5 gap-4">
       {products.map((product: any) => (
         <div
           key={product._id}

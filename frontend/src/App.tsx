@@ -14,14 +14,14 @@ import MyProfile from "./pages/MyProfile";
 import MyCart from "./pages/MyCart";
 import ProductForm from "./components/AdminPage/ProductForm";
 import Checkout from "./pages/Checkout";
+import ScrollToTop from "./components/ScrollToTop";
 
 const App: React.FC = () => {
   return (
     <>
       <Navbar />
-
+      <ScrollToTop />
       <div className="w-full min-h-[calc(100vh-3.5rem)] mt-[3.5rem]">
-        {/* <Suspense fallback={<LoadingComponent />}> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -61,7 +61,6 @@ const App: React.FC = () => {
             element={<PrivateRoute element={<ProductForm mode="edit" />} />}
           />
         </Routes>
-        {/* </Suspense> */}
       </div>
     </>
   );
