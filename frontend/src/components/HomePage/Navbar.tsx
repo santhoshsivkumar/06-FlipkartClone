@@ -112,7 +112,7 @@ const Navbar = () => {
             <div
               className={`${
                 suggestions?.length > 0 ? "block" : "hidden"
-              }  absolute top-full left-0 right-0 border theme_border rounded-b-lg theme_container shadow-lg z-10`}
+              }  absolute top-full left-0 right-0 border theme_border theme_container shadow-lg z-10`}
             >
               {suggestions?.length > 0
                 ? suggestions?.map((product: any, index: number) => (
