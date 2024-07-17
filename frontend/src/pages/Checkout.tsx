@@ -5,7 +5,7 @@ import axios from "axios";
 import { siteURL } from "../static/Data";
 import { initialUserState } from "../static/initialStates";
 import { MdDone } from "react-icons/md";
-import axisSvg from "../assets/axis-78501b36.svg";
+
 import { Link } from "react-router-dom";
 import { GoLinkExternal } from "react-icons/go";
 import ErrorModal from "../components/ErrorModal"; // Import your ErrorModal component
@@ -57,7 +57,6 @@ const Checkout = () => {
     setShowErrorModal(false); // Close error modal
     setError(""); // Clear error message
   };
-
   return (
     <>
       {" "}
@@ -123,10 +122,6 @@ const Checkout = () => {
                 </div>
               ) : (
                 <div className="flex flex-col gap-2 items-center justify-center">
-                  <span className="text-red-500">
-                    {" "}
-                    Please add delivery address to continue{" "}
-                  </span>
                   <Link
                     to={"/myprofile"}
                     className="flex justify-center gap-1 items-center text-blue-500"
@@ -138,7 +133,7 @@ const Checkout = () => {
               )}
             </div>
             {/* 3 */}
-            <div className="theme_container shadow-sm w-full flex flex-col p-4">
+            <div className="theme_container relative shadow-sm w-full flex flex-col p-4">
               <div className=" flex items-center font-semibold pb-2">
                 <span className="theme_color p-[2px] theme px-2 rounded-sm text-xs">
                   3
@@ -154,10 +149,10 @@ const Checkout = () => {
                 <div className="flex h-[11vh] justify-center items-center text-red-500">
                   <Loading width={20} height={20} />
                 </div>
-              ) : (
+              ) : order.orderName ? (
                 <div className="theme_text flex-row gap-4 flex pl-[38px] text-sm font-semibold">
                   <img
-                    src={order.orderImage}
+                    src={order?.orderImage}
                     alt=""
                     className="w-20 h-20 p-1 border theme_border rounded-sm"
                   />
@@ -182,6 +177,10 @@ const Checkout = () => {
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div className="absolute text-red-500 inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+                  No items in your cart
+                </div>
               )}
             </div>
             {/* 4 */}
@@ -205,8 +204,8 @@ const Checkout = () => {
                 <div className="theme_text flex-row items-center gap-4 flex pt-2 pl-[38px] text-sm font-semibold">
                   <input type="radio" defaultChecked={true} />
                   <img
-                    src={axisSvg}
-                    alt=""
+                    src="https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Faxis-78501b36.svg?alt=media&token=e4b67491-7c97-42fd-8611-1b6726fde8ed"
+                    alt="Axis"
                     className="w-10 h-10 shadow-sm border rounded-sm theme_border p-1"
                   />
 
@@ -237,9 +236,11 @@ const Checkout = () => {
               <button
                 title="ADD TO CART"
                 className={`${
-                  user.addressData[0] ? "bg-orange-500 " : "bg-gray-400"
+                  user.addressData[0] && order.orderName
+                    ? "bg-orange-500 "
+                    : "bg-gray-400"
                 } py-3 px-12  text-white font-semibold`}
-                disabled={user.addressData[0] ? false : true}
+                disabled={user.addressData[0] && order.orderName ? false : true}
                 onClick={handlePlaceOrder}
               >
                 PLACE ORDER
@@ -288,9 +289,11 @@ const Checkout = () => {
             <button
               title="ADD TO CART"
               className={`${
-                user.addressData[0] ? "bg-orange-500 " : "bg-gray-400"
+                user.addressData[0] && order.orderName
+                  ? "bg-orange-500 "
+                  : "bg-gray-400"
               } py-3 px-12  text-white font-semibold`}
-              disabled={user.addressData[0] ? false : true}
+              disabled={user.addressData[0] && order.orderName ? false : true}
               onClick={handlePlaceOrder}
             >
               PLACE ORDER

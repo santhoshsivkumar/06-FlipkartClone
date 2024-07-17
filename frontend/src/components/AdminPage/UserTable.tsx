@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { initialUserState } from "../../static/initialStates";
 import Loading from "../Loading";
-import defaultimg from "../../assets/profile-pic-male_4811a1.svg";
 import { formatRelativeTime } from "../../static/Functions";
 import PasswordConfirmationModal from "./PasswordConfirmationModal";
 
@@ -70,7 +69,10 @@ const UserTable = ({
         <td className="p-4">{user._id}</td>
         <td className="p-4">
           <img
-            src={user.image || defaultimg}
+            src={
+              user.image ||
+              "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fprofile-pic-male_4811a1.svg?alt=media&token=e17b4c7a-73de-401f-a54d-da1ab00f1e13"
+            }
             alt="User"
             className="rounded-md border-[1px] p-1 theme_border"
             style={{

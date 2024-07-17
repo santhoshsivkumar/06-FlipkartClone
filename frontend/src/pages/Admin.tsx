@@ -53,12 +53,12 @@ const Admin = () => {
   };
 
   const handleDeleteItem = async () => {
+    setIsDeleteModalOpen(false);
     try {
       await axios
         .delete(`${siteURL}/${route}/delete/${deleteItemId}`)
         .then((res) => console.log(res))
         .catch((err) => console.error(err));
-      setIsDeleteModalOpen(false);
       fetchData();
     } catch (error) {
       console.error(error);

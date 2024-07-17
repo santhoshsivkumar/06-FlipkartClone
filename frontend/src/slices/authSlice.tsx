@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "../static/interface";
 import { initialUserState } from "../static/initialStates";
 
 export interface AuthState {
   // Exporting AuthState
   isAuthenticated: boolean;
-  userData: User;
+  userData: any;
 }
 
 const initialState: AuthState = {

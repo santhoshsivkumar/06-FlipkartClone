@@ -1,5 +1,3 @@
-import defaultimg from "../../assets/profile-pic-male_4811a1.svg";
-
 const UserCard = ({ users, onDeleteClick }: any) => {
   return (
     <div className="grid grid-cols-1 theme_text md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -9,7 +7,10 @@ const UserCard = ({ users, onDeleteClick }: any) => {
           className="theme_container gap-1 flex flex-col justify-center items-center p-4 rounded-md shadow-md "
         >
           <img
-            src={user.image || defaultimg}
+            src={
+              user.image ||
+              "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fprofile-pic-male_4811a1.svg?alt=media&token=e17b4c7a-73de-401f-a54d-da1ab00f1e13"
+            }
             alt="User"
             className="size-12 rounded-md"
           />

@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { SortByItems } from "../../static/Data";
 
+const SortByItems = [
+  "Sort By",
+  "Relevance",
+  "Popularity",
+  "Price -- Low to High",
+  "Price -- High to Low",
+  "Newest First",
+];
 interface SortByProps {
   setSortOption: (option: string) => void;
 }

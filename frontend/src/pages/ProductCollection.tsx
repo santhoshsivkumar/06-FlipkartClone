@@ -5,12 +5,11 @@ import { siteURL } from "../static/Data";
 import { find30percent, find70percent, formatPrice } from "../static/Functions";
 import FilterBar from "../components/FilterBar";
 import SortBy from "../components/ProductsPage/SortBy";
-import { Product } from "../static/interface";
 import Loading from "../components/Loading";
 import FilterSection from "../components/ProductCollectionPage/FilterSection";
 
 const ProductCollection = () => {
-  const [productCollection, setProductCollection] = useState<Product[]>([]);
+  const [productCollection, setProductCollection] = useState<any[]>([]);
   const { collection } = useParams<{ collection: string }>();
   const [loading, setLoading] = useState<Boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
@@ -89,8 +88,8 @@ const ProductCollection = () => {
             <div className="absolute inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
               <Loading />
             </div>
-          ) : (
-            sortedProducts.map((product: Product) => {
+          ) : sortedProducts.length ? (
+            sortedProducts.map((product: any) => {
               return (
                 <Link
                   to={`/products/${product._id}`}
@@ -165,6 +164,10 @@ const ProductCollection = () => {
                 </Link>
               );
             })
+          ) : (
+            <div className="absolute text-red-600 inset-0 flex gap-2 flex-col items-center justify-center theme_container  z-10">
+              No products found
+            </div>
           )}
         </div>
       </div>

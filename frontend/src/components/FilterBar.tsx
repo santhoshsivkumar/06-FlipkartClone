@@ -1,4 +1,15 @@
-import { FilterBarItems } from "../static/Data";
+const FilterBarItems = [
+  "Electronics",
+  "TVs & Appliances",
+  "Men",
+  "Women",
+  "Baby & Kids",
+  "Home & Furniture",
+  "Sports, Books & More",
+  "Flights",
+  "Offer Zone",
+];
+
 const FilterBar = () => {
   return (
     <div className="px-4 h-10 text-xs overflow-y-scroll hidden lg:flex lg:text-sm theme_container gap-12  items-center justify-center theme_border shadow-md ">

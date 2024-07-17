@@ -1,28 +1,27 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Admin from "./pages/Admin";
-import ProductDetails from "./pages/ProductDetails";
-import ProductForm from "./components/AdminPage/ProductForm";
-import LoginPage from "./pages/LoginPage";
 import Home from "./pages/Home";
 import Navbar from "./components/HomePage/Navbar";
-import "./App.css";
 import "./styles/styles.css";
-import ScrollToTop from "./components/ScrollToTop";
+
+import LoginPage from "./pages/LoginPage";
 import ProductCollection from "./pages/ProductCollection";
+import ProductDetails from "./pages/ProductDetails";
+import PrivateRoute from "./components/PrivateRoute";
+import MyOrders from "./components/MyProfilePage/MyOrders";
+import Admin from "./pages/Admin";
 import MyProfile from "./pages/MyProfile";
 import MyCart from "./pages/MyCart";
+import ProductForm from "./components/AdminPage/ProductForm";
 import Checkout from "./pages/Checkout";
-import PrivateRoute from "./components/PrivateRoute";
-
-import MyOrders from "./components/MyProfilePage/MyOrders";
 
 const App: React.FC = () => {
   return (
     <>
       <Navbar />
-      <ScrollToTop />
+
       <div className="w-full min-h-[calc(100vh-3.5rem)] mt-[3.5rem]">
+        {/* <Suspense fallback={<LoadingComponent />}> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -62,6 +61,7 @@ const App: React.FC = () => {
             element={<PrivateRoute element={<ProductForm mode="edit" />} />}
           />
         </Routes>
+        {/* </Suspense> */}
       </div>
     </>
   );

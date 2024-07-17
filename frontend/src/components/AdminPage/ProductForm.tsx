@@ -2,9 +2,37 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ConvertToBase64 } from "../../static/Functions";
-import { siteURL, categories } from "../../static/Data";
+import { siteURL } from "../../static/Data";
 import Loading from "../Loading";
 import InputField from "../InputField"; // New component for input fields
+
+const categories = [
+  "shampoo",
+  "smartphones",
+  "smartwatches",
+  "laptops",
+  "tablets",
+  "accessories",
+  "televisions",
+  "cameras",
+  "headphones",
+  "speakers",
+  "home appliances",
+  "furniture",
+  "fashion",
+  "shoes",
+  "beauty products",
+  "sports equipment",
+  "books",
+  "toys",
+  "automotive",
+  "stationery",
+  "kitchenware",
+  "groceries",
+  "fitness",
+  "gaming",
+  "pet supplies",
+];
 
 const initialState = {
   productName: "",

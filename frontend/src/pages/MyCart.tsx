@@ -29,20 +29,20 @@ const MyCart = () => {
     axios
       .get(`${siteURL}/users/details/${userId}`)
       .then((response: any) => {
-        if (response.data.cart.length) {
-          setCartItems(response.data.cart);
-          console.log(response.data.cart);
-          setOrderImage(response.data.cart[0].productImage);
+        if (response.data.length) {
+          setCartItems(response.data?.cart);
+
+          setAddress(response.data?.addressData[0]);
+          setTotalPrice(calculateTotalPrice(response.data?.cart));
+          setOrderImage(response.data.cart[0]?.productImage);
           if (response.data.cart.length > 1) {
-            setOrderName(`(${response.data.cart.length} items)`);
+            setOrderName(`(${response.data.cart?.length} items)`);
           } else {
-            setOrderName(response.data.cart[0].productName);
+            setOrderName(response.data?.cart[0]?.productName);
           }
         } else {
           setError("No items in your cart");
         }
-        setAddress(response.data.addressData[0]);
-        setTotalPrice(calculateTotalPrice(response.data.cart));
         setLoading(false);
       })
       .catch((err) => {

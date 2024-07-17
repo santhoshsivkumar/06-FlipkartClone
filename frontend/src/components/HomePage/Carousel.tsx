@@ -1,19 +1,25 @@
 import { useState, useEffect } from "react";
-import p1 from "../../assets/p1.webp";
-import p2 from "../../assets/p2.webp";
-import p3 from "../../assets/p3.webp";
-import p4 from "../../assets/p4.webp";
-import p6 from "../../assets/p6.webp";
+const carouselSlides = [
+  "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fp1.webp?alt=media&token=9d20b154-4db0-4b76-a660-8eef616673be",
+  "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fp2.webp?alt=media&token=a41fb09b-c278-46ea-897e-185066564ae4",
+  "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fp3.webp?alt=media&token=145679f2-fdda-45b1-b9c1-ab5531e2f1fd",
+  "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fp4.webp?alt=media&token=3433170f-219b-4c8d-a1ce-399d67f162cc",
+  "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fp6.webp?alt=media&token=761871ad-adce-4e0a-96e4-42d97bf23b1e",
+];
+
 const Carousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = [p1, p2, p3, p4, p6];
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
+    setCurrentSlide((prev) =>
+      prev === carouselSlides.length - 1 ? 0 : prev + 1
+    );
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
+    setCurrentSlide((prev) =>
+      prev === 0 ? carouselSlides.length - 1 : prev - 1
+    );
   };
 
   useEffect(() => {
@@ -25,7 +31,7 @@ const Carousel = () => {
     <div
       className={`theme_container h-64 p-4 shadow-sm rounded-sm justify-center flex items-center relative`}
     >
-      {slides.map((slide, index) => (
+      {carouselSlides.map((slide, index) => (
         <div
           key={index}
           className={`absolute w-full h-full transition-opacity duration-1000 ease-in-out ${
@@ -54,7 +60,7 @@ const Carousel = () => {
         <i className="fa fa-chevron-right" aria-hidden="true"></i>
       </button>
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
+        {carouselSlides.map((_, index) => (
           <div
             key={index}
             className={`w-2 h-2 mb-2 rounded-full ${

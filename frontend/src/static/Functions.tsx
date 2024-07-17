@@ -1,5 +1,3 @@
-import { Product } from "./interface";
-
 export const ConvertToBase64 = (file: File) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -22,7 +20,7 @@ export const formatPrice = (price: any, locale = "en-IN", currency = "INR") => {
   }).format(price);
 };
 
-export function groupProducts(products: Product[], field: string) {
+export function groupProducts(products: any[], field: string) {
   const groupedProducts: any = {};
 
   products.forEach((product: any) => {

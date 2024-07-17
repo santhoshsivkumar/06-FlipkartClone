@@ -1,22 +1,27 @@
-import ProfileImg from "../assets/profile-pic-male_4811a1.svg";
 import { useEffect, useState } from "react";
-import {
-  AccountSettingsItems,
-  MyStuffItems,
-  PaymentsItems,
-  siteURL,
-} from "../static/Data";
+import { siteURL } from "../static/Data";
 import UtilityComponent from "../components/MyProfilePage/UtilityComponent";
 import ProfileInformation from "../components/MyProfilePage/ProfileInformation";
 import { logout, setUserData } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { User } from "../static/interface";
 import { initialUserState } from "../static/initialStates";
 import DeleteComponent from "../components/DeleteComponent";
 import ManageAddress from "../components/MyProfilePage/ManageAddress";
 import ComingSoon from "../components/MyProfilePage/ComingSoon";
+const MyStuffItems = [
+  "My Coupons",
+  "My Reviews & Ratings",
+  "All Notifications",
+  "My Wishlist",
+];
+const PaymentsItems = ["Gift Cards", "Saved UPI", "Saved Cards"];
+const AccountSettingsItems = [
+  "Profile Information",
+  "Manage Address",
+  "PAN Card Information",
+];
 
 const MyProfile = () => {
   const userId = localStorage.getItem("userId");
@@ -49,7 +54,7 @@ const MyProfile = () => {
     navigate("/");
   };
 
-  const onSave = async (updatedUserInfo: User) => {
+  const onSave = async (updatedUserInfo: any) => {
     try {
       const response = await axios.put(
         `${siteURL}/users/update/${userId}`,
@@ -99,10 +104,10 @@ const MyProfile = () => {
   };
 
   const handleDeleteAccount = async () => {
-    setIsDeleteModalOpen(false);
     try {
       await axios.delete(`${siteURL}/users/delete/${userId}`).then(() => {
         // alert(response.data.message);
+        setIsDeleteModalOpen(false);
         handleLogout();
       });
     } catch (error) {
@@ -133,7 +138,7 @@ const MyProfile = () => {
         >
           <div className="h-[11.5%] flex gap-4 items-center rounded-sm border-b-[1px] theme_border p-3 theme_container">
             <img
-              src={ProfileImg}
+              src="https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2Fprofile-pic-male_4811a1.svg?alt=media&token=e17b4c7a-73de-401f-a54d-da1ab00f1e13"
               alt="Default Profile Image"
               className="w-[3.5rem] h-[3.3rem]"
             />

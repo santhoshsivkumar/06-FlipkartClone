@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import InputField from "../InputField";
 import { initialUserState } from "../../static/initialStates";
 import { useSelector } from "react-redux";
-import { User } from "../../static/interface";
 
 const radioOptions = [
   { value: "Male", label: "Male" },
@@ -41,7 +40,7 @@ const ProfileInformation = ({
   const handleOnchange = (e: any, setState: any) => {
     const { value, name } = e.target;
     setState(value);
-    setErrors((prevState: User) => ({
+    setErrors((prevState: any) => ({
       ...prevState,
       [name]: "",
     }));

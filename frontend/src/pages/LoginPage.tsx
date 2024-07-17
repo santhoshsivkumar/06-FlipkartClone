@@ -143,11 +143,11 @@ const LoginPage = () => {
           const { token, user } = response.data;
           localStorage.setItem("token", token);
           localStorage.setItem("userId", user._id);
+          navigate("/");
           dispatch(login());
           setTimeout(() => {
             setLoading(false);
           }, 1000);
-          navigate(-1);
           setInput(initialState);
         })
         .catch((error) => {
