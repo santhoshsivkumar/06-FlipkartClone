@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { siteURL } from "../static/Data";
 import UtilityComponent from "../components/MyProfilePage/UtilityComponent";
 import ProfileInformation from "../components/MyProfilePage/ProfileInformation";
-import { logout, setUserData } from "../slices/authSlice";
+import { setUserData } from "../slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -50,7 +50,6 @@ const MyProfile = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    dispatch(logout());
     navigate("/");
   };
 
@@ -106,7 +105,6 @@ const MyProfile = () => {
   const handleDeleteAccount = async () => {
     try {
       await axios.delete(`${siteURL}/users/delete/${userId}`).then(() => {
-        // alert(response.data.message);
         setIsDeleteModalOpen(false);
         handleLogout();
       });

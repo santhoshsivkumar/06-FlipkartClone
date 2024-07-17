@@ -8,7 +8,7 @@ import { MdDone } from "react-icons/md";
 
 import { Link } from "react-router-dom";
 import { GoLinkExternal } from "react-icons/go";
-import ErrorModal from "../components/ErrorModal"; // Import your ErrorModal component
+import ErrorModal from "../components/ErrorModal";
 import FinalPage from "./FinalPage";
 
 const Checkout = () => {
@@ -17,7 +17,7 @@ const Checkout = () => {
   const userId = localStorage.getItem("userId");
   const [user, setUser] = useState(initialUserState);
   const [error, setError] = useState("");
-  const [showErrorModal, setShowErrorModal] = useState(false); // State to control modal visibility
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [showFinalPage, setShowFinalPage] = useState(false);
   useEffect(() => {
     setLoading(true);
@@ -45,17 +45,17 @@ const Checkout = () => {
     } catch (error: any) {
       if (error.response) {
         setError(error.response.data.message);
-        setShowErrorModal(true); // Show error modal
+        setShowErrorModal(true);
       } else {
         setError("Something went wrong. Please try again later.");
-        setShowErrorModal(true); // Show error modal
+        setShowErrorModal(true);
       }
     }
   };
 
   const closeErrorModal = () => {
-    setShowErrorModal(false); // Close error modal
-    setError(""); // Clear error message
+    setShowErrorModal(false);
+    setError("");
   };
   return (
     <>

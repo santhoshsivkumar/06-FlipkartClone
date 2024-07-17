@@ -1,7 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+
 import {
   MdDarkMode,
   MdLightMode,
@@ -10,20 +9,18 @@ import {
 } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { BiLockOpen } from "react-icons/bi";
-import { logout } from "../../slices/authSlice";
 
 const Navbar = () => {
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const dispatch = useDispatch();
+  const isAuthenticated =
+    !!localStorage.getItem("token") && !!localStorage.getItem("userId");
+
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "dark"
   );
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
-
+  const navigate = useNavigate();
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -50,7 +47,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    dispatch(logout());
+    navigate("/");
   };
 
   return (

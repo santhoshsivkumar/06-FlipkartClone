@@ -6,7 +6,9 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ element }) => {
-  const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated =
+    !!localStorage.getItem("token") && !!localStorage.getItem("userId");
+
   const location = useLocation();
   const [redirectTimer, setRedirectTimer] = useState(3); // Redirect timer in seconds
 

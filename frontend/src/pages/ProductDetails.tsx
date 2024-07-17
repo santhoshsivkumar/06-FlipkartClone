@@ -20,7 +20,8 @@ const ProductDetails = () => {
     seller: "",
   });
   const [error, setError] = useState("");
-  const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated =
+    !!localStorage.getItem("token") && !!localStorage.getItem("userId");
   const userId = localStorage.getItem("userId");
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState<Boolean>(false);
