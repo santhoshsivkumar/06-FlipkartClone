@@ -7,31 +7,27 @@ import Loading from "../Loading";
 import InputField from "../InputField"; // New component for input fields
 
 const categories = [
-  "shampoo",
   "smartphones",
   "smartwatches",
   "laptops",
+  "two wheelers",
   "tablets",
   "accessories",
+  "home & furnitures",
+  "beauty, toys & more",
   "televisions",
   "cameras",
   "headphones",
+  "electronics",
   "speakers",
-  "home appliances",
-  "furniture",
+  "travel",
+  "appliances",
   "fashion",
+  "grocery",
   "shoes",
-  "beauty products",
-  "sports equipment",
   "books",
-  "toys",
-  "automotive",
-  "stationery",
-  "kitchenware",
-  "groceries",
   "fitness",
   "gaming",
-  "pet supplies",
 ];
 
 const initialState = {

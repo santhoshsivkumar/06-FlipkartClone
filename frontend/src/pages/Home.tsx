@@ -89,9 +89,9 @@ const Home = () => {
       </div>
       <Carousel />
 
-      <div className={`justify-center flex rounded-sm`}>
+      <div className={`justify-center flex rounded-sm md:min-h-[15rem]`}>
         {loading ? (
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center ">
             <Loading />
           </div>
         ) : categories?.length > 0 ? (
