@@ -81,7 +81,7 @@ const Navbar = () => {
       }
     };
 
-    const debounceFetch = setTimeout(fetchSuggestions, 300);
+    const debounceFetch = setTimeout(fetchSuggestions, 100);
 
     return () => {
       clearTimeout(debounceFetch);
