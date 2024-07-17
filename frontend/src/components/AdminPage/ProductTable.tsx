@@ -3,7 +3,7 @@ import Loading from "../Loading";
 import { formatRelativeTime } from "../../static/Functions";
 
 const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
-  <td className="p-4 justify-center flex items-center">
+  <td className="p-4">
     <img
       src={imageUrl}
       alt="Product Preview"
@@ -11,7 +11,7 @@ const ProductImage = ({ imageUrl }: { imageUrl: string }) => (
       style={{
         maxWidth: "100%",
         maxHeight: "200px",
-        width: "250px",
+        width: "100px",
         height: "100px",
       }}
     />
@@ -32,7 +32,6 @@ const ProductLink = ({ to, iconClass }: { to: string; iconClass: string }) => (
 );
 
 const headers = [
-  "Product ID",
   "Product Image",
   "Product Name",
   "Product Description",
@@ -60,7 +59,6 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
 
     return products.map((product: any) => (
       <tr key={product._id} className="border-b theme_border text-center">
-        <td className="p-4">{product._id}</td>
         <ProductImage imageUrl={product.productImage} />
         {[
           "productName",
@@ -72,7 +70,7 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
           "createdAt",
         ].map((field, index) => (
           <td key={index} className="p-4">
-            {field === "productDescription"
+            {field === "productDescription" || field === "productName"
               ? product[field]?.substring(0, 15)
               : field === "createdAt"
               ? product[field]

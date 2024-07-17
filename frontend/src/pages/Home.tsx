@@ -99,19 +99,22 @@ const Home = () => {
             className={`relative grid justify-center items-center grid-cols-2 w-full sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2  rounded-sm `}
           >
             {categories.map((category: any, index: number) => (
-              <Link to={`/products/collection/${category}`} key={index}>
+              <Link
+                to={`/products/collection/${category.categoryName}`}
+                key={index}
+              >
                 <div
                   className={` theme_container m-1 theme_border border-[1px] product_card flex flex-col justify-center shadow-sm items-center cursor-pointer rounded-sm p-4`}
                 >
                   <img
-                    src="https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2FDefault_Img.jpg?alt=media&token=37ae8d9f-967d-4779-8790-95150b46a06f"
+                    src={
+                      category.categoryImage ||
+                      "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2FDefault_Img.jpg?alt=media&token=37ae8d9f-967d-4779-8790-95150b46a06f"
+                    }
                     alt="Product Preview"
                     className="rounded-sm p-4 hover:scale-[1.1]"
-                    style={{ width: "150px", height: "150px" }}
+                    style={{ width: "150px", height: "175px" }}
                   />
-                  <div className="theme_color text-md font-bold pt-2">
-                    {category}
-                  </div>
                 </div>
               </Link>
             ))}
