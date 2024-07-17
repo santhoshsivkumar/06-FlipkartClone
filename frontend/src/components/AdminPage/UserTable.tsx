@@ -22,7 +22,7 @@ const UserTable = ({
     "Email",
     "Mobile",
     "Gender",
-    "Created",
+    "Updated At",
     "View",
     "Delete",
   ];
@@ -90,7 +90,7 @@ const UserTable = ({
         </td>
         <td className="p-4">{user.gender || "Not provided"}</td>
         <td className="p-4">
-          {formatRelativeTime(user.createdAt) || "Not provided"}
+          {formatRelativeTime(user.updatedAt) || "Not provided"}
         </td>
         <td className="p-4 space-x-2">
           <button

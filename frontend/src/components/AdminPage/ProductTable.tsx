@@ -39,7 +39,7 @@ const headers = [
   "Category",
   "Company",
   "Seller",
-  "Created At",
+  "updated At",
   "View",
   "Edit",
   "Delete",
@@ -67,12 +67,12 @@ const ProductTable = ({ products, onDeleteClick }: any) => {
           "category",
           "company",
           "seller",
-          "createdAt",
+          "updatedAt",
         ].map((field, index) => (
           <td key={index} className="p-4">
             {field === "productDescription" || field === "productName"
               ? product[field]?.substring(0, 15)
-              : field === "createdAt"
+              : field === "updatedAt"
               ? product[field]
                 ? formatRelativeTime(product[field])
                 : product[field]

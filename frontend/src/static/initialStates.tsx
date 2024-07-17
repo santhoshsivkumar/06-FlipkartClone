@@ -16,11 +16,11 @@ export const initialOrderState = {
   orderImage: "",
   savedPrice: "",
   price30Percent: "",
-  createdAt: "",
+  updatedAt: "",
 };
 export const initialUserState = {
   _id: "",
-  createdAt: "",
+  updatedAt: "",
   image: "",
   name: "",
   email: "",

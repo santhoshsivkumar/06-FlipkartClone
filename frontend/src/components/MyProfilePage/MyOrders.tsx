@@ -175,7 +175,7 @@ const MyOrders = () => {
                   <div>
                     <h3 className="font-semibold text-green-600 text-[10px] md:text-sm">
                       Delivered on{" "}
-                      {order.createdAt && formatRelativeTime(order.createdAt)}
+                      {order.updatedAt && formatRelativeTime(order.updatedAt)}
                     </h3>
                   </div>
                 </div>
