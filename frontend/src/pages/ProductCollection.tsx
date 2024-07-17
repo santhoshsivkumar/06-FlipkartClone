@@ -93,7 +93,7 @@ const ProductCollection = () => {
               return (
                 <Link
                   to={`/products/${product._id}`}
-                  className="flex theme_text p-4 theme_border border-b-[0.5px] "
+                  className="flex theme_text p-4 theme_border border-b-[1px] "
                   key={product._id}
                 >
                   <div className="lg:w-[25%] w-4/12 flex justify-center items-center">
@@ -120,6 +120,7 @@ const ProductCollection = () => {
                           37,446 Ratings & 1,758 Reviews
                         </p>
                       </div>
+
                       <ul className="text-xs lg:text-sm space-y-2 list-disc ml-6 hidden lg:block ">
                         <li>6 GB RAM | 128 GB ROM | Expandable Upto 2 TB</li>
                         <li>16.94 cm (6.67 inch) Full HD+ Display</li>

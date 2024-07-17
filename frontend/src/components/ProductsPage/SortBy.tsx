@@ -23,14 +23,16 @@ const SortBy = ({ setSortOption }: SortByProps) => {
             <span
               key={index}
               onClick={() => {
-                setActive(item);
-                setSortOption(item);
+                if (index !== 0) {
+                  setActive(item);
+                  setSortOption(item);
+                }
               }}
               className={`${
                 active === item
                   ? "theme_color cursor-pointer"
                   : "cursor-pointer"
-              } text-sm`}
+              } ${index === 0 && "font-bold cursor-default"} text-sm`}
             >
               <span>{item}</span>
               <span
