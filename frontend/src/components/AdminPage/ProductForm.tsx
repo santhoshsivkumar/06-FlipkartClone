@@ -14,7 +14,7 @@ const categories = [
   "tablets",
   "accessories",
   "home & furnitures",
-  "beauty, toys & more",
+  "beauty&more",
   "televisions",
   "cameras",
   "headphones",

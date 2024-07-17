@@ -44,7 +44,7 @@ const HomePageImages = [
   },
   {
     img: "https://firebasestorage.googleapis.com/v0/b/chat-app-ed074.appspot.com/o/Flipcart%20clone%2FBeautyAndMore.webp?alt=media&token=5a3ab4e6-ac2d-4c40-8486-a09bbd54bca2",
-    link: "/products/collection/beauty, toys & more",
+    link: "/products/collection/beauty&more",
     title: "Beauty, Toys & More",
   },
   {
