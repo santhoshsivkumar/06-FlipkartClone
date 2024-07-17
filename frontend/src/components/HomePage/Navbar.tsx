@@ -9,6 +9,8 @@ import {
 } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { BiLockOpen } from "react-icons/bi";
+import axios from "axios";
+import { siteURL } from "../../static/Data";
 
 const Navbar = () => {
   const isAuthenticated =
@@ -17,10 +19,14 @@ const Navbar = () => {
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "dark"
   );
+
+  const [suggestions, setSuggestions] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
@@ -50,6 +56,39 @@ const Navbar = () => {
     navigate("/");
   };
 
+  useEffect(() => {
+    setError("");
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchSuggestions = async () => {
+      if (searchTerm.trim() === "") {
+        setSuggestions([]);
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          `${siteURL}/products/suggestions?query=${searchTerm}`,
+          { signal }
+        );
+        if (response.data.length) setSuggestions(response.data);
+        else setError("No items found");
+      } catch (error: any) {
+        if (error.name !== "AbortError") {
+          console.error("Error fetching product suggestions", error);
+        }
+      }
+    };
+
+    const debounceFetch = setTimeout(fetchSuggestions, 300);
+
+    return () => {
+      clearTimeout(debounceFetch);
+      controller.abort();
+    };
+  }, [searchTerm]);
+
   return (
     <>
       <nav className="nav h-[3.5rem] z-[5] md:z-50 shadow-sm justify-between flex fixed gap-4 top-0 w-full py-2 px-4 items-center font-semibold theme_bg">
@@ -61,12 +100,60 @@ const Navbar = () => {
           <a href="/" className="text-xl md:text-2xl cursor-pointer text-white">
             Zencart
           </a>
-          <input
-            type="text"
-            name="search"
-            placeholder="Search"
-            className="theme_search py-2 px-4 w-full max-w-[40rem] outline-none rounded-sm"
-          />
+          <div className="relative w-full max-w-[40rem]">
+            <input
+              type="text"
+              name="search"
+              placeholder="Search"
+              className="theme_searchDiv shadow-3xl theme_text font-normal py-2 px-4 w-full outline-none rounded-sm"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <div className="absolute top-full left-0 right-0 theme_container shadow-lg z-10">
+              {suggestions?.length > 0
+                ? suggestions?.map((product: any, index: number) => (
+                    <Link
+                      key={product._id}
+                      to={`/products/${product._id}`}
+                      className="px-4 py-2 theme_searchDiv flex items-center gap-4"
+                      onClick={() => {
+                        setSuggestions([]);
+                        setSearchTerm("");
+                      }}
+                    >
+                      <img
+                        src={product.productImage}
+                        alt="Product Preview"
+                        className=""
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "200px",
+                          width: "30px",
+                          height: "30px",
+                        }}
+                      />
+                      <div className="flex flex-col">
+                        {" "}
+                        <span className="text-xs theme_text">
+                          {product.productName}
+                        </span>
+                        {index === 0 || index === 1 ? (
+                          <span className="text-xs theme_color">
+                            in {product.category}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </Link>
+                  ))
+                : error && (
+                    <span className="flex items-center justify-center p-2 text-sm text-red-600">
+                      No items found
+                    </span>
+                  )}
+            </div>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           {isAuthenticated ? (

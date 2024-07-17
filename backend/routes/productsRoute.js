@@ -91,6 +91,25 @@ router.get("/details/:id", async (request, response) => {
     });
   }
 });
+// Route to get a Products on search - READ
+router.get("/suggestions", async (req, res) => {
+  const { query } = req.query;
+  if (!query) {
+    return res.json([]);
+  }
+
+  try {
+    const products = await Product.find({
+      productName: { $regex: query, $options: "i" },
+    }).limit(5);
+
+    res.status(200).send(products);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error fetching product suggestions", error });
+  }
+});
 
 // Route to update a product - UPDATE
 router.put("/update/:id", async (request, response) => {

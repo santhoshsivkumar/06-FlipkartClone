@@ -15,6 +15,12 @@
 .theme_search {
   background-color: var(--container-color);
 }
+.theme_searchDiv:hover {
+  background-color: var(--searchbtn-color);
+}
+.theme_searchDiv {
+  background-color: var(--container-color);
+}
 /* Common */
 
 .theme {

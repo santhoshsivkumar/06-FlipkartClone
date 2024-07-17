@@ -20,6 +20,9 @@ html {
   --light-btn-hover-color: #212121;
   --dark-btn-hover-color: #c8c8c8;
 
+  --light-searchbtn-color: #212121;
+  --dark-searchbtn-color: #f2f2f6;
+
   --light-btn-hover-color2: #212121;
   --dark-btn-hover-color2: #f6f6f6;
 
@@ -40,7 +43,7 @@ html {
   --container-color: var(--light-container-color);
   --btn-hover-color: var(--light-btn-hover-color);
   --btn-hover-color2: var(--light-btn-hover-color2);
-
+  --searchbtn-color: var(--light-searchbtn-color);
   --border-color: var(--dark-border-color);
   --hover-bg: var(--light-hover-bg);
   --disabled-bg: var(--light-disabled-bg);
@@ -50,6 +53,7 @@ html {
   --text-color: var(--dark-text-color);
   --container-color: var(--dark-container-color);
   --btn-hover-color: var(--dark-btn-hover-color);
+  --searchbtn-color: var(--dark-searchbtn-color);
   --btn-hover-color2: var(--dark-btn-hover-color2);
   --border-color: var(--light-border-color);
   --hover-bg: var(--dark-hover-bg);
