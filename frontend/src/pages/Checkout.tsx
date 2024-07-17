@@ -253,6 +253,10 @@ const Checkout = () => {
               <div className="flex h-[38vh] justify-center p-4  items-center text-red-500">
                 <Loading width={20} height={20} />
               </div>
+            ) : !order.orderName ? (
+              <div className="flex h-[43vh]  justify-center p-4 items-center text-red-500">
+                No items in your cart
+              </div>
             ) : (
               <>
                 {" "}
