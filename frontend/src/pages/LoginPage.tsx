@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../slices/authSlice";
 import StyledInputField from "../components/StyledInputField";
 import Loading from "../components/Loading";
 import { siteURL } from "../static/Data";
@@ -21,7 +19,6 @@ const LoginPage = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false); // State to manage success message display
   const navigate = useNavigate();
   const [input, setInput] = useState(initialState);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (newUser && showSuccessMessage) {
@@ -144,7 +141,6 @@ const LoginPage = () => {
           localStorage.setItem("token", token);
           localStorage.setItem("userId", user._id);
           navigate("/");
-          dispatch(login());
           setTimeout(() => {
             setLoading(false);
           }, 1000);
