@@ -4,8 +4,7 @@ import Loading from "../components/Loading";
 import axios from "axios";
 import { siteURL } from "../static/Data";
 import { initialUserState } from "../static/initialStates";
-import { MdDone } from "react-icons/md";
-
+import Heading from "../components/CheckoutPage/Heading";
 import { Link } from "react-router-dom";
 import { GoLinkExternal } from "react-icons/go";
 import ErrorModal from "../components/ErrorModal";
@@ -66,21 +65,11 @@ const Checkout = () => {
         <div className="theme theme_text w-full min-h-[100vh] lg:min-h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
           {/* left */}
           <div className="flex flex-col gap-4 md:w-7/12 lg:w-2/3 ">
-            {/* 1 */}
+            {/* top */}
             <div className="theme_container shadow-sm w-full flex flex-col p-4">
-              <div className=" flex items-center font-semibold pb-2">
-                <span className="theme_color p-[2px] theme px-2 rounded-sm text-xs">
-                  1
-                </span>
-                <span className="pl-4 text-md text-gray-500">LOGIN</span>
-                <span className="pl-2 theme_color">
-                  <MdDone />
-                </span>
-              </div>{" "}
+              <Heading serialNo={1} title="LOGIN" />
               {loading ? (
-                <div className="flex justify-center items-center text-red-500">
-                  <Loading width={20} height={20} />
-                </div>
+                <Loading width={20} height={20} />
               ) : (
                 <div className="theme_text pl-[38px] text-sm font-semibold">
                   {user.name}
@@ -90,17 +79,7 @@ const Checkout = () => {
             </div>
             {/* 2 */}
             <div className="theme_container shadow-sm w-full flex flex-col p-4">
-              <div className=" flex items-center font-semibold pb-2">
-                <span className="theme_color p-[2px] theme px-2 rounded-sm text-xs">
-                  2
-                </span>
-                <span className="pl-4 text-md text-gray-500">
-                  DELIVERY ADDRESS
-                </span>
-                <span className="pl-2 theme_color">
-                  <MdDone />
-                </span>
-              </div>
+              <Heading serialNo={2} title="DELIVERY ADDRESS" />
               {loading ? (
                 <div className="flex h-[8vh] justify-center items-center text-red-500">
                   <Loading width={20} height={20} />
@@ -134,17 +113,7 @@ const Checkout = () => {
             </div>
             {/* 3 */}
             <div className="theme_container relative shadow-sm w-full flex flex-col p-4">
-              <div className=" flex items-center font-semibold pb-2">
-                <span className="theme_color p-[2px] theme px-2 rounded-sm text-xs">
-                  3
-                </span>
-                <span className="pl-4 text-md text-gray-500">
-                  ORDER SUMMARY
-                </span>
-                <span className="pl-2 theme_color">
-                  <MdDone />
-                </span>
-              </div>
+              <Heading serialNo={3} title="ORDER SUMMARY" />
               {loading ? (
                 <div className="flex h-[11vh] justify-center items-center text-red-500">
                   <Loading width={20} height={20} />
@@ -185,17 +154,7 @@ const Checkout = () => {
             </div>
             {/* 4 */}
             <div className="theme_container shadow-sm w-full flex flex-col p-4">
-              <div className=" flex items-center font-semibold pb-2">
-                <span className="theme_color p-[2px] theme px-2 rounded-sm text-xs">
-                  4
-                </span>
-                <span className="pl-4 text-md text-gray-500">
-                  PAYMENT OPTIONS
-                </span>
-                <span className="pl-2 theme_color">
-                  <MdDone />
-                </span>
-              </div>
+              <Heading serialNo={4} title="PAYMENT OPTIONS" />
               {loading ? (
                 <div className="flex h-[8vh] justify-center items-center text-red-500">
                   <Loading width={20} height={20} />

@@ -22,7 +22,7 @@ const FinalPage = () => {
 
   if (redirectTimer <= 0) {
     // If not authenticated and timer has expired, redirect to login
-    return <Navigate to="/myprofile" replace={true} />;
+    return <Navigate to="/myorders" replace={true} />;
   }
 
   return (

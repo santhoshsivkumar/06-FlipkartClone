@@ -29,9 +29,8 @@ const MyCart = () => {
     axios
       .get(`${siteURL}/users/details/${userId}`)
       .then((response: any) => {
-        if (response.data.length) {
+        if (response.data) {
           setCartItems(response.data?.cart);
-
           setAddress(response.data?.addressData[0]);
           setTotalPrice(calculateTotalPrice(response.data?.cart));
           setOrderImage(response.data.cart[0]?.productImage);
@@ -109,58 +108,51 @@ const MyCart = () => {
     navigate("/checkout");
   };
   return (
-    <div className="theme theme_text w-full h-[100vh] md:min-h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
+    <div className="theme theme_text w-full md:h-[calc(100vh-3.5rem)] gap-4 flex flex-col md:flex-row py-6 px-[5px] md:px-6 lg:px-28">
       {/* left */}
       <div className="flex flex-col gap-4 md:w-7/12 lg:w-2/3 ">
+        {/* top */}
         <div className="theme_container shadow-sm theme_color flex justify-center items-center p-4">
-          {" "}
           Zencart {`(${cartItems.length})`}
         </div>
-        <div className="theme_container text-sm theme_text justify-between p-2 ">
-          {loading ? (
-            <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
+        {/* middle */}
+        <div className="theme_container text-sm theme_text justify-between p-2">
+          <div className="p-2">
+            {loading ? (
               <Loading width={20} height={20} />
-            </div>
-          ) : error ? (
-            <div className="flex h-full justify-center p-4 lg:h-[12vh] items-center text-red-500">
-              {error}
-            </div>
-          ) : address ? (
-            <div className="p-2">
-              <div className="flex gap-2 font-semibold items-center">
-                <span>Deliver to:</span>
-                <span>{address?.name},</span>
-                <span>{address?.pincode}</span>
-                <span className="font-semibold text-xs text-white theme_bg rounded-sm p-1 h-fit w-fit">
-                  {address?.addressType ? address?.addressType : "HOME"}
-                </span>
-              </div>
-              <p className="py-2 text-xs">{address?.address}</p>
-              <p className="text-xs">
-                {address?.city}, {address?.state}
-              </p>
-            </div>
-          ) : (
-            <Link
-              to={"/myprofile"}
-              className="flex justify-center text-blue-500"
-            >
-              {" "}
-              Please add delivery address to continue{" "}
-            </Link>
-          )}
+            ) : address ? (
+              <>
+                <div className="flex gap-2 font-semibold items-center">
+                  <span>Deliver to:</span>
+                  <span>{address?.name},</span>
+                  <span>{address?.pincode}</span>
+                  <span className="font-semibold text-xs text-white theme_bg rounded-sm p-1 h-fit w-fit">
+                    {address?.addressType ? address?.addressType : "HOME"}
+                  </span>
+                </div>
+                <p className="py-2 text-xs">{address?.address}</p>
+                <p className="text-xs">
+                  {address?.city}, {address?.state}
+                </p>
+              </>
+            ) : (
+              <Link
+                to={"/myprofile"}
+                className="flex justify-center text-blue-500"
+              >
+                Please add delivery address to continue
+              </Link>
+            )}
+          </div>
         </div>
-        <div className="theme_container relative h-fit md:min-h-[calc(100vh-17.5rem)]">
-          <div className="h-[85%] md:overflow-y-auto">
+        {/* bottom */}
+        <div className="theme_container relative md:min-h-[calc(100vh-17.5rem)]">
+          <div className="h-[87%] md:overflow-y-auto">
             {loading ? (
               <div className="flex h-full justify-center p-4  items-center text-red-500">
                 <Loading width={20} height={20} />
               </div>
-            ) : error ? (
-              <div className="flex h-full justify-center p-4 items-center text-red-500">
-                {error}
-              </div>
-            ) : (
+            ) : cartItems.length ? (
               cartItems.map((product: any) => {
                 const loading = loadingStates[product.productId] || false;
                 return (
@@ -231,12 +223,16 @@ const MyCart = () => {
                   </div>
                 );
               })
+            ) : (
+              <div className="flex h-full justify-center p-4  items-center text-red-500">
+                No items in cart
+              </div>
             )}
           </div>
           <div className="theme_container theme_border border-[1px]  p-2 hidden bottom-0 absolute w-full md:flex items-center justify-end shadow-sm ">
             {" "}
             <button
-              title="ADD TO CART"
+              title="CONTINUE"
               className={`${
                 address && !error ? "bg-orange-500 " : "bg-gray-400"
               } py-3 px-12  text-white font-semibold`}
@@ -254,13 +250,12 @@ const MyCart = () => {
           <div className="flex h-[43vh] justify-center p-4  items-center text-red-500">
             <Loading width={20} height={20} />
           </div>
-        ) : error ? (
+        ) : !cartItems.length ? (
           <div className="flex h-[43vh] justify-center p-4 items-center text-red-500">
-            {error}
+            No items in cart
           </div>
         ) : (
           <>
-            {" "}
             <h1 className="text-gray-500 font-semibold theme_border p-4 border-b-[1px]">
               PRICE DETAILS
             </h1>
@@ -296,7 +291,7 @@ const MyCart = () => {
       <div className="flex md:hidden items-center justify-end">
         {" "}
         <button
-          title="ADD TO CART"
+          title="CONTINUE"
           className={`${
             address && !error ? "bg-orange-500 " : "bg-gray-400"
           } py-3 px-12  text-white font-semibold`}
