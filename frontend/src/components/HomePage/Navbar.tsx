@@ -98,13 +98,13 @@ const Navbar = () => {
           } flex-grow flex  md:pr-6 items-center gap-6`}
         >
           <a href="/" className="text-xl md:text-2xl cursor-pointer text-white">
-            Zencart
+            Flipkart
           </a>
           <div className="relative w-full max-w-[40rem]">
             <input
-              type="text"
+              type="search"
               name="search"
-              placeholder="Search"
+              placeholder="Search for products, brands and more"
               className="theme_searchDiv shadow-3xl theme_text font-normal py-2 px-4 w-full outline-none rounded-sm"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

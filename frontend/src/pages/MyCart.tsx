@@ -15,7 +15,7 @@ const MyCart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [address, setAddress] = useState(initialAddressState);
   const [loading, setLoading] = useState(true);
-  const [orderImage, setOrderImage] = useState("");
+  const [orderImage, setOrderImage] = useState([]);
   const [orderName, setOrderName] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
@@ -33,7 +33,9 @@ const MyCart = () => {
           setCartItems(response.data?.cart);
           setAddress(response.data?.addressData[0]);
           setTotalPrice(calculateTotalPrice(response.data?.cart));
-          setOrderImage(response.data.cart[0]?.productImage);
+          setOrderImage(
+            response.data.cart.map((item: any) => item.productImage)
+          );
           if (response.data.cart.length > 1) {
             setOrderName(`(${response.data.cart?.length} items)`);
           } else {
@@ -113,7 +115,7 @@ const MyCart = () => {
       <div className="flex flex-col gap-4 md:w-7/12 lg:w-2/3 ">
         {/* top */}
         <div className="theme_container shadow-sm theme_color flex justify-center items-center p-4">
-          Zencart {`(${cartItems.length})`}
+          Flipkart {`(${cartItems.length})`}
         </div>
         {/* middle */}
         <div className="theme_container text-sm theme_text justify-between p-2">
@@ -295,7 +297,7 @@ const MyCart = () => {
           className={`${
             address && !error ? "bg-orange-500 " : "bg-gray-400"
           } py-3 px-12  text-white font-semibold`}
-          disabled={address && !error ? false : true}
+          disabled={address && cartItems && !error ? false : true}
           onClick={handleContinue}
         >
           CONTINUE

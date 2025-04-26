@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -8,13 +9,33 @@ import SortBy from "../components/ProductsPage/SortBy";
 import Loading from "../components/Loading";
 import FilterSection from "../components/ProductCollectionPage/FilterSection";
 
-const ProductCollection = () => {
-  const [productCollection, setProductCollection] = useState<any[]>([]);
-  const { collection } = useParams<{ collection: string }>();
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
-  const [sortOption, setSortOption] = useState<string>("Relevance");
+// Define the type for a product
+interface Product {
+  _id: string;
+  productName: string;
+  productPrice: number;
+  productImage: string;
+  company: string;
+  updatedAt: string;
+}
 
+// Define the type for filters
+interface Filters {
+  brands: string[];
+  priceRange: [number, number];
+}
+
+const ProductCollection = () => {
+  const [productCollection, setProductCollection] = useState<Product[]>([]);
+  const { collection } = useParams<{ collection: string }>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // state for managing sidebar visibility on small screens
+  const [filters, setFilters] = useState<Filters>({
+    brands: [],
+    priceRange: [0, 0],
+  }); // state for managing filters
+  const [sortOption, setSortOption] = useState<string>("Relevance");
+  console.log(collection);
   useEffect(() => {
     setLoading(true);
     axios
@@ -29,11 +50,21 @@ const ProductCollection = () => {
       });
   }, [collection]);
 
+  useEffect(() => {
+    if (productCollection.length > 0) {
+      const prices = productCollection.map((p) => p.productPrice);
+      setFilters((prev) => ({
+        ...prev,
+        priceRange: [Math.min(...prices), Math.max(...prices)],
+      }));
+    }
+  }, [productCollection]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const sortProducts = (products: any, sortOption: string) => {
+  const sortProducts = (products: Product[], sortOption: string) => {
     switch (sortOption) {
       case "Price -- Low to High":
         return [...products].sort((a, b) => a.productPrice - b.productPrice);
@@ -44,14 +75,24 @@ const ProductCollection = () => {
           (a, b) =>
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
-      // case "Popularity":
-      //   return [...products].sort((a, b) => b.popularity - a.popularity); // Assuming you have a popularity field
       default:
         return products;
     }
   };
 
-  const sortedProducts = sortProducts(productCollection, sortOption);
+  const applyFilters = (products: Product[]) => {
+    return products.filter((product) => {
+      const matchesBrand =
+        filters.brands.length === 0 || filters.brands.includes(product.company);
+      const matchesPrice =
+        product.productPrice >= filters.priceRange[0] &&
+        product.productPrice <= filters.priceRange[1];
+      return matchesBrand && matchesPrice;
+    });
+  };
+
+  const filteredProducts = applyFilters(productCollection);
+  const sortedProducts = sortProducts(filteredProducts, sortOption);
 
   return (
     <div className="theme w-full  min-h-[100vh] ">
@@ -68,7 +109,11 @@ const ProductCollection = () => {
             isSidebarOpen ? "block" : "hidden"
           } fixed inset-y-0 left-0 theme_container w-64 p-1 md:p-4 z-30 md:flex md:relative md:w-4/12 lg:w-[25%] h-[100vh] overflow-y-scroll flex-col gap-2 shadow-md`}
         >
-          <FilterSection />
+          <FilterSection
+            productCollection={productCollection}
+            filters={filters}
+            setFilters={setFilters}
+          />
         </div>
         <div className="flex z-5 absolute pl-1 rounded-r-2xl md:hidden justify-end">
           <button onClick={toggleSidebar} className="">
@@ -89,7 +134,7 @@ const ProductCollection = () => {
               <Loading />
             </div>
           ) : sortedProducts.length ? (
-            sortedProducts.map((product: any) => {
+            sortedProducts.map((product: Product) => {
               return (
                 <Link
                   to={`/products/${product._id}`}

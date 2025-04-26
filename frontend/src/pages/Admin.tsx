@@ -5,15 +5,12 @@ import { siteURL } from "../static/Data";
 import { useDispatch } from "react-redux";
 import { setProducts } from "../slices/productSlice";
 import ProductTable from "../components/AdminPage/ProductTable";
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
-import { BiTable, BiUser } from "react-icons/bi";
 import { PiPlus } from "react-icons/pi";
 import UserTable from "../components/AdminPage/UserTable";
 import Loading from "../components/Loading";
 import PasswordConfirmationModal from "../components/AdminPage/PasswordConfirmationModal";
 import ProductCard from "../components/AdminPage/ProductCard";
 import UserCard from "../components/AdminPage/UserCard";
-import { BsCardList } from "react-icons/bs";
 
 const Admin = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -65,6 +62,16 @@ const Admin = () => {
     }
   };
 
+  const handleRouteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setRoute(event.target.value);
+  };
+
+  const handleViewModeChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setViewMode(event.target.value);
+  };
+
   return (
     <>
       <div className="flex flex-col items-center gap-4 min-h-[100vh] p-4 theme">
@@ -76,47 +83,30 @@ const Admin = () => {
               className="nav_btn p-[3px] px-2 md:p-2 theme_border md:text-md h-fit md:flex theme_color font-semibold items-center gap-2 border-2 cursor-pointer rounded-md"
             >
               <span className="hidden lg:block">
-                Total {route === "users" ? "Registered Users" : "Products"}:{" "}
+                Total {route === "users" ? "Registered Users" : "Products"}:
               </span>
-              {data.length}{" "}
+              {data.length}
             </button>
           </div>
           <div className="flex gap-4">
-            <button
-              title="Get Products Data"
+            <select
+              title="Select Data Type"
               className="nav_btn p-2 theme_border h-fit md:flex theme_color font-semibold items-center gap-2 border-2 cursor-pointer rounded-md"
-              onClick={() => setRoute("products")}
+              value={route}
+              onChange={handleRouteChange}
             >
-              <MdOutlineProductionQuantityLimits />
-              <span className="hidden lg:block"> Get Products Data</span>
-            </button>
-            <button
-              title="Get Users Data"
+              <option value="products">Products Data</option>
+              <option value="users">Users Data</option>
+            </select>
+            <select
+              title="Select View Mode"
               className="nav_btn p-2 theme_border h-fit md:flex theme_color font-semibold items-center gap-2 border-2 cursor-pointer rounded-md"
-              onClick={() => setRoute("users")}
+              value={viewMode}
+              onChange={handleViewModeChange}
             >
-              <BiUser />
-              <span className="hidden lg:block">Get Users Data</span>
-            </button>
-            <button
-              title="Switch View"
-              className="nav_btn p-2 theme_border h-fit md:flex theme_color font-semibold items-center gap-2 border-2 cursor-pointer rounded-md"
-              onClick={() =>
-                setViewMode(viewMode === "table" ? "card" : "table")
-              }
-            >
-              {viewMode === "table" ? (
-                <>
-                  <BsCardList />
-                  <span className="hidden lg:block">Switch to Card View</span>
-                </>
-              ) : (
-                <>
-                  <BiTable />
-                  <span className="hidden lg:block">Switch to Table View</span>
-                </>
-              )}
-            </button>
+              <option value="table">Table View</option>
+              <option value="card">Card View</option>
+            </select>
           </div>
           <Link
             className={`nav_btn p-2 theme_border h-fit md:flex theme_color font-semibold items-center gap-2 border-2 cursor-pointer rounded-md`}

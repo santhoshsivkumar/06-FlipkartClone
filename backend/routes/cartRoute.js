@@ -103,4 +103,22 @@ router.delete("/:userId/remove/:productId", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+// Route to remove all items from the cart
+router.post("/:userId/clear", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).send("User not found");
+
+    // Clear the cart
+    user.cart = [];
+
+    await user.save();
+    res.json({ message: "Cart cleared successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
+});
+
 export default router;

@@ -36,7 +36,11 @@ const Checkout = () => {
     try {
       await axios
         .post(`${siteURL}/users/orders/${userId}`, order)
-        .then(() => setShowFinalPage(true))
+        .then(async () => {
+          // Clear the cart items after placing the order
+          setShowFinalPage(true);
+          await axios.post(`${siteURL}/cart/${userId}/clear`);
+        })
         .catch((error) => {
           setError(error.response.data.message);
           setShowErrorModal(true);
@@ -119,12 +123,20 @@ const Checkout = () => {
                   <Loading width={20} height={20} />
                 </div>
               ) : order.orderName ? (
-                <div className="theme_text flex-row gap-4 flex pl-[38px] text-sm font-semibold">
-                  <img
-                    src={order?.orderImage}
-                    alt=""
-                    className="w-20 h-20 p-1 border theme_border rounded-sm"
-                  />
+                <div className="theme_text flex-col gap-4 sm:flex-row flex pl-[38px] text-sm font-semibold">
+                  <div className="grid gap-3 grid-cols-5">
+                    {order.orderImage &&
+                      order.orderImage.map((img: any) => {
+                        return (
+                          <img
+                            src={img}
+                            key={img}
+                            alt=""
+                            className="w-32 py-2 px-2 h-16 shadow-sm border rounded-sm theme_border"
+                          />
+                        );
+                      })}
+                  </div>
 
                   <div className="flex flex-col gap-2 w-full ">
                     <div className="flex items-center justify-between">
@@ -170,7 +182,7 @@ const Checkout = () => {
 
                   <div className="flex flex-col gap-2 w-full ">
                     <div className="flex items-center gap-2">
-                      <span>Zencart Axis Bank Credit Card</span>
+                      <span>Flipkart Axis Bank Credit Card</span>
                       <span className="pr-4 text-gray-400">
                         xxxx xxxx xxxx 0000
                       </span>
